@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>나만의 토익 단어장</title>
-    <script src="https://unpkg.com/compromise"></script>
+    <title>ENGLISH STUDY</title>
+    <script src="https://unpkg.com/compromise@14.10.0/builds/compromise.min.js"></script>
     <style>
         :root { --primary: #FFC107; --dark: #222; --gray: #f4f4f4; --white: #fff; --shadow: 0 2px 8px rgba(0,0,0,0.1); }
         * { box-sizing: border-box; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -20,11 +20,12 @@
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         
+        /* [수정] 로고 스타일 */
         h1 { 
-            margin: 0; font-size: 18px; font-weight: 800; color: #000; 
-            cursor: pointer; transition: opacity 0.2s;
+            margin: 0; font-size: 18px; font-weight: 900; color: #000; 
+            cursor: pointer; transition: opacity 0.2s; letter-spacing: -0.5px;
         }
-        h1:hover { opacity: 0.7; }
+        h1:hover { opacity: 0.6; }
         
         .controls { display: flex; gap: 5px; }
         select { padding: 8px; border-radius: 6px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; }
@@ -41,7 +42,7 @@
         
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
-        /* === 단어/문법 카드 스타일 === */
+        /* 카드 스타일 */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
         
@@ -63,9 +64,10 @@
         .kr-example { font-size: 13px; color: #888; margin-bottom: 8px; }
         .kr-example:last-child { margin-bottom: 0; }
         
+        /* 기본 하이라이트 */
         b { background-color: #FFF9C4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; border: 1px solid #FFF59D; }
 
-        /* === 5형식 및 분석기 전용 하이라이트 === */
+        /* 5형식 및 분석기 하이라이트 */
         .s, .v, .o, .c { color: #000; font-weight: 900; padding: 2px 4px; border-radius: 4px; margin: 0 1px; display: inline-block; }
         .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; } /* 주어: 레드 */
         .v { background-color: #FFE0B2; border: 1px solid #FFCC80; } /* 동사: 주황 */
@@ -93,28 +95,33 @@
         .hide-mode .desc-box:active, .hide-mode .desc-box.revealed { background-color: transparent; color: inherit; }
 
         /* === 분석기 스타일 === */
-        #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); }
+        #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 30px; }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-bottom: 5px; }
-        .input-box { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; font-family: 'Georgia', serif; }
-        .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .input-box { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; font-family: 'Georgia', serif; transition: 0.2s; }
+        .input-box:focus { border-color: var(--primary); outline: none; }
+        .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 14px; border-radius: 8px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .action-btn:active { transform: scale(0.98); }
         
         .result-box {
             margin-top: 20px;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 12px;
             background-color: #FAFAFA;
             border: 2px solid #EEE;
         }
-        .result-title { font-size: 14px; color: #888; font-weight: bold; margin-bottom: 10px; }
-        .result-en { font-size: 20px; line-height: 1.6; font-family: 'Georgia', serif; margin-bottom: 15px; }
-        .result-kr { font-size: 16px; color: #555; line-height: 1.5; font-family: 'Apple SD Gothic Neo'; }
+        .result-title { font-size: 14px; color: #888; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
+        .result-en { font-size: 22px; line-height: 1.6; font-family: 'Georgia', serif; margin-bottom: 15px; color: #222; }
+        .result-kr { font-size: 16px; color: #666; line-height: 1.5; font-family: 'Apple SD Gothic Neo'; background: #eee; padding: 10px; border-radius: 6px; }
+        
+        .legend { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; font-size: 11px; color: #666; }
+        .legend span { padding: 2px 6px; border-radius: 4px; font-weight: bold; color: #000; }
     </style>
 </head>
 <body>
 <header>
     <div class="header-top">
-        <h1 onclick="goToDayOne()">TOEIC VOCA</h1>
+        <h1 onclick="goToMain()">ENGLISH STUDY</h1>
         <div class="controls">
             <select id="daySelect" onchange="renderContent()"></select>
             <button class="toggle-btn" onclick="toggleMode()">뜻 가리기</button>
@@ -125,29 +132,38 @@
 
 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 <div class="container">
-    <div id="wordList"></div>
-
-    <div id="analyzerSection" style="display:none;">
-        <div class="input-group">
-            <label>영어 문장 (English Sentence)</label>
-            <textarea id="inputEn" class="input-box" rows="3" placeholder="예: The manager hired a new employee."></textarea>
-        </div>
-        <div class="input-group">
-            <label>한글 해석 (Korean Meaning)</label>
-            <textarea id="inputKr" class="input-box" rows="2" placeholder="예: 매니저는 새 직원을 고용했다."></textarea>
-        </div>
-        <button class="action-btn" onclick="autoAnalyze()">⚡ AI 자동 분석하기</button>
-
-        <div id="resultArea" style="display:none;">
-            <div class="result-box">
-                <div class="result-title">분석 결과 (Analysis Result)</div>
-                <div id="outputEn" class="result-en"></div>
-                <hr style="border:0; border-top:1px dashed #ddd; margin: 15px 0;">
-                <div id="outputKr" class="result-kr"></div>
+    
+    <div id="analyzerSection">
+        <div id="inputMode">
+            <div class="input-group">
+                <label>영어 문장 (English Sentence)</label>
+                <textarea id="inputEn" class="input-box" rows="3" placeholder="예: The manager hired a new employee."></textarea>
             </div>
-            <button class="action-btn" onclick="resetAnalyzer()" style="background:#ddd; color:#333; margin-top:15px;">🔄 다시 입력하기</button>
+            <div class="input-group">
+                <label>한글 해석 (Korean Meaning)</label>
+                <textarea id="inputKr" class="input-box" rows="2" placeholder="예: 매니저는 새 직원을 고용했다."></textarea>
+            </div>
+            <button class="action-btn" onclick="autoAnalyze()">⚡ AI 자동 분석하기</button>
+        </div>
+
+        <div id="resultMode" style="display:none;">
+            <div class="result-box">
+                <div class="result-title">🔍 분석 결과</div>
+                <div id="outputEn" class="result-en"></div>
+                <div id="outputKr" class="result-kr"></div>
+                
+                <div class="legend">
+                    <span class="s">S 주어</span>
+                    <span class="v">V 동사</span>
+                    <span class="o">O 목적어</span>
+                    <span class="c">C 보어</span>
+                </div>
+            </div>
+            <button class="action-btn" onclick="resetAnalyzer()" style="background:#ddd; color:#333; margin-top:15px;">🔄 다른 문장 분석하기</button>
         </div>
     </div>
+
+    <div id="wordList"></div>
 </div>
 
 <script src="data.js"></script> 
@@ -209,10 +225,15 @@
             daySelect.appendChild(option);
         });
         
+        // 초기 실행 시 분석기가 보이도록 설정
         renderContent();
     }
 
-    function goToDayOne() { daySelect.value = "1"; renderContent(); }
+    // 메인으로 이동 (분석기)
+    function goToMain() { 
+        daySelect.value = "analyzer"; 
+        renderContent(); 
+    }
 
     function toggleMode() {
         isHideMode = !isHideMode;
@@ -230,67 +251,69 @@
         
         if (!input) { alert("영어 문장을 입력해주세요!"); return; }
         
-        // 1. compromise 라이브러리로 문장 분석
-        let doc = nlp(input);
-        let html = input; // 원본 문장에서 시작
+        // 에러 방지를 위한 Try-Catch
+        try {
+            if (typeof nlp === 'undefined') {
+                alert("분석 엔진(NLP)을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+                return;
+            }
 
-        // 2. 분석된 텀(Term)들을 가져옴
-        // 태그 우선순위: Verb -> Noun (Subject/Object) -> Adjective (Complement)
-        
-        // (1) 동사 (Verb) -> 주황색 (.v)
-        let verbs = doc.verbs().out('array');
-        // HTML 치환 시 중복 방지를 위해 토큰 단위 처리보다는 전체 텍스트 매칭 사용 (간단 구현)
-        // 주의: 단순 replace는 같은 단어가 여러번 나올 때 문제가 될 수 있으나, 학습용 단문에서는 허용
-        
-        // 더 정교한 매핑을 위해 각 단어의 태그를 확인하여 재조립
-        let terms = doc.termList();
-        let resultHTML = "";
-        
-        let hasMainVerb = false;
+            // 1. NLP 분석
+            let doc = nlp(input);
+            let terms = doc.termList();
+            let resultHTML = "";
+            let hasMainVerb = false;
 
-        terms.forEach((term, index) => {
-            let text = term.text;
-            let post = term.post; // 뒤에 오는 공백이나 문장부호
-            let tags = term.tags;
-            
-            let className = "";
+            // 2. 단어별 태그 분석 및 컬러링
+            // (간단한 로직: 동사 기준 앞=주어, 뒤=목적어/보어)
+            terms.forEach((term) => {
+                let text = term.text;
+                let post = term.post; // 뒤에 오는 공백/구두점
+                let tags = term.tags;
+                let className = "";
 
-            if (tags.has('Verb')) {
-                className = "v"; // 동사 (주황)
-                hasMainVerb = true; 
-            } else if (tags.has('Noun') || tags.has('Pronoun')) {
-                // 동사 나오기 전 명사는 주어(S), 나온 후 명사는 목적어(O)로 추정
-                if (!hasMainVerb) {
-                    className = "s"; // 주어 (빨강)
-                } else {
-                    className = "o"; // 목적어 (파랑)
+                // 동사 처리 (Verb)
+                if (tags.has('Verb')) {
+                    className = "v"; 
+                    hasMainVerb = true;
+                } 
+                // 명사/대명사 처리 (Noun/Pronoun)
+                else if (tags.has('Noun') || tags.has('Pronoun')) {
+                    if (!hasMainVerb) {
+                        className = "s"; // 동사 나오기 전 = 주어
+                    } else {
+                        className = "o"; // 동사 나온 후 = 목적어
+                    }
+                } 
+                // 형용사 처리 (Adjective)
+                else if (tags.has('Adjective') && hasMainVerb) {
+                    className = "c"; // 동사 뒤 형용사 = 보어
                 }
-            } else if (tags.has('Adjective') && hasMainVerb) {
-                className = "c"; // 보어 (보라 - 동사 뒤 형용사)
-            }
 
-            // 태그 적용
-            if (className) {
-                resultHTML += `<span class="${className}">${text}</span>` + post;
-            } else {
-                resultHTML += text + post;
-            }
-        });
+                // 결과 HTML 조립
+                if (className) {
+                    resultHTML += `<span class="${className}">${text}</span>` + post;
+                } else {
+                    resultHTML += text + post;
+                }
+            });
 
-        // 결과 출력
-        document.getElementById('outputEn').innerHTML = resultHTML;
-        document.getElementById('outputKr').innerText = krInput;
-        
-        document.getElementById('resultArea').style.display = 'block';
-        // 입력창 숨기기 (깔끔하게)
-        document.querySelector('.input-group').parentElement.style.display = 'none';
+            // 3. 화면 전환
+            document.getElementById('inputMode').style.display = 'none';
+            document.getElementById('resultMode').style.display = 'block';
+            
+            document.getElementById('outputEn').innerHTML = resultHTML;
+            document.getElementById('outputKr').innerText = krInput || "(해석 없음)";
+
+        } catch (e) {
+            console.error(e);
+            alert("분석 중 오류가 발생했습니다. 문장을 다시 확인해주세요.");
+        }
     }
 
     function resetAnalyzer() {
-        document.getElementById('resultArea').style.display = 'none';
-        // 입력창 다시 보이기
-        document.querySelector('#analyzerSection > div:first-child').style.display = 'block'; 
-        // 텍스트 초기화
+        document.getElementById('resultMode').style.display = 'none';
+        document.getElementById('inputMode').style.display = 'block';
         document.getElementById('inputEn').value = '';
         document.getElementById('inputKr').value = '';
     }
@@ -306,19 +329,25 @@
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
         
+        // 화면 초기화
         wordList.style.display = 'none';
         analyzerSection.style.display = 'none';
         themeDisplay.style.display = 'none';
         wordList.innerHTML = '';
 
+        // 1. 분석기 모드
         if (selectedValue === 'analyzer') {
             analyzerSection.style.display = 'block';
+            // 분석기 초기 상태는 항상 입력창이 보이도록 (결과창이 떠있으면 초기화)
+            // 단, 사용자가 방금 분석하고 결과를 보고 싶을 수 있으니 강제 리셋은 안함.
+            // 대신 화면만 보여줌.
             themeDisplay.innerText = "나만의 문장 구조 분석기";
             themeDisplay.style.display = 'block';
             progressBar.style.width = '0%';
             return;
         }
 
+        // 2. 단어장/문법 모드
         wordList.style.display = 'block';
         let dataToRender = [];
         let isGrammar = false;
