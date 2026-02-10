@@ -65,15 +65,14 @@
         .kr-example { font-size: 13px; color: #888; margin-bottom: 8px; }
         .kr-example:last-child { margin-bottom: 0; }
         
-        /* 기본 하이라이트 (볼드+노랑) */
-        b { background-color: #fff9c4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; }
+        /* [수정] 기본 하이라이트 (노랑 - 강조용) */
+        b { background-color: #FFF9C4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; border: 1px solid #FFF59D; }
 
-        /* === [NEW] 5형식 전용 컬러 하이라이트 === */
-        /* 공통: 글씨 검정, 굵게, 패딩 약간 */
+        /* [수정] 5형식 전용 컬러 하이라이트 (동사 색상 변경) */
         .s, .v, .o, .c { color: #000; font-weight: 900; padding: 2px 4px; border-radius: 4px; margin: 0 1px; display: inline-block; }
         
         .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; } /* 주어: 옅은 레드 */
-        .v { background-color: #FFF9C4; border: 1px solid #FFF176; } /* 동사: 옅은 옐로우 */
+        .v { background-color: #FFE0B2; border: 1px solid #FFCC80; } /* 동사: 옅은 주황 (변경됨) */
         .o { background-color: #E3F2FD; border: 1px solid #BBDEFB; } /* 목적어: 옅은 블루 */
         .c { background-color: #F3E5F5; border: 1px solid #E1BEE7; } /* 보어: 옅은 퍼플 */
 
@@ -293,19 +292,14 @@
                     }
 
                     if (def.example) {
-                        // 1. 문법/단어 예문 텍스트 준비
-                        let enText = def.example;
-                        let krText = def.ex_meaning || "";
-
-                        // 단어장의 경우 자동 하이라이트 적용
+                        let hlEx = def.example;
+                        // 문법이 아닐때만 자동 하이라이트
                         if(!isGrammar) {
-                             enText = highlightWord(def.example, item.word.split(' ')[0]); 
+                             hlEx = highlightWord(def.example, item.word.split(' ')[0]); 
                         }
-
-                        // 2. 예문이 여러 줄(<br>)인 경우 쪼개서 지그재그 배치
-                        // (영어1 - 한글1 - 영어2 - 한글2 순서)
-                        let enLines = enText.split('<br>');
-                        let krLines = krText.split('<br>');
+                        
+                        let enLines = hlEx.split('<br>');
+                        let krLines = (def.ex_meaning || "").split('<br>');
                         
                         let interleavedHTML = "";
                         let maxLines = Math.max(enLines.length, krLines.length);
