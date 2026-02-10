@@ -19,38 +19,21 @@
         }
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
-        
-        h1 { 
-            margin: 0; font-size: 18px; font-weight: 900; color: #000; 
-            cursor: pointer; transition: opacity 0.2s; letter-spacing: -0.5px;
-        }
+        h1 { margin: 0; font-size: 18px; font-weight: 900; color: #000; cursor: pointer; transition: opacity 0.2s; letter-spacing: -0.5px; }
         h1:hover { opacity: 0.6; }
         
         .controls { display: flex; gap: 5px; }
         select { padding: 8px; border-radius: 6px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; }
+        .toggle-btn { background: #000; color: var(--primary); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; display: none; }
         
-        /* 뜻 가리기 버튼 초기 상태: 숨김 */
-        .toggle-btn { 
-            background: #000; color: var(--primary); border: none; 
-            padding: 8px 12px; border-radius: 6px; font-weight: bold; 
-            font-size: 12px; cursor: pointer; display: none; 
-        }
-        
-        #themeDisplay {
-            font-size: 13px; color: #000; background-color: rgba(255,255,255,0.5);
-            padding: 6px 12px; border-radius: 6px; font-weight: 700;
-            text-align: center; margin-top: 5px; display: none;
-        }
-
+        #themeDisplay { font-size: 13px; color: #000; background-color: rgba(255,255,255,0.5); padding: 6px 12px; border-radius: 6px; font-weight: 700; text-align: center; margin-top: 5px; display: none; }
         .progress-container { background: #e0e0e0; height: 6px; width: 100%; }
         .progress-bar { background: #000; height: 100%; width: 0%; transition: width 0.3s; }
-        
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
         /* 카드 스타일 */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
-        
         .word-header { display: flex; align-items: flex-end; margin-bottom: 15px; flex-wrap: wrap; gap: 8px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .num-badge { background: #000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px; align-self: center; }
         .en-word { font-size: 28px; font-weight: 900; color: #000; letter-spacing: -0.5px; line-height: 1; }
@@ -62,8 +45,9 @@
         .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; font-family: 'Roboto', sans-serif; }
         .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
 
-        /* [수정] 배경색 제거된 문법 설명 박스 */
+        /* [복구] 하늘색 배경 강조된 문법 설명 박스 */
         .desc-box { 
+            background-color: #E3F2FD; /* 하늘색 배경 복구 */
             border-left: 3px solid #2196F3;
             padding: 8px 10px; margin: 5px 0 10px 0; border-radius: 4px;
             font-size: 14px; color: #333; font-weight: 600; line-height: 1.4; 
@@ -76,33 +60,25 @@
         b { background-color: #FFF9C4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; border: 1px solid #FFF59D; }
 
         .s, .v, .o, .c, .m { color: #000; font-weight: 900; padding: 2px 4px; border-radius: 4px; margin: 0 1px; display: inline-block; }
-        .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; } /* 주어 */
-        .v { background-color: #FFE0B2; border: 1px solid #FFCC80; } /* 동사 */
-        .o { background-color: #E3F2FD; border: 1px solid #BBDEFB; } /* 목적어 */
-        .c { background-color: #F3E5F5; border: 1px solid #E1BEE7; } /* 보어 */
-        .m { background-color: #F5F5F5; border: 1px solid #E0E0E0; color: #333; } /* 수식어 */
+        .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; }
+        .v { background-color: #FFE0B2; border: 1px solid #FFCC80; }
+        .o { background-color: #E3F2FD; border: 1px solid #BBDEFB; }
+        .c { background-color: #F3E5F5; border: 1px solid #E1BEE7; }
+        .m { background-color: #F5F5F5; border: 1px solid #E0E0E0; color: #333; }
 
         .check-area { position: absolute; top: 0; right: 0; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         .check-icon { font-size: 24px; color: #ddd; }
         .word-card.checked .check-icon { color: #4CAF50; }
 
-        /* 뜻 가리기 상태 제어 (문법 카드 영향 안 받게 클래스 정교화) */
-        .hide-mode .voca-card .def-meaning, 
-        .hide-mode .voca-card .kr-example, 
-        .hide-mode .voca-card .deriv-meaning { 
-            background-color: #eee; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; 
-        }
-        .hide-mode .voca-card .def-meaning.revealed, 
-        .hide-mode .voca-card .kr-example.revealed { background-color: transparent; color: inherit; }
+        .hide-mode .voca-card .def-meaning, .hide-mode .voca-card .kr-example, .hide-mode .voca-card .deriv-meaning { background-color: #eee; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; }
+        .hide-mode .voca-card .def-meaning.revealed, .hide-mode .voca-card .kr-example.revealed { background-color: transparent; color: inherit; }
 
-        /* 분석기 스타일 */
         #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 30px; }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-size: 14px; font-weight: bold; color: #000; margin-bottom: 8px; }
         .input-box { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 18px; font-family: 'Georgia', serif; transition: 0.2s; line-height: 1.5; }
         .input-box:focus { border-color: var(--primary); outline: none; }
         .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        
         .result-box { margin-top: 20px; padding: 20px; border-radius: 12px; background-color: #FAFAFA; border: 2px solid #EEE; display: none; }
         .result-en { font-size: 24px; line-height: 1.8; font-family: 'Georgia', serif; color: #222; }
     </style>
@@ -118,7 +94,6 @@
     </div>
     <div id="themeDisplay"></div>
 </header>
-
 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 <div class="container">
     <div id="analyzerSection">
@@ -206,15 +181,8 @@
         wordList.style.display = 'none'; analyzerSection.style.display = 'none';
         themeDisplay.style.display = 'none'; wordList.innerHTML = '';
         
-        // [수정] 뜻 가리기 버튼 표시 로직: Day 선택 시에만 보임
-        if (!isNaN(val)) {
-            hideBtn.style.display = 'block';
-        } else {
-            hideBtn.style.display = 'none';
-            document.body.classList.remove('hide-mode'); // 문법/분석기 시 강제 뜻 보임
-            isHideMode = false;
-            hideBtn.innerText = "뜻 가리기";
-        }
+        if (!isNaN(val)) { hideBtn.style.display = 'block'; } 
+        else { hideBtn.style.display = 'none'; document.body.classList.remove('hide-mode'); isHideMode = false; hideBtn.innerText = "뜻 가리기"; }
 
         if (val === 'analyzer') {
             analyzerSection.style.display = 'block';
@@ -240,7 +208,6 @@
         
         dataToRender.forEach((item) => {
             const card = document.createElement('div');
-            // 단어장 카드에만 별도 클래스 부여 (뜻 가리기 용)
             card.className = isGrammar ? 'word-card grammar-card' : 'word-card voca-card';
             
             if (!isGrammar) {
@@ -278,8 +245,18 @@
                 defHTML += `</div>`;
             }
 
+            // [수정] num이 0일 경우 숫자 배지 숨김
+            const badgeHTML = item.num === 0 ? '' : `<span class="num-badge">${item.num}</span>`;
             const checkHTML = isGrammar ? '' : `<div class="check-area" onclick="toggleCheck(this, ${item.day}, ${item.num})"><span class="check-icon">✔</span></div>`;
-            card.innerHTML = `${checkHTML}<div class="word-header"><span class="num-badge">${item.num}</span><span class="en-word">${item.word}</span></div>${defHTML}`;
+            
+            card.innerHTML = `
+                ${checkHTML}
+                <div class="word-header">
+                    ${badgeHTML}
+                    <span class="en-word">${item.word}</span>
+                </div>
+                ${defHTML}
+            `;
             wordList.appendChild(card);
         });
         updateProgress();

@@ -9,35 +9,35 @@ const grammarData = {
                     pos: "개요",
                     meaning: "문장을 이루는 필수 요소와 수식 요소",
                     desc: `
-                        <table style="width:100%; border-collapse: collapse; font-size:14px; text-align:center; margin-top:5px; border: 1px solid #ddd;">
-                            <tr style="background:#f9f9f9; border-bottom:1px solid #ddd;">
+                        <table style="width:100%; border-collapse: collapse; font-size:14px; text-align:center; margin-top:5px; border: 1px solid #ddd; background:#fff;">
+                            <tr style="background:#f4f4f4; border-bottom:2px solid #ddd;">
                                 <th style="padding:10px; border-right:1px solid #ddd;">성분</th>
                                 <th style="padding:10px;">역할</th>
                             </tr>
                             <tr>
-                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;"><span class="s">주어(S)</span></td>
+                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;">주어(S)</td>
                                 <td style="padding:10px; border-bottom:1px solid #eee; text-align:left;">동작의 주체 (주인공)</td>
                             </tr>
                             <tr>
-                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;"><span class="v">동사(V)</span></td>
+                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;">동사(V)</td>
                                 <td style="padding:10px; border-bottom:1px solid #eee; text-align:left;">동작이나 상태 서술</td>
                             </tr>
                             <tr>
-                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;"><span class="o">목적어(O)</span></td>
+                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;">목적어(O)</td>
                                 <td style="padding:10px; border-bottom:1px solid #eee; text-align:left;">동작의 대상</td>
                             </tr>
                             <tr>
-                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;"><span class="c">보어(C)</span></td>
+                                <td style="padding:10px; border-bottom:1px solid #eee; border-right:1px solid #ddd;">보어(C)</td>
                                 <td style="padding:10px; border-bottom:1px solid #eee; text-align:left;">주어/목적어 보충 설명</td>
                             </tr>
                             <tr>
-                                <td style="padding:10px; border-right:1px solid #ddd;"><span class="m">수식어(M)</span></td>
+                                <td style="padding:10px; border-right:1px solid #ddd;">수식어(M)</td>
                                 <td style="padding:10px; text-align:left;">꾸며주는 말 (생략 가능)</td>
                             </tr>
                         </table>
                         <br>
-                        ※ 필수 문장성분: <span class="s">주어(S)</span>, <span class="v">동사(V)</span>, <span class="o">목적어(O)</span>, <span class="c">보어(C)</span><br>
-                        ※ <span class="m">수식어(M)</span>는 문장의 형식을 결정짓지 않는 부가 성분입니다.
+                        ※ 필수 문장성분: 주어(S), 동사(V), 목적어(O), 보어(C)<br>
+                        ※ 수식어(M)는 문장의 형식을 결정짓지 않는 부가 성분입니다.
                     `,
                     example: "",
                     ex_meaning: ""
@@ -103,7 +103,7 @@ const grammarData = {
                 {
                     pos: "M",
                     meaning: "다른 문장성분을 꾸며주는 역할 (필수 성분 아님)",
-                    desc: "기능: 문장에서 지워버려도 문법적으로 틀리지 않습니다. 주로 <b>부사(Adverb)</b>나 <b>전치사구</b>가 해당됩니다.",
+                    desc: "기능: 문장에서 지워버려도 문법적으로 틀리지 않습니다. 주로 <span class='m'>부사(Adverb)</span>나 <b>전치사구</b>가 해당됩니다.",
                     example: "<span class='m'>Please</span> <span class='v'>review</span> <span class='o'>the file</span> <span class='m'>carefully</span>.",
                     ex_meaning: "<span class='o'>파일을</span> <span class='m'>주의 깊게</span> <span class='v'>검토해 주세요</span>."
                 }
@@ -111,7 +111,7 @@ const grammarData = {
         }
     ],
 
-    // 2. 문장의 5형식 (보편적인 예시로 교체)
+    // 2. 문장의 5형식
     patterns: [
         {
             num: 1,
@@ -164,7 +164,7 @@ const grammarData = {
                     ex_meaning: "<span class='s'>그는</span> <span class='o'>나에게</span> <span class='o'>할인을</span> <span class='v'>해주었다</span>.<br><span class='o'>저희에게</span> <span class='o'>보고서를</span> <span class='v'>보내주세요</span>."
                 },
                 {
-                    pos: "실전 전환 연습 (Sets)",
+                    pos: "실전 연습",
                     meaning: "의미는 같지만 어순이 다른 3, 4형식 연습",
                     desc: "사람이 뒤로 가면 전치사(to, for)가 붙는 것을 확인하세요.",
                     example: 
@@ -199,7 +199,7 @@ const grammarData = {
         }
     ],
 
-    // 3. 8품사 (품사 해당 단어만 노란색 하이라이트)
+    // 3. 8품사
     parts: [
         {
             num: 1,
@@ -307,7 +307,7 @@ const grammarData = {
         }
     ],
 
-    // 4. 준동사 (해당 형태만 노란색 하이라이트)
+    // 4. 준동사
     verbals: [
         {
             num: 1,
