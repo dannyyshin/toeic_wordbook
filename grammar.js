@@ -8,7 +8,7 @@ const grammarData = {
                 {
                     pos: "개요",
                     meaning: "문장을 이루는 필수 요소와 수식 요소",
-                    desc: `
+                    desc2: `
                         <table style="width:100%; border-collapse: collapse; font-size:14px; text-align:center; margin-top:5px;">
                             <tr style="background:#f4f4f4; border-bottom:2px solid #ddd;">
                                 <th style="padding:8px; width:30%;">성분</th>
@@ -181,19 +181,19 @@ const grammarData = {
                         
                         "[Set 2. Make]<br>" +
                         "4형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>him</span> <span class='o'>a cup of coffee</span>.<br>" +
-                        "3형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>a cup of coffee</span> <b>for him</b>.<br><br>" +
+                        "3형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>a cup of coffee</span> <span class='m'>for him</span>.<br><br>" +
                         
                         "Set 3. Show]<br>" +
                         "4형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>tourists</span> <span class='o'>the palace</span>.<br>" +
-                        "3형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>the palace</span> <b>to tourists</b>.<br><br>" +
+                        "3형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>the palace</span> <span class='m'>to tourists</span>.<br><br>" +
                         
                         "Set 4. Cook]<br>" +
                         "4형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>us</span> <span class='o'>a delicious dinner</span>.<br>" +
-                        "3형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>a delicious dinner</span> <b>for us</b>.<br><br>" +
+                        "3형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>a delicious dinner</span> <span class='m'>for us</span>.<br><br>" +
                         
                         "[Set 5. Teach]<br>" +
                         "4형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>students</span> <span class='o'>English grammar</span>.<br>" +
-                        "3형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>English grammar</span> <b>to students</b>.",
+                        "3형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>English grammar</span> <span class='m'>to students</span>.",
                     ex_meaning: 
                         "(방향성: ~에게 보내다)<br>" +
                         "<span class='s'>그녀는</span><span class='o'>나에게</span> <span class='o'>이메일을</span><span class='v'>보냈다</span>.<br>" +

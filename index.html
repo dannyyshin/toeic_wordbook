@@ -57,6 +57,7 @@
         .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
 
         .desc-box { background-color: #f5fbff; border-left: 0px solid #2196F3; padding: 8px 10px; margin: 5px 0 10px 0; border-radius: 4px; font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4; }
+        .desc2-box { background-color: #ffffff; border-left: 0px solid #2196F3; padding: 8px 10px; margin: 5px 0 10px 0; border-radius: 4px; font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4; }
 
         .example-box { margin-top: 4px; padding-left: 0; }
         .en-example { font-size: 15px; color: #333; margin-bottom: 2px; line-height: 1.5; font-family: 'Georgia', serif; }
@@ -358,7 +359,11 @@
                     let exampleBlock = '';
                     let descBlock = '';
                     
-                    if (def.desc) descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
+                    if (def.desc) {
+                       descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
+                      } else if (def.desc2) {
+                           descBlock = `<div class="desc2-box" onclick="this.classList.toggle('revealed')">${def.desc2}</div>`;
+                      }
 
                     if (def.example) {
                         let hlEx = def.example;
