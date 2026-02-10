@@ -31,8 +31,8 @@ const grammarData = {
                                 <td style="padding:8px; border-bottom:1px solid #eee; text-align:left;">주어/목적어 보충 설명</td>
                             </tr>
                             <tr>
-                                <td style="padding:8px; color:#888;">수식어(M)</td>
-                                <td style="padding:8px; text-align:left; color:#666;">꾸며주는 말 (생략 가능)</td>
+                                 <td style="padding:8px; border-bottom:1px solid #eee;"><span class="m">수식어(M)</td>
+                                <td style="padding:8px; border-bottom:1px solid #eee; text-align:left;">꾸며주는 말 (생략 가능)</td>
                             </tr>
                         </table>
                         <br>
