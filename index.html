@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>나만의 토익 단어장</title>
+    <style>
+        :root { --primary: #FFC107; --dark: #222; --gray: #f4f4f4; --white: #fff; --shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        * { box-sizing: border-box; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background-color: var(--gray); color: var(--dark); padding-bottom: 80px; }
+        
+        /* 헤더 레이아웃 */
+        header { 
+            background-color: var(--primary); 
+            padding: 10px 20px 15px 20px; 
+            position: sticky; top: 0; z-index: 100; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-size: 18px; font-weight: 800; color: #000; }
+        
+        /* 컨트롤 영역 */
+        .controls { display: flex; gap: 5px; }
+        select { padding: 8px; border-radius: 6px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; }
+        .toggle-btn { background: #000; color: var(--primary); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
+        
+        /* 주제 표시 */
+        #themeDisplay {
+            font-size: 13px; color: #000; background-color: rgba(255,255,255,0.5);
+            padding: 6px 12px; border-radius: 6px; font-weight: 700;
+            text-align: center; margin-top: 5px; display: none;
+        }
+
+        .progress-container { background: #e0e0e0; height: 6px; width: 100%; }
+        .progress-bar { background: #000; height: 100%; width: 0%; transition: width 0.3s; }
+        
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        
+        /* 단어 카드 스타일 (문법도 이 스타일을 공유) */
+        .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
+        .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
+        
+        .word-header { display: flex; align-items: flex-end; margin-bottom: 15px; flex-wrap: wrap; gap: 8px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .num-badge { background: #000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px; align-self: center; }
+        .en-word { font-size: 28px; font-weight: 900; color: #000; letter-spacing: -0.5px; line-height: 1; }
+        
+        /* 책 스타일 정의(Definition) 섹션 */
+        .def-container { display: flex; flex-direction: column; gap: 15px; }
+        .def-row { position: relative; padding-left: 15px; }
+        .def-bullet { position: absolute; left: 0; top: 8px; width: 8px; height: 8px; background-color: #8BC34A; border-radius: 50%; }
+        .def-header { margin-bottom: 4px; display: flex; align-items: baseline; flex-wrap: wrap; }
+        .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; font-family: 'Roboto', sans-serif; }
+        .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
+
+        /* 예문 스타일 */
+        .example-box { margin-top: 4px; padding-left: 0; }
+        .en-example { font-size: 15px; color: #555; margin-bottom: 2px; line-height: 1.4; font-family: 'Georgia', serif; }
+        .kr-example { font-size: 13px; color: #888; margin-bottom: 0; }
+        
+        b { background-color: #fff9c4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; }
+
+        /* [파] 파생어 섹션 스타일 */
+        .deriv-section { margin-top: 20px; background-color: #F1F3F5; border-left: 4px solid #CED4DA; border-radius: 4px; padding: 12px; }
+        .deriv-item { margin-bottom: 12px; }
+        .deriv-item:last-child { margin-bottom: 0; }
+        .deriv-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; flex-wrap: wrap;}
+        .deriv-icon { background: #fff; border: 1px solid #999; color: #555; font-size: 11px; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
+        .deriv-word { font-weight: 800; font-size: 16px; color: #333; }
+        .deriv-pos { font-size: 12px; color: #666; font-style: italic; margin-left: 2px;}
+        .deriv-meaning { font-size: 14px; color: #444; font-weight: 600; margin-left: 5px; cursor: pointer;}
+
+        /* 뜻 가리기 모드 */
+        .hide-mode .def-meaning, .hide-mode .kr-example, .hide-mode .deriv-meaning, 
+        .hide-mode .deriv-section .kr-example, .hide-mode .simple-meaning { 
+            background-color: #eee; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; 
+        }
+        .hide-mode .def-meaning:active, .hide-mode .def-meaning.revealed,
+        .hide-mode .kr-example:active, .hide-mode .kr-example.revealed,
+        .hide-mode .deriv-meaning:active, .hide-mode .deriv-meaning.revealed,
+        .hide-mode .simple-meaning:active, .hide-mode .simple-meaning.revealed { 
+            background-color: transparent; color: inherit; 
+        }
+
+        .check-area { position: absolute; top: 0; right: 0; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .check-icon { font-size: 24px; color: #ddd; }
+        .word-card.checked .check-icon { color: #4CAF50; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-top">
+        <h1>TOEIC VOCA</h1>
+        <div class="controls">
+            <select id="daySelect" onchange="renderContent()"></select>
+            <button class="toggle-btn" onclick="toggleMode()">뜻 가리기</button>
+        </div>
+    </div>
+    <div id="themeDisplay"></div>
+</header>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+<div class="container" id="wordList"></div>
+
+<script src="data.js"></script> 
+<script src="grammar.js"></script>
+
+<script>
+    // === DAY별 주제 데이터 ===
+    const dayThemes = {
+        1: "백수탈출 채용",
+        2: "드레스코드 지키는 사회 규칙 o 법률",
+        3: "능력 있는 자가 중요한 사무를 맡는다 (일반사무 1)",
+        4: "알아서 척척! 사무실의 귀염둥이! (일반사무 2)",
+        5: "노조의 비밀병기 (일반사무 3)",
+        6: "휴일은 쉬라고 있는 거야! 여가 o 공동체",
+        7: "지속적인 맨투맨 마케팅 전략의 성공 (마케팅 1)",
+        8: "진취적인 마케팅 전략의 실현성 (마케팅 2)",
+        9: "열성 직원들이 회사와 나라의 경제를 살린다! 경제",
+        10: "온라인 쇼핑의 고수는 나! 쇼핑",
+        11: "신념이 담긴 창조적 제품을 개발하다 (제품개발)",
+        12: "대량생산의 산업사회도 인간이 주도한다? (생산)",
+        13: "고객은 왕이다 (고객서비스)",
+        14: "여행가서 선물 샀다는데 뭐가 문제야? 여행 o 공항",
+        15: "모로 가도 계약만 성사되면 오케이! 계약",
+        16: "나라의 무역협정을 위해 몸바쳐 싸운다! 상거래",
+        17: "중요한 물건(?) 조심해서 빨리 배달해 주세요 (무역 o 배송)",
+        18: "식당에서 나오는 물은 마시는 것만이 아니군요 (숙박 o 식당)",
+        19: "과연 로봇보다 높은 수익을 낼 수 있을까? 수익",
+        20: "회사의 경비 절감을 위해 자원을 잘 활용합시다 (회계)",
+        21: "자유로운 분위기 속에서 일하고 싶어요 (회사동향)",
+        22: "회의로 해결되지 않는 핫 이슈 (미팅)",
+        23: "입장 바꿔 생각해본 워크숍 (사원복지)",
+        24: "승진이란 남용할 수 있는 권력을 가지게 되는 것 (인사이동)",
+        25: "심각한 교통 문제도 데이트를 막을 순 없다 (교통)",
+        26: "은행 잔고와 효도는 반비례한다 (은행)",
+        27: "우정에 금이 간 투자 (투자)",
+        28: "낡은 집 vs. 클래식한 집, 생각하기 나름 (건물 o 주택)",
+        29: "좋은 곳에 가면 비가 와도 괜찮아? (환경)",
+        30: "건강과 일, 선택 기로에 서다 (건강)"
+    };
+
+    const daySelect = document.getElementById('daySelect');
+    const wordList = document.getElementById('wordList');
+    const progressBar = document.getElementById('progressBar');
+    const themeDisplay = document.getElementById('themeDisplay');
+    let isHideMode = false;
+
+    window.onload = function() {
+        if (typeof vocaData === 'undefined') {
+            alert("data.js 파일이 없거나 로드되지 않았습니다.");
+            return;
+        }
+        if (typeof grammarData === 'undefined') {
+            alert("grammar.js 파일이 없거나 로드되지 않았습니다. 업로드 했는지 확인하세요!");
+            return;
+        }
+        initApp();
+    };
+
+    function initApp() {
+        // 1. 문법 옵션 추가 (맨 위)
+        const optStruct = document.createElement('option');
+        optStruct.value = "g_struct";
+        optStruct.innerText = "기초: 문장구성성분";
+        daySelect.appendChild(optStruct);
+
+        const optParts = document.createElement('option');
+        optParts.value = "g_parts";
+        optParts.innerText = "기초: 8품사";
+        daySelect.appendChild(optParts);
+
+        // 2. 구분선 추가
+        const optSep = document.createElement('option');
+        optSep.disabled = true;
+        optSep.innerText = "──────────────";
+        daySelect.appendChild(optSep);
+
+        // 3. Day 옵션 추가
+        const uniqueDays = [...new Set(vocaData.map(item => item.day))].sort((a,b)=>a-b);
+        uniqueDays.forEach(day => {
+            const option = document.createElement('option');
+            option.value = day;
+            const theme = dayThemes[day] ? ` : ${dayThemes[day]}` : "";
+            option.innerText = `Day ${day}${theme}`;
+            daySelect.appendChild(option);
+        });
+        
+        // 기본 렌더링
+        renderContent();
+    }
+
+    function toggleMode() {
+        isHideMode = !isHideMode;
+        document.body.classList.toggle('hide-mode');
+        const btn = document.querySelector('.toggle-btn');
+        btn.innerText = isHideMode ? "뜻 보이기" : "뜻 가리기";
+        btn.style.background = isHideMode ? "#fff" : "#000";
+        btn.style.color = isHideMode ? "#000" : "#FFC107";
+    }
+
+    function highlightWord(sentence, targetWord) {
+        if (!sentence || !targetWord) return sentence;
+        const regex = new RegExp(`(${targetWord}[a-zA-Z]*)`, 'gi'); 
+        return sentence.replace(regex, '<b>$1</b>');
+    }
+
+    // 통합 렌더링 함수
+    function renderContent() {
+        const selectedValue = daySelect.value;
+        wordList.innerHTML = '';
+        let dataToRender = [];
+        let isGrammar = false;
+
+        // 선택된 값에 따라 데이터 소스 결정
+        if (selectedValue === "g_struct") {
+            dataToRender = grammarData.structure;
+            themeDisplay.innerText = "문장구성성분 (주·동·목·보·수)";
+            themeDisplay.style.display = 'block';
+            isGrammar = true;
+        } else if (selectedValue === "g_parts") {
+            dataToRender = grammarData.parts;
+            themeDisplay.innerText = "8품사 (형·부·대·전·명·접·감·동)";
+            themeDisplay.style.display = 'block';
+            isGrammar = true;
+        } else {
+            // Day 선택인 경우
+            const selectedDay = parseInt(selectedValue);
+            dataToRender = vocaData.filter(item => item.day === selectedDay);
+            
+            if (dayThemes[selectedDay]) {
+                themeDisplay.innerText = dayThemes[selectedDay];
+                themeDisplay.style.display = 'block';
+            } else {
+                themeDisplay.style.display = 'none';
+            }
+        }
+        
+        // 카드 생성 루프
+        dataToRender.forEach((item) => {
+            const card = document.createElement('div');
+            card.className = 'word-card';
+            
+            // 문법이 아닐 때만 체크박스 상태 로드 (문법은 체크박스 굳이 필요 없으면 저장 안함)
+            if (!isGrammar) {
+                const storageKey = `d${item.day}_n${item.num}`;
+                if(localStorage.getItem(storageKey) === 'true') card.classList.add('checked');
+            }
+
+            let definitionsHTML = '';
+            
+            // 정의(Definitions) 렌더링 (단어장/문법 공통)
+            if (item.definitions && item.definitions.length > 0) {
+                definitionsHTML = `<div class="def-container">`;
+                item.definitions.forEach(def => {
+                    let exampleBlock = '';
+                    if (def.example) {
+                        // 문법 예문에는 단어 하이라이트 로직이 안 맞을 수 있으므로 단순 표시하거나 
+                        // 필요 시 특정 단어를 강조할 수 있음. 여기선 기본 하이라이트 적용.
+                        const hlEx = highlightWord(def.example, item.word.split(' ')[0]); // 문법 제목이 길면 첫 단어만
+                        exampleBlock = `
+                            <div class="example-box">
+                                <div class="en-example">${hlEx}</div>
+                                <div class="kr-example" onclick="this.classList.toggle('revealed')">${def.ex_meaning || ''}</div>
+                            </div>
+                        `;
+                    }
+                    definitionsHTML += `
+                        <div class="def-row">
+                            <span class="def-bullet"></span>
+                            <div class="def-header">
+                                <span class="def-pos">${def.pos}</span>
+                                <span class="def-meaning" onclick="this.classList.toggle('revealed')">${def.meaning}</span>
+                            </div>
+                            ${exampleBlock}
+                        </div>
+                    `;
+                });
+                definitionsHTML += `</div>`;
+            }
+
+            // 파생어(Derivatives) 렌더링 (문법에는 보통 없음)
+            let derivativesHTML = '';
+            if (item.derivatives && item.derivatives.length > 0) {
+                let itemsHTML = item.derivatives.map(deriv => {
+                    let derivExHTML = '';
+                    if (deriv.example) {
+                        const hlDeriv = highlightWord(deriv.example, deriv.word);
+                        derivExHTML = `
+                            <div class="example-box">
+                                <div class="en-example" style="font-size:14px;">${hlDeriv}</div>
+                                <div class="kr-example" onclick="this.classList.toggle('revealed')">${deriv.ex_meaning || ''}</div>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="deriv-item">
+                            <div class="deriv-header">
+                                <span class="deriv-icon">파</span>
+                                <span class="deriv-word">${deriv.word}</span>
+                                <span class="deriv-pos">${deriv.pos}</span>
+                                <span class="deriv-meaning" onclick="this.classList.toggle('revealed')">${deriv.meaning}</span>
+                            </div>
+                            ${derivExHTML}
+                        </div>
+                    `;
+                }).join('');
+
+                derivativesHTML = `
+                    <div class="deriv-section">
+                        ${itemsHTML}
+                    </div>
+                `;
+            }
+
+            // 체크 영역 (문법일 경우 숨김 처리하거나 기능 끔)
+            const checkAreaHTML = isGrammar ? '' : `
+                <div class="check-area" onclick="toggleCheck(this, ${item.day}, ${item.num})">
+                    <span class="check-icon">✔</span>
+                </div>`;
+
+            card.innerHTML = `
+                ${checkAreaHTML}
+                <div class="word-header">
+                    <span class="num-badge">${item.num}</span>
+                    <span class="en-word">${item.word}</span>
+                </div>
+                
+                ${definitionsHTML}
+                ${derivativesHTML}
+            `;
+            wordList.appendChild(card);
+        });
+        updateProgress();
+    }
+
+    function toggleCheck(btn, day, num) {
+        const card = btn.closest('.word-card');
+        const storageKey = `d${day}_n${num}`;
+        if (card.classList.contains('checked')) {
+            card.classList.remove('checked');
+            localStorage.setItem(storageKey, 'false');
+        } else {
+            card.classList.add('checked');
+            localStorage.setItem(storageKey, 'true');
+        }
+        updateProgress();
+    }
+
+    function updateProgress() {
+        // 문법 모드일 때는 진행률 바 0% 처리
+        if (daySelect.value === "g_struct" || daySelect.value === "g_parts") {
+            progressBar.style.width = '0%';
+            return;
+        }
+
+        const total = wordList.children.length;
+        const checkedCount = document.querySelectorAll('.word-card.checked').length;
+        const percentage = total === 0 ? 0 : (checkedCount / total) * 100;
+        progressBar.style.width = `${percentage}%`;
+    }
+</script>
+</body>
+</html>
