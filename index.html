@@ -20,7 +20,6 @@
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         
-        /* [수정] 로고 텍스트 및 스타일 */
         h1 { 
             margin: 0; font-size: 18px; font-weight: 900; color: #000; 
             cursor: pointer; transition: opacity 0.2s; letter-spacing: -0.5px;
@@ -94,13 +93,13 @@
         .hide-mode .kr-example:active, .hide-mode .kr-example.revealed,
         .hide-mode .desc-box:active, .hide-mode .desc-box.revealed { background-color: transparent; color: inherit; }
 
-        /* === 분석기 스타일 === */
+        /* === 분석기 스타일 (심플) === */
         #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 30px; }
         .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-bottom: 5px; }
-        .input-box { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; font-family: 'Georgia', serif; transition: 0.2s; }
+        .input-group label { display: block; font-size: 14px; font-weight: bold; color: #000; margin-bottom: 8px; }
+        .input-box { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 18px; font-family: 'Georgia', serif; transition: 0.2s; line-height: 1.5; }
         .input-box:focus { border-color: var(--primary); outline: none; }
-        .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 14px; border-radius: 8px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
         .action-btn:active { transform: scale(0.98); }
         
         .result-box {
@@ -110,12 +109,11 @@
             background-color: #FAFAFA;
             border: 2px solid #EEE;
         }
-        .result-title { font-size: 14px; color: #888; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
-        .result-en { font-size: 22px; line-height: 1.6; font-family: 'Georgia', serif; margin-bottom: 15px; color: #222; }
-        .result-kr { font-size: 16px; color: #666; line-height: 1.5; font-family: 'Apple SD Gothic Neo'; background: #eee; padding: 10px; border-radius: 6px; }
+        .result-title { font-size: 14px; color: #888; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+        .result-en { font-size: 24px; line-height: 1.8; font-family: 'Georgia', serif; margin-bottom: 15px; color: #222; }
         
-        .legend { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; font-size: 11px; color: #666; }
-        .legend span { padding: 2px 6px; border-radius: 4px; font-weight: bold; color: #000; }
+        .legend { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; font-size: 12px; color: #666; border-top: 1px solid #eee; padding-top:15px; }
+        .legend span { padding: 4px 8px; border-radius: 4px; font-weight: bold; color: #000; }
     </style>
 </head>
 <body>
@@ -136,21 +134,16 @@
     <div id="analyzerSection">
         <div id="inputMode">
             <div class="input-group">
-                <label>영어 문장 (English Sentence)</label>
+                <label>💬 분석할 영어 문장을 입력하세요 (구조만 분석)</label>
                 <textarea id="inputEn" class="input-box" rows="3" placeholder="예: The manager hired a new employee."></textarea>
             </div>
-            <div class="input-group">
-                <label>한글 해석 (Korean Meaning)</label>
-                <textarea id="inputKr" class="input-box" rows="2" placeholder="예: 매니저는 새 직원을 고용했다."></textarea>
-            </div>
-            <button class="action-btn" onclick="autoAnalyze()">⚡ AI 자동 분석하기</button>
+            <button class="action-btn" onclick="autoAnalyze()">⚡ 문장 구조 분석하기</button>
         </div>
 
         <div id="resultMode" style="display:none;">
             <div class="result-box">
                 <div class="result-title">🔍 분석 결과</div>
                 <div id="outputEn" class="result-en"></div>
-                <div id="outputKr" class="result-kr"></div>
                 
                 <div class="legend">
                     <span class="s">S 주어</span>
@@ -159,7 +152,7 @@
                     <span class="c">C 보어</span>
                 </div>
             </div>
-            <button class="action-btn" onclick="resetAnalyzer()" style="background:#ddd; color:#333; margin-top:15px;">🔄 다른 문장 분석하기</button>
+            <button class="action-btn" onclick="resetAnalyzer()" style="background:#ddd; color:#333; margin-top:15px;">🔄 다시 입력하기</button>
         </div>
     </div>
 
@@ -190,8 +183,7 @@
 
     window.onload = function() {
         if (typeof vocaData === 'undefined' || typeof grammarData === 'undefined') {
-            alert("데이터 파일(data.js, grammar.js)이 필요합니다.");
-            return;
+            // 데이터 파일 없어도 분석기는 실행됨
         }
         initApp();
     };
@@ -200,7 +192,7 @@
         // 메뉴 구성
         const optAnalyzer = document.createElement('option');
         optAnalyzer.value = "analyzer";
-        optAnalyzer.innerText = "🔍 AI 문장 자동 분석기";
+        optAnalyzer.innerText = "🔍 AI 문장 구조 분석기";
         daySelect.appendChild(optAnalyzer);
 
         const optSep1 = document.createElement('option');
@@ -225,12 +217,12 @@
             daySelect.appendChild(option);
         });
         
-        // [수정] 초기 화면을 분석기(analyzer)로 강제 설정
+        // [초기 설정] 분석기를 기본 화면으로 설정
         daySelect.value = "analyzer";
         renderContent();
     }
 
-    // [수정] 메인 이동 함수 (분석기로 이동)
+    // 메인(분석기)으로 이동
     function goToMain() { 
         daySelect.value = "analyzer"; 
         renderContent(); 
@@ -245,52 +237,50 @@
         btn.style.color = isHideMode ? "#000" : "#FFC107";
     }
 
-    // === [핵심] AI 자동 분석 로직 (에러 방지 적용) ===
+    // === [안정화된] AI 자동 분석 로직 ===
     function autoAnalyze() {
         const input = document.getElementById('inputEn').value;
-        const krInput = document.getElementById('inputKr').value;
+        if (!input || input.trim() === "") { alert("영어 문장을 입력해주세요!"); return; }
         
-        if (!input) { alert("영어 문장을 입력해주세요!"); return; }
-        
-        // 에러 방지를 위한 Try-Catch
-        try {
-            if (typeof nlp === 'undefined') {
-                alert("분석 엔진을 불러오는 중입니다... 3초 뒤 다시 시도해주세요.");
-                return;
-            }
+        // 안전장치
+        if (typeof nlp === 'undefined') {
+            alert("분석 엔진을 불러오는 중입니다... 2초 뒤 다시 시도해주세요.");
+            return;
+        }
 
-            // 1. NLP 분석
+        try {
+            // 1. 분석 수행
             let doc = nlp(input);
             let terms = doc.termList();
             let resultHTML = "";
             let hasMainVerb = false;
 
-            // 2. 단어별 태그 분석 및 컬러링
+            // 2. 단어별 태그 분석
             terms.forEach((term) => {
                 let text = term.text;
-                let post = term.post; // 뒤에 오는 공백/구두점
+                let post = term.post; // 띄어쓰기나 마침표
                 let tags = term.tags;
                 let className = "";
 
-                // 동사 처리 (Verb)
+                // 동사 (Verb) -> 주황
                 if (tags.has('Verb')) {
                     className = "v"; 
                     hasMainVerb = true;
                 } 
-                // 명사/대명사 처리 (Noun/Pronoun)
+                // 명사/대명사 (Noun/Pronoun)
                 else if (tags.has('Noun') || tags.has('Pronoun')) {
                     if (!hasMainVerb) {
-                        className = "s"; // 동사 나오기 전 = 주어
+                        className = "s"; // 동사 전 = 주어 (빨강)
                     } else {
-                        className = "o"; // 동사 나온 후 = 목적어
+                        className = "o"; // 동사 후 = 목적어 (파랑)
                     }
                 } 
-                // 형용사 처리 (Adjective)
+                // 형용사 (Adjective)
                 else if (tags.has('Adjective') && hasMainVerb) {
-                    className = "c"; // 동사 뒤 형용사 = 보어
+                    className = "c"; // 동사 후 형용사 = 보어 (보라)
                 }
 
-                // 결과 HTML 조립
+                // 결과 조립
                 if (className) {
                     resultHTML += `<span class="${className}">${text}</span>` + post;
                 } else {
@@ -298,19 +288,15 @@
                 }
             });
 
-            // 3. 화면 전환 (성공했을 때만 전환)
+            // 3. 화면 전환
             document.getElementById('inputMode').style.display = 'none';
             document.getElementById('resultMode').style.display = 'block';
-            
             document.getElementById('outputEn').innerHTML = resultHTML;
-            document.getElementById('outputKr').innerText = krInput || "";
 
         } catch (e) {
             console.error(e);
-            alert("분석 중 오류가 발생했습니다. 문장이 너무 길거나 복잡할 수 있습니다.");
-            // 에러 시 입력창 유지
-            document.getElementById('inputMode').style.display = 'block';
-            document.getElementById('resultMode').style.display = 'none';
+            alert("분석 중 문제가 발생했습니다.");
+            resetAnalyzer();
         }
     }
 
@@ -318,7 +304,6 @@
         document.getElementById('resultMode').style.display = 'none';
         document.getElementById('inputMode').style.display = 'block';
         document.getElementById('inputEn').value = '';
-        document.getElementById('inputKr').value = '';
     }
 
     function highlightWord(sentence, targetWord) {
@@ -345,10 +330,9 @@
             themeDisplay.style.display = 'block';
             progressBar.style.width = '0%';
             
-            // 분석기 리셋 상태(입력창)로 보여주기 (이미 결과창이 있으면 유지)
-            if(document.getElementById('resultMode').style.display === 'block') {
-               // 결과창 유지
-            } else {
+            // 결과창이 떠있으면 입력창으로 강제 리셋하지 않고 유지
+            // (새로 들어올 때만 입력창 보이기)
+            if(document.getElementById('resultMode').style.display !== 'block') {
                document.getElementById('inputMode').style.display = 'block';
             }
             return;
