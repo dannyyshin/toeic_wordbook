@@ -19,7 +19,17 @@
         }
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
-        h1 { margin: 0; font-size: 18px; font-weight: 800; color: #000; }
+        
+        /* 로고 스타일 수정 (클릭 가능하게 변경) */
+        h1 { 
+            margin: 0; 
+            font-size: 18px; 
+            font-weight: 800; 
+            color: #000; 
+            cursor: pointer; /* 마우스 올리면 손가락 모양 */
+            transition: opacity 0.2s;
+        }
+        h1:hover { opacity: 0.7; } /* 마우스 올렸을 때 살짝 흐려짐 효과 */
         
         /* 컨트롤 영역 */
         .controls { display: flex; gap: 5px; }
@@ -105,7 +115,7 @@
 <body>
 <header>
     <div class="header-top">
-        <h1>TOEIC VOCA</h1>
+        <h1 onclick="goToDayOne()">TOEIC VOCA</h1>
         <div class="controls">
             <select id="daySelect" onchange="renderContent()"></select>
             <button class="toggle-btn" onclick="toggleMode()">뜻 가리기</button>
@@ -121,7 +131,7 @@
 <script src="grammar.js"></script>
 
 <script>
-    // === DAY별 주제 데이터 (수정됨) ===
+    // === DAY별 주제 데이터 ===
     const dayThemes = {
         1: "백수탈출 채용",
         2: "드레스코드 규칙 · 법률",
@@ -210,6 +220,12 @@
         renderContent();
     }
 
+    // [기능 추가] 로고 클릭 시 Day 1으로 이동 및 스크롤 초기화
+    function goToDayOne() {
+        daySelect.value = "1"; // Day 1 선택
+        renderContent(); // 화면 갱신
+    }
+
     function toggleMode() {
         isHideMode = !isHideMode;
         document.body.classList.toggle('hide-mode');
@@ -227,6 +243,9 @@
 
     // 통합 렌더링 함수
     function renderContent() {
+        // [기능 추가] 콘텐츠가 바뀔 때마다 스크롤을 맨 위로 이동
+        window.scrollTo(0, 0);
+
         const selectedValue = daySelect.value;
         wordList.innerHTML = '';
         let dataToRender = [];
@@ -266,7 +285,7 @@
             const card = document.createElement('div');
             card.className = 'word-card';
             
-            // 문법이 아닐 때만 체크박스 상태 로드 (문법은 체크박스 굳이 필요 없으면 저장 안함)
+            // 문법이 아닐 때만 체크박스 상태 로드
             if (!isGrammar) {
                 const storageKey = `d${item.day}_n${item.num}`;
                 if(localStorage.getItem(storageKey) === 'true') card.classList.add('checked');
@@ -274,13 +293,13 @@
 
             let definitionsHTML = '';
             
-            // 정의(Definitions) 렌더링 (단어장/문법 공통)
+            // 정의(Definitions) 렌더링
             if (item.definitions && item.definitions.length > 0) {
                 definitionsHTML = `<div class="def-container">`;
                 item.definitions.forEach(def => {
                     let exampleBlock = '';
                     
-                    // 문법 설명(기능/위치) 박스 - desc가 있을 때만 표시
+                    // 문법 설명(기능/위치) 박스
                     let descBlock = '';
                     if (def.desc) {
                         descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
@@ -288,7 +307,7 @@
 
                     if (def.example) {
                         let hlEx = def.example;
-                        // 문법이 아닐때만 자동 하이라이트 (문법은 문장 전체가 중요할 수 있음)
+                        // 문법이 아닐때만 자동 하이라이트
                         if(!isGrammar) {
                              hlEx = highlightWord(def.example, item.word.split(' ')[0]); 
                         }
@@ -315,7 +334,7 @@
                 definitionsHTML += `</div>`;
             }
 
-            // 파생어(Derivatives) 렌더링 (문법에는 보통 없음)
+            // 파생어(Derivatives) 렌더링
             let derivativesHTML = '';
             if (item.derivatives && item.derivatives.length > 0) {
                 let itemsHTML = item.derivatives.map(deriv => {
