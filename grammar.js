@@ -167,31 +167,31 @@ const grammarData = {
                     pos: "3형식 전환 규칙",
                     meaning: "4형식을 3형식으로 바꿀 때 전치사 규칙",
                     desc: "<b>to</b>: give, send, show, teach, tell (방향)<br><b>for</b>: buy, make, get, cook (정성)<br><b>of</b>: ask (질문)",
-                    example: "<span class='s'>I</span> <span class='v'>sent</span> <span class='o'>the file</span> <b>to him</b>.<br><span class='s'>I</span> <span class='v'>bought</span> <span class='o'>a gift</span> <b>for my wife</b>.",
-                    ex_meaning: "<span class='s'>나는</span> <span class='o'>파일을</span> <b>그에게</b> <span class='v'>보냈다</span>.<br><span class='s'>나는</span> <span class='o'>선물을</span> <b>아내를 위해</b> <span class='v'>샀다</span>."
+                    example: "<span class='s'>I</span> <span class='v'>sent</span> <span class='o'>the file</span> <span class='m'>to him</span>.<br><span class='s'>I</span> <span class='v'>bought</span> <span class='o'>a gift</span> <span class='m'>for my wife</span>.",
+                    ex_meaning: "<span class='s'>나는</span> <span class='o'>파일을</span> <span class='m'>그에게</span> <span class='v'>보냈다</span>.<br><span class='s'>나는</span> <span class='o'>선물을</span> <span class='m'>아내를 위해</span> <span class='v'>샀다</span>."
                 },
                 {
                     pos: "실전 전환 연습 (Sets)",
                     meaning: "의미는 같지만 어순이 다른 3, 4형식 연습",
                     desc: "사람이 뒤로 가면 전치사(to, for)가 붙는 것을 확인하세요.<br>",
                     example: 
-                        "[Set 1. Send]<br>" +
+                        "<b>[Set 1. Send]</b><br>" +
                         "4형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>me</span> <span class='o'>an email</span>.<br>" +
                         "3형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>an email</span> <span class='m'>to me</span>.<br><br>" +
                         
-                        "[Set 2. Make]<br>" +
+                        "<b>[Set 2. Make]</b><br>" +
                         "4형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>him</span> <span class='o'>a cup of coffee</span>.<br>" +
                         "3형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>a cup of coffee</span> <span class='m'>for him</span>.<br><br>" +
                         
-                        "Set 3. Show]<br>" +
+                        "<b>[Set 3. Show]</b><br>" +
                         "4형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>tourists</span> <span class='o'>the palace</span>.<br>" +
                         "3형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>the palace</span> <span class='m'>to tourists</span>.<br><br>" +
                         
-                        "Set 4. Cook]<br>" +
+                        "<b>[Set 4. Cook]</b><br>" +
                         "4형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>us</span> <span class='o'>a delicious dinner</span>.<br>" +
                         "3형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>a delicious dinner</span> <span class='m'>for us</span>.<br><br>" +
                         
-                        "[Set 5. Teach]<br>" +
+                        "<b>[Set 5. Teach]</b><br>" +
                         "4형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>students</span> <span class='o'>English grammar</span>.<br>" +
                         "3형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>English grammar</span> <span class='m'>to students</span>.",
                     ex_meaning: 
