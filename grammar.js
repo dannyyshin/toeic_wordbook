@@ -34,7 +34,7 @@ const grammarData = {
                 {
                     pos: "O",
                     meaning: "동사가 하는 행동의 대상. 우리말의 '을/를'이 붙습니다.",
-                    desc: "기능: 타동사 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
+                    desc: "기능: 타동사(목적어가 필요한 동사) 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
                     example: "We attended the seminar.",
                     ex_meaning: "우리는 세미나에 참석했다."
                 }

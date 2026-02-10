@@ -54,7 +54,7 @@
         .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; font-family: 'Roboto', sans-serif; }
         .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
 
-        /* 문법 기능/설명 박스 스타일 (추가됨) */
+        /* 문법 기능/설명 박스 스타일 */
         .desc-box {
             background-color: #E3F2FD;
             border-left: 3px solid #2196F3;
@@ -121,7 +121,7 @@
 <script src="grammar.js"></script>
 
 <script>
-    // === DAY별 주제 데이터 ===
+    // === DAY별 주제 데이터 (수정됨) ===
     const dayThemes = {
         1: "백수탈출 채용",
         2: "드레스코드 규칙 · 법률",
@@ -144,7 +144,7 @@
         19: "보너스는..? 수익",
         20: "경비 절감 회계",
         21: "사내 공모전 회사동향",
-        22: 긴급 회의 미팅",
+        22: "긴급 회의 미팅",
         23: "역지사지 사원 복지",
         24: "승진 첫 날 인사이동",
         25: "드라이브 교통",
@@ -287,8 +287,6 @@
                     }
 
                     if (def.example) {
-                        // 문법 예문에는 단어 하이라이트 로직이 안 맞을 수 있으므로 단순 표시하거나 
-                        // 필요 시 특정 단어를 강조할 수 있음. 여기선 기본 하이라이트 적용.
                         let hlEx = def.example;
                         // 문법이 아닐때만 자동 하이라이트 (문법은 문장 전체가 중요할 수 있음)
                         if(!isGrammar) {
