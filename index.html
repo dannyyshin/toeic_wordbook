@@ -235,65 +235,71 @@
 
     // === [안정적인 분석 로직] ===
 function runAnalysis() {
-        const input = document.getElementById('inputEn').value;
-        const resultBox = document.getElementById('resultBox');
-        const outputDiv = document.getElementById('outputEn');
+    const input = document.getElementById('inputEn').value;
+    const resultBox = document.getElementById('resultBox');
+    const outputDiv = document.getElementById('outputEn');
 
-        if (!input || input.trim() === "") { 
-            alert("영어 문장을 입력해주세요!"); 
-            return; 
-        }
-
-        if (typeof nlp === 'undefined') {
-            alert("분석 도구가 로드되지 않았습니다. 잠시 후 다시 시도하세요.");
-            return;
-        }
-
-        try {
-            let doc = nlp(input);
-            let terms = doc.termList();
-            let html = "";
-            let foundVerb = false;
-
-            terms.forEach((term) => {
-                let text = term.text;
-                let post = term.post;
-                let tags = term.tags;
-                let cssClass = "";
-
-                // 1. 동사 판별 (buy 등)
-                if (tags.has('Verb')) {
-                    cssClass = "v"; 
-                    foundVerb = true;
-                } 
-                // 2. 주어/목적어 판별 (명사, 대명사)
-                else if (tags.has('Noun') || tags.has('Pronoun')) {
-                    cssClass = foundVerb ? "o" : "s"; 
-                } 
-                // 3. 보어 판별 (동사 뒤 형용사)
-                else if (tags.has('Adjective') && foundVerb) {
-                    cssClass = "c"; 
-                } 
-                // 4. 수식어 판별 (전치사 to/between, 접속사 and, 부사 등)
-                else if (tags.has('Preposition') || tags.has('Conjunction') || tags.has('Adverb')) {
-                    cssClass = "m"; 
-                }
-
-                if (cssClass) {
-                    html += `<span class="${cssClass}">${text}</span>` + post;
-                } else {
-                    html += text + post;
-                }
-            });
-
-            outputDiv.innerHTML = html;
-            resultBox.style.display = 'block';
-
-        } catch (error) {
-            console.error(error);
-            alert("분석 중 오류가 발생했습니다.");
-        }
+    if (!input || input.trim() === "") { 
+        alert("영어 문장을 입력해주세요!"); 
+        return; 
     }
+
+    if (typeof nlp === 'undefined') {
+        alert("분석 도구가 로드되지 않았습니다. 잠시 후 다시 시도하세요.");
+        return;
+    }
+
+    try {
+        let doc = nlp(input);
+        let terms = doc.termList();
+        let html = "";
+        let foundVerb = false;
+
+        terms.forEach((term) => {
+            let text = term.text;
+            let post = term.post;
+            let tags = term.tags;
+            let cssClass = "";
+
+            // 1. 동사 판별
+            if (tags.has('Verb')) {
+                cssClass = "v"; 
+                foundVerb = true;
+            } 
+            // 2. 주어/목적어 판별 (명사, 대명사)
+            else if (tags.has('Noun') || tags.has('Pronoun')) {
+                cssClass = foundVerb ? "o" : "s"; 
+            } 
+            // 3. 보어 판별 (동사 뒤 형용사)
+            else if (tags.has('Adjective')) {
+                cssClass = "c"; 
+            } 
+            // 4. 수식어 판별 (전치사, 접속사, 부사, 한정사 추가)
+            else if (
+                tags.has('Preposition') || 
+                tags.has('Conjunction') || 
+                tags.has('Adverb') || 
+                tags.has('Determiner') ||
+                tags.has('Infinitive') // 'to open'의 to 처리를 위해 추가
+            ) {
+                cssClass = "m"; 
+            }
+
+            if (cssClass) {
+                html += `<span class="${cssClass}">${text}</span>` + post;
+            } else {
+                html += text + post;
+            }
+        });
+
+        outputDiv.innerHTML = html;
+        resultBox.style.display = 'block';
+
+    } catch (error) {
+        console.error(error);
+        alert("분석 중 오류가 발생했습니다.");
+    }
+}
 
     function highlightWord(sentence, targetWord) {
         if (!sentence || !targetWord) return sentence;
