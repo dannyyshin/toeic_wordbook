@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>나만의 토익 단어장</title>
+    <script src="https://unpkg.com/compromise"></script>
     <style>
         :root { --primary: #FFC107; --dark: #222; --gray: #f4f4f4; --white: #fff; --shadow: 0 2px 8px rgba(0,0,0,0.1); }
         * { box-sizing: border-box; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; background-color: var(--gray); color: var(--dark); padding-bottom: 80px; }
         
-        /* 헤더 */
         header { 
             background-color: var(--primary); 
             padding: 10px 20px 15px 20px; 
@@ -17,8 +17,13 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
             display: flex; flex-direction: column; gap: 10px;
         }
+        
         .header-top { display: flex; justify-content: space-between; align-items: center; }
-        h1 { margin: 0; font-size: 18px; font-weight: 800; color: #000; cursor: pointer; transition: opacity 0.2s; }
+        
+        h1 { 
+            margin: 0; font-size: 18px; font-weight: 800; color: #000; 
+            cursor: pointer; transition: opacity 0.2s;
+        }
         h1:hover { opacity: 0.7; }
         
         .controls { display: flex; gap: 5px; }
@@ -87,24 +92,23 @@
         .hide-mode .kr-example:active, .hide-mode .kr-example.revealed,
         .hide-mode .desc-box:active, .hide-mode .desc-box.revealed { background-color: transparent; color: inherit; }
 
-        /* === [NEW] 분석기 스타일 === */
+        /* === 분석기 스타일 === */
         #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-size: 13px; font-weight: bold; color: #555; margin-bottom: 5px; }
         .input-box { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; font-family: 'Georgia', serif; }
         .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; }
         
-        .toolbar { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; background: #f9f9f9; padding: 10px; border-radius: 8px; justify-content: center; }
-        .tool-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid #ddd; font-weight: bold; cursor: pointer; background: #fff; font-size: 13px; }
-        
-        /* 편집 가능한 영역 스타일 */
-        .editable-area { 
-            border: 2px dashed #ddd; padding: 15px; border-radius: 8px; min-height: 60px; 
-            font-size: 18px; line-height: 1.6; margin-bottom: 10px; font-family: 'Georgia', serif;
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #FAFAFA;
+            border: 2px solid #EEE;
         }
-        .editable-area:focus { border-color: #FFC107; outline: none; background: #fffdf5; }
-        
-        .guide-text { font-size: 12px; color: #888; text-align: center; margin-bottom: 15px; background: #eee; padding: 8px; border-radius: 6px; }
+        .result-title { font-size: 14px; color: #888; font-weight: bold; margin-bottom: 10px; }
+        .result-en { font-size: 20px; line-height: 1.6; font-family: 'Georgia', serif; margin-bottom: 15px; }
+        .result-kr { font-size: 16px; color: #555; line-height: 1.5; font-family: 'Apple SD Gothic Neo'; }
     </style>
 </head>
 <body>
@@ -124,35 +128,24 @@
     <div id="wordList"></div>
 
     <div id="analyzerSection" style="display:none;">
-        
-        <div id="inputMode">
-            <div class="input-group">
-                <label>영어 문장 (English Sentence)</label>
-                <textarea id="inputEn" class="input-box" rows="3" placeholder="예: I saw him enter the room."></textarea>
-            </div>
-            <div class="input-group">
-                <label>한글 해석 (Korean Meaning)</label>
-                <textarea id="inputKr" class="input-box" rows="2" placeholder="예: 나는 그가 방에 들어가는 것을 보았다."></textarea>
-            </div>
-            <button class="action-btn" onclick="startAnalysis()">🚀 해독 시작하기</button>
+        <div class="input-group">
+            <label>영어 문장 (English Sentence)</label>
+            <textarea id="inputEn" class="input-box" rows="3" placeholder="예: The manager hired a new employee."></textarea>
         </div>
+        <div class="input-group">
+            <label>한글 해석 (Korean Meaning)</label>
+            <textarea id="inputKr" class="input-box" rows="2" placeholder="예: 매니저는 새 직원을 고용했다."></textarea>
+        </div>
+        <button class="action-btn" onclick="autoAnalyze()">⚡ AI 자동 분석하기</button>
 
-        <div id="editMode" style="display:none;">
-            <div class="guide-text">
-                💡 글자를 드래그한 후 아래 버튼을 눌러 색칠하세요!
+        <div id="resultArea" style="display:none;">
+            <div class="result-box">
+                <div class="result-title">분석 결과 (Analysis Result)</div>
+                <div id="outputEn" class="result-en"></div>
+                <hr style="border:0; border-top:1px dashed #ddd; margin: 15px 0;">
+                <div id="outputKr" class="result-kr"></div>
             </div>
-            <div class="toolbar">
-                <button class="tool-btn s" onclick="applyColor('s')">주어 (S)</button>
-                <button class="tool-btn v" onclick="applyColor('v')">동사 (V)</button>
-                <button class="tool-btn o" onclick="applyColor('o')">목적어 (O)</button>
-                <button class="tool-btn c" onclick="applyColor('c')">보어 (C)</button>
-                <button class="tool-btn" onclick="applyColor('remove')" style="background:#333; color:#fff;">지우기</button>
-            </div>
-
-            <div id="editorEn" class="editable-area" contenteditable="true"></div>
-            <div id="editorKr" class="editable-area" contenteditable="true" style="font-family:'Apple SD Gothic Neo'; font-size:16px;"></div>
-
-            <button class="action-btn" onclick="resetAnalysis()" style="background:#ddd; color:#333; margin-top:20px;">🔄 다시 입력하기</button>
+            <button class="action-btn" onclick="resetAnalyzer()" style="background:#ddd; color:#333; margin-top:15px;">🔄 다시 입력하기</button>
         </div>
     </div>
 </div>
@@ -191,7 +184,7 @@
         // 메뉴 구성
         const optAnalyzer = document.createElement('option');
         optAnalyzer.value = "analyzer";
-        optAnalyzer.innerText = "🔍 문장 구조 해독기 (직접 입력)";
+        optAnalyzer.innerText = "🔍 AI 문장 자동 분석기";
         daySelect.appendChild(optAnalyzer);
 
         const optSep1 = document.createElement('option');
@@ -230,60 +223,76 @@
         btn.style.color = isHideMode ? "#000" : "#FFC107";
     }
 
-    // === [NEW] 분석기 로직 ===
-    function startAnalysis() {
-        const en = document.getElementById('inputEn').value;
-        const kr = document.getElementById('inputKr').value;
-        if(!en) { alert("영어 문장을 입력해주세요."); return; }
-
-        document.getElementById('inputMode').style.display = 'none';
-        document.getElementById('editMode').style.display = 'block';
+    // === [핵심] AI 자동 분석 로직 ===
+    function autoAnalyze() {
+        const input = document.getElementById('inputEn').value;
+        const krInput = document.getElementById('inputKr').value;
         
-        document.getElementById('editorEn').innerText = en;
-        document.getElementById('editorKr').innerText = kr;
+        if (!input) { alert("영어 문장을 입력해주세요!"); return; }
+        
+        // 1. compromise 라이브러리로 문장 분석
+        let doc = nlp(input);
+        let html = input; // 원본 문장에서 시작
+
+        // 2. 분석된 텀(Term)들을 가져옴
+        // 태그 우선순위: Verb -> Noun (Subject/Object) -> Adjective (Complement)
+        
+        // (1) 동사 (Verb) -> 주황색 (.v)
+        let verbs = doc.verbs().out('array');
+        // HTML 치환 시 중복 방지를 위해 토큰 단위 처리보다는 전체 텍스트 매칭 사용 (간단 구현)
+        // 주의: 단순 replace는 같은 단어가 여러번 나올 때 문제가 될 수 있으나, 학습용 단문에서는 허용
+        
+        // 더 정교한 매핑을 위해 각 단어의 태그를 확인하여 재조립
+        let terms = doc.termList();
+        let resultHTML = "";
+        
+        let hasMainVerb = false;
+
+        terms.forEach((term, index) => {
+            let text = term.text;
+            let post = term.post; // 뒤에 오는 공백이나 문장부호
+            let tags = term.tags;
+            
+            let className = "";
+
+            if (tags.has('Verb')) {
+                className = "v"; // 동사 (주황)
+                hasMainVerb = true; 
+            } else if (tags.has('Noun') || tags.has('Pronoun')) {
+                // 동사 나오기 전 명사는 주어(S), 나온 후 명사는 목적어(O)로 추정
+                if (!hasMainVerb) {
+                    className = "s"; // 주어 (빨강)
+                } else {
+                    className = "o"; // 목적어 (파랑)
+                }
+            } else if (tags.has('Adjective') && hasMainVerb) {
+                className = "c"; // 보어 (보라 - 동사 뒤 형용사)
+            }
+
+            // 태그 적용
+            if (className) {
+                resultHTML += `<span class="${className}">${text}</span>` + post;
+            } else {
+                resultHTML += text + post;
+            }
+        });
+
+        // 결과 출력
+        document.getElementById('outputEn').innerHTML = resultHTML;
+        document.getElementById('outputKr').innerText = krInput;
+        
+        document.getElementById('resultArea').style.display = 'block';
+        // 입력창 숨기기 (깔끔하게)
+        document.querySelector('.input-group').parentElement.style.display = 'none';
     }
 
-    function resetAnalysis() {
-        document.getElementById('inputMode').style.display = 'block';
-        document.getElementById('editMode').style.display = 'none';
+    function resetAnalyzer() {
+        document.getElementById('resultArea').style.display = 'none';
+        // 입력창 다시 보이기
+        document.querySelector('#analyzerSection > div:first-child').style.display = 'block'; 
+        // 텍스트 초기화
         document.getElementById('inputEn').value = '';
         document.getElementById('inputKr').value = '';
-    }
-
-    function applyColor(type) {
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return;
-
-        // 드래그한 영역이 편집기 내부인지 확인
-        const anchorNode = selection.anchorNode;
-        const editorEn = document.getElementById('editorEn');
-        const editorKr = document.getElementById('editorKr');
-        
-        if (!editorEn.contains(anchorNode) && !editorKr.contains(anchorNode)) {
-            alert("문장 영역을 드래그한 후 버튼을 눌러주세요!");
-            return;
-        }
-
-        if (type === 'remove') {
-            document.execCommand('removeFormat', false, null);
-        } else {
-            // span 태그로 감싸서 클래스 적용 (execCommand는 deprecated지만 가장 확실한 방법)
-            // 임시로 폰트 컬러를 바꾼 뒤 클래스로 치환하는 방식 사용 (간단 구현)
-            const colorMap = { 's': '#ff0000', 'v': '#ffa500', 'o': '#0000ff', 'c': '#800080' };
-            document.execCommand('foreColor', false, colorMap[type]);
-            
-            // 방금 적용된 폰트 태그를 찾아서 span class로 교체
-            const fontTags = document.querySelectorAll('font[color]');
-            fontTags.forEach(font => {
-                if (font.color === colorMap[type] || font.getAttribute('color') === colorMap[type]) {
-                    const span = document.createElement('span');
-                    span.className = type;
-                    span.innerHTML = font.innerHTML;
-                    font.parentNode.replaceChild(span, font);
-                }
-            });
-        }
-        selection.removeAllRanges();
     }
 
     function highlightWord(sentence, targetWord) {
@@ -297,7 +306,6 @@
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
         
-        // 초기화
         wordList.style.display = 'none';
         analyzerSection.style.display = 'none';
         themeDisplay.style.display = 'none';
