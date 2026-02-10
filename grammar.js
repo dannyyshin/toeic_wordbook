@@ -1,5 +1,5 @@
 const grammarData = {
-    // 1. 문장 구성 성분 (예문 하이라이트 적용됨)
+    // 1. 문장 구성 성분
     structure: [
         {
             num: 1,
@@ -34,7 +34,7 @@ const grammarData = {
                 {
                     pos: "O",
                     meaning: "동사가 하는 행동의 대상. 우리말의 '을/를'이 붙습니다.",
-                    desc: "기능: 타동사 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
+                    desc: "기능: 타동사(목적어가 필요한 동사) 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
                     example: "We attended <b>the seminar</b>.",
                     ex_meaning: "우리는 <b>세미나에</b> 참석했다."
                 }
@@ -68,7 +68,7 @@ const grammarData = {
         }
     ],
 
-    // 2. 8품사 (예문 하이라이트 적용됨)
+    // 2. 8품사 (예문 2개씩 추가됨)
     parts: [
         {
             num: 1,
@@ -78,8 +78,8 @@ const grammarData = {
                     pos: "n.",
                     meaning: "사람, 사물, 장소, 추상적 개념의 이름입니다.",
                     desc: "기능: 주어(S), 목적어(O), 보어(C) 자리에 들어갑니다. (전치사 뒤에도 필수)",
-                    example: "<b>Meeting</b>, <b>Office</b>, <b>Information</b>",
-                    ex_meaning: "<b>회의</b>, <b>사무실</b>, <b>정보</b>"
+                    example: "The <b>manager</b> checked the <b>schedule</b>.<br><b>Information</b> is valuable.",
+                    ex_meaning: "<b>매니저</b>가 <b>일정</b>을 확인했다.<br><b>정보</b>는 가치가 있다."
                 }
             ]
         },
@@ -91,8 +91,8 @@ const grammarData = {
                     pos: "pron.",
                     meaning: "명사를 대신해서 부르는 말입니다.",
                     desc: "기능: 명사와 똑같이 S, O, C 자리에 들어갑니다.",
-                    example: "<b>I</b>, <b>You</b>, <b>It</b>, <b>They</b>, <b>This</b>",
-                    ex_meaning: "<b>나</b>, <b>너</b>, <b>그것</b>, <b>그들</b>, <b>이것</b>"
+                    example: "<b>She</b> sent an email to <b>him</b>.<br><b>This</b> is my office.",
+                    ex_meaning: "<b>그녀</b>는 <b>그</b>에게 이메일을 보냈다.<br><b>이것</b>은 내 사무실이다."
                 }
             ]
         },
@@ -104,8 +104,8 @@ const grammarData = {
                     pos: "v.",
                     meaning: "동작이나 상태를 나타내는 말입니다.",
                     desc: "기능: 문장의 동사(V) 자리에 들어갑니다.",
-                    example: "<b>Run</b>, <b>Study</b>, <b>Become</b>, <b>Exist</b>",
-                    ex_meaning: "<b>달리다</b>, <b>공부하다</b>, <b>되다</b>, <b>존재하다</b>"
+                    example: "The team <b>developed</b> a new product.<br>He <b>looks</b> tired.",
+                    ex_meaning: "그 팀은 신제품을 <b>개발했다</b>.<br>그는 피곤해 <b>보인다</b>."
                 }
             ]
         },
@@ -117,8 +117,8 @@ const grammarData = {
                     pos: "adj.",
                     meaning: "명사의 성질, 상태, 크기, 색깔 등을 설명하는 말입니다. (~한, ~의)",
                     desc: "기능: 명사(N)를 수식하거나, 보어(C) 자리에 들어갑니다.",
-                    example: "<b>Happy</b>, <b>Smart</b>, <b>Available</b>",
-                    ex_meaning: "<b>행복한</b>, <b>똑똑한</b>, <b>이용 가능한</b>"
+                    example: "She has a <b>creative</b> idea.<br>The room is <b>spacious</b>.",
+                    ex_meaning: "그녀는 <b>창의적인</b> 아이디어를 가지고 있다.<br>그 방은 <b>넓다</b>."
                 }
             ]
         },
@@ -130,8 +130,8 @@ const grammarData = {
                     pos: "adv.",
                     meaning: "명사를 제외한 나머지(동사, 형용사, 다른 부사, 문장 전체)를 꾸며주는 말입니다. (~게, ~히)",
                     desc: "기능: 수식어(M) 역할만 합니다. 문장 구조(뼈대)에는 포함되지 않습니다.",
-                    example: "<b>Quickly</b>, <b>Very</b>, <b>Always</b>",
-                    ex_meaning: "<b>빠르게</b>, <b>매우</b>, <b>항상</b>"
+                    example: "He finished the work <b>quickly</b>.<br>It is <b>very</b> expensive.",
+                    ex_meaning: "그는 일을 <b>빨리</b> 끝냈다.<br>그것은 <b>매우</b> 비싸다."
                 }
             ]
         },
@@ -143,8 +143,8 @@ const grammarData = {
                     pos: "prep.",
                     meaning: "명사 앞에 놓여 시간, 장소, 방향 등을 나타내는 연결어입니다.",
                     desc: "기능: 반드시 뒤에 명사(N)와 한 덩어리로 쓰입니다. 이 덩어리는 형용사나 부사 역할을 합니다.",
-                    example: "<b>In</b>, <b>On</b>, <b>At</b>, <b>For</b>, <b>With</b>",
-                    ex_meaning: "<b>~안에</b>, <b>~위에</b>, <b>~에</b>, <b>~를 위해</b>, <b>~와 함께</b>"
+                    example: "The meeting is <b>in</b> the conference room.<br>Please send it <b>by</b> Friday.",
+                    ex_meaning: "회의는 회의실 <b>안에</b>(에서) 있다.<br>금요일<b>까지</b> 그것을 보내주세요."
                 }
             ]
         },
@@ -156,8 +156,8 @@ const grammarData = {
                     pos: "conj.",
                     meaning: "단어와 단어, 문장과 문장을 연결해 주는 풀 같은 말입니다.",
                     desc: "기능: 문장을 길게 이어주는 역할을 합니다.",
-                    example: "<b>And</b>, <b>But</b>, <b>Because</b>, <b>If</b>",
-                    ex_meaning: "<b>그리고</b>, <b>그러나</b>, <b>때문에</b>, <b>만약</b>"
+                    example: "I wanted to go, <b>but</b> I was busy.<br>Please call me <b>if</b> you need help.",
+                    ex_meaning: "나는 가고 싶었<b>지만</b> 바빴다.<br>도움이 필요하다<b>면</b> 전화해 주세요."
                 }
             ]
         },
@@ -169,14 +169,14 @@ const grammarData = {
                     pos: "interj.",
                     meaning: "기쁨, 슬픔, 놀람 등의 감정을 나타내는 말입니다.",
                     desc: "설명: 토익 문법 문제에 출제되지 않습니다. 무시하십시오.",
-                    example: "<b>Oh!</b>, <b>Wow!</b>, <b>Ouch!</b>",
-                    ex_meaning: "<b>오!</b>, <b>와!</b>, <b>아야!</b>"
+                    example: "<b>Wow</b>, the view is amazing!<br><b>Oh</b>, I forgot my wallet.",
+                    ex_meaning: "<b>와</b>, 경치가 놀랍다!<br><b>아</b>, 지갑을 깜빡했다."
                 }
             ]
         }
     ],
 
-    // 3. 준동사 (기능별 상세 분류 및 예문 추가)
+    // 3. 준동사 (동명사 보어 역할 추가됨)
     verbals: [
         {
             num: 1,
@@ -222,6 +222,13 @@ const grammarData = {
                     desc: "형태: V-ing (~하는 것을)",
                     example: "I enjoy <b>listening</b> to music.",
                     ex_meaning: "나는 음악 <b>듣는 것을</b> 즐긴다."
+                },
+                {
+                    pos: "보어 역할",
+                    meaning: "주어와 동격 관계 (주어 = ~하는 것)",
+                    desc: "형태: be동사 뒤 V-ing (~하는 것이다)",
+                    example: "My hobby is <b>collecting</b> stamps.",
+                    ex_meaning: "내 취미는 우표를 <b>모으는 것이다</b>."
                 }
             ]
         },
