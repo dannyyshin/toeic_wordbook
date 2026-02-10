@@ -9,7 +9,7 @@ const grammarData = {
                     pos: "S",
                     meaning: "문장의 주체가 되는 말. 우리말의 '은/는/이/가'가 붙습니다.",
                     desc: "기능: 문장 맨 앞에 위치합니다. 명사(N)만 이 자리에 올 수 있습니다.",
-                    example: "<b>The manager</b> hired a new employee.",
+                    example: "<span class='s'>The manager</span> hired a new employee.",
                     ex_meaning: "<b>그 매니저는</b> 새 직원을 고용했다."
                 }
             ]
@@ -22,7 +22,7 @@ const grammarData = {
                     pos: "V",
                     meaning: "주어의 동작이나 상태를 서술하는 말. 우리말의 '~다'로 끝납니다.",
                     desc: "기능: 주어 뒤에 위치합니다. 문장의 결론을 내립니다.",
-                    example: "The sales <b>increased</b> significantly.",
+                    example: "The sales <span class='v'>increased</span> significantly.",
                     ex_meaning: "매출이 상당히 <b>증가했다</b>."
                 }
             ]
@@ -34,8 +34,8 @@ const grammarData = {
                 {
                     pos: "O",
                     meaning: "동사가 하는 행동의 대상. 우리말의 '을/를'이 붙습니다.",
-                    desc: "기능: 타동사(목적어가 필요한 동사) 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
-                    example: "We attended <b>the seminar</b>.",
+                    desc: "기능: 타동사 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
+                    example: "We attended <span class='o'>the seminar</span>.",
                     ex_meaning: "우리는 <b>세미나에</b> 참석했다."
                 }
             ]
@@ -48,7 +48,7 @@ const grammarData = {
                     pos: "C",
                     meaning: "주어(S)나 목적어(O)에 대한 보충 설명. 'A는 B이다'(A=B) 관계가 성립합니다.",
                     desc: "기능: 명사(N) 또는 형용사(a)가 이 자리에 옵니다. (부사는 절대 불가)",
-                    example: "The report is <b>informative</b>.",
+                    example: "The report is <span class='c'>informative</span>.",
                     ex_meaning: "그 보고서는 <b>유익하다</b>. (보고서=유익함)"
                 }
             ]
@@ -68,7 +68,7 @@ const grammarData = {
         }
     ],
 
-    // 2. 문장의 5형식 (새로 추가됨)
+    // 2. 문장의 5형식 (요청하신 하이라이트 및 내용 적용됨)
     patterns: [
         {
             num: 1,
@@ -78,8 +78,8 @@ const grammarData = {
                     pos: "S + V",
                     meaning: "주어가 ~한다. (가장 단순한 구조)",
                     desc: "핵심: <b>자동사</b> (목적어 필요 없음). 문장이 길다면 수식어(부사, 전치사구) 때문입니다.<br>주요 동사: go, come, arrive, rise, fall, work, happen, disappear",
-                    example: "The stock market <b>fell</b>.<br>I <b>work</b> [at Joheun Chaek Sinsago].",
-                    ex_meaning: "주식 시장이 <b>떨어졌다</b>.<br>나는 [좋은책신사고에서] <b>일한다</b>."
+                    example: "<span class='s'>The stock market</span> <span class='v'>fell</span>.<br><span class='s'>I</span> <span class='v'>work</span> [at Joheun Chaek Sinsago].<br><span class='s'>The accident</span> <span class='v'>happened</span> [suddenly].",
+                    ex_meaning: "<b>주식 시장이</b> <b>떨어졌다</b>.<br><b>나는</b> [좋은책신사고에서] <b>일한다</b>.<br><b>그 사고는</b> [갑자기] <b>일어났다</b>."
                 }
             ]
         },
@@ -88,11 +88,11 @@ const grammarData = {
             word: "2형식 (S + V + S.C)",
             definitions: [
                 {
-                    pos: "S + V + S.C",
+                    pos: "S + V + C",
                     meaning: "주어는 (보어)이다/하게 되다/느껴지다. (주어 = 보어)",
                     desc: "핵심: <b>불완전 자동사</b>. 보어 자리에 명사/형용사만 가능 (부사 불가).<br>주요 동사: be, become, remain, seem, look, sound, smell, taste, feel",
-                    example: "He <b>is</b> a web designer.<br>The investment <b>looks</b> promising.",
-                    ex_meaning: "그는 웹 디자이너<b>이다</b>. (신분)<br>그 투자는 유망해 <b>보인다</b>. (상태)"
+                    example: "<span class='s'>He</span> <span class='v'>is</span> <span class='c'>a web designer</span>.<br><span class='s'>The investment</span> <span class='v'>looks</span> <span class='c'>promising</span>.",
+                    ex_meaning: "<b>그는</b> <b>웹 디자이너</b><b>이다</b>. (신분)<br><b>그 투자는</b> <b>유망해</b> <b>보인다</b>. (상태)"
                 }
             ]
         },
@@ -104,8 +104,8 @@ const grammarData = {
                     pos: "S + V + O",
                     meaning: "주어가 (목적어)를 ~한다. (가장 흔한 문장)",
                     desc: "핵심: <b>타동사</b>. 대상이 되는 목적어(~을/를)가 반드시 필요.<br>주요 동사: make, study, discuss, reach, attend, want, hope",
-                    example: "I <b>study English</b> every day.<br>She <b>wants to quit</b> her job.",
-                    ex_meaning: "나는 매일 <b>영어를 공부한다</b>.<br>그녀는 <b>일 그만두기를 원한다</b>."
+                    example: "<span class='s'>I</span> <span class='v'>study</span> <span class='o'>English</span> every day.<br><span class='s'>She</span> <span class='v'>wants</span> <span class='o'>to quit her job</span>.",
+                    ex_meaning: "<b>나는</b> 매일 <b>영어를</b> <b>공부한다</b>.<br><b>그녀는</b> <b>직장을 그만두기를</b> <b>원한다</b>."
                 }
             ]
         },
@@ -114,15 +114,15 @@ const grammarData = {
             word: "4형식 (S + V + I.O + D.O)",
             definitions: [
                 {
-                    pos: "S + V + I.O + D.O",
+                    pos: "S + V + O + O",
                     meaning: "주어가 (누구)에게 (무엇)을 주다.",
                     desc: "핵심: <b>수여동사</b>. 목적어가 2개 (사람 + 물건 순서).<br>주요 동사: give, send, show, teach, tell, buy, make",
-                    example: "He <b>gave me a refund</b>.<br>Please <b>show me your ID card</b>.",
-                    ex_meaning: "그는 <b>나에게 환불을</b> 해주었다.<br><b>나에게 신분증을</b> 보여주세요."
+                    example: "<span class='s'>He</span> <span class='v'>gave</span> <span class='o'>me</span> <span class='o'>a refund</span>.<br>Please <span class='v'>show</span> <span class='o'>me</span> <span class='o'>your ID card</span>.",
+                    ex_meaning: "<b>그는</b> <b>나에게</b> <b>환불을</b> <b>해주었다</b>.<br><b>저에게</b> <b>당신의 신분증을</b> <b>보여주세요</b>."
                 },
                 {
                     pos: "3형식 전환",
-                    meaning: "4형식을 3형식으로 바꿀 때 (사람을 뒤로 보낼 때)",
+                    meaning: "4형식을 3형식으로 바꿀 때 (사람을 뒤로 보낼 때 전치사 사용)",
                     desc: "<b>to</b>: give, send, show, teach, tell<br><b>for</b>: buy, make, get, cook<br><b>of</b>: ask",
                     example: "I sent the file <b>to him</b>.<br>I bought a gift <b>for my wife</b>.",
                     ex_meaning: "나는 파일을 <b>그에게</b> 보냈다.<br>나는 선물을 <b>아내를 위해</b> 샀다."
@@ -134,24 +134,24 @@ const grammarData = {
             word: "5형식 (S + V + O + O.C)",
             definitions: [
                 {
-                    pos: "S + V + O + O.C",
+                    pos: "S + V + O + C",
                     meaning: "주어는 (목적어)가 (보어)라고 생각하다/하게 만들다.",
                     desc: "핵심: 목적어와 보어 사이에 <b>주어-서술어 관계</b> 성립 (O = O.C 또는 O가 O.C하다).<br>주요 동사: make, keep, find, consider, call, allow, expect",
-                    example: "You <b>make me happy</b>.<br>They <b>call him a genius</b>.",
-                    ex_meaning: "너는 <b>나를 행복하게</b> 만든다.<br>그들은 <b>그를 천재라고</b> 부른다."
+                    example: "<span class='s'>You</span> <span class='v'>make</span> <span class='o'>me</span> <span class='c'>happy</span>.<br><span class='s'>They</span> <span class='v'>call</span> <span class='o'>him</span> <span class='c'>a genius</span>.",
+                    ex_meaning: "<b>너는</b> <b>나를</b> <b>행복하게</b> <b>만든다</b>.<br><b>그들은</b> <b>그를</b> <b>천재라고</b> <b>부른다</b>."
                 },
                 {
                     pos: "행동 유발 (O.C가 동사)",
                     meaning: "목적어가 ~한 행동을 하도록 하다",
                     desc: "<b>to부정사</b>: order, allow, expect, ask<br><b>동사원형</b>: 지각동사(see, hear), 사역동사(make, have, let)",
-                    example: "The manager ordered him <b>to leave</b>.<br>I saw him <b>enter</b> the room.",
-                    ex_meaning: "매니저는 그에게 <b>나가라고</b> 명령했다.<br>나는 그가 <b>들어가는 것을</b> 보았다."
+                    example: "The manager <span class='v'>ordered</span> <span class='o'>him</span> <span class='c'>to leave</span>.<br>I <span class='v'>saw</span> <span class='o'>him</span> <span class='c'>enter</span> the room.",
+                    ex_meaning: "매니저는 <b>그에게</b> <b>나가라고</b> <b>명령했다</b>.<br>나는 <b>그가</b> <b>들어가는 것을</b> <b>보았다</b>."
                 }
             ]
         }
     ],
 
-    // 3. 8품사 (순서 변경됨)
+    // 3. 8품사 (변동 없음)
     parts: [
         {
             num: 1,
@@ -259,7 +259,7 @@ const grammarData = {
         }
     ],
 
-    // 4. 준동사
+    // 4. 준동사 (변동 없음)
     verbals: [
         {
             num: 1,

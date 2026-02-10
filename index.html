@@ -9,7 +9,6 @@
         * { box-sizing: border-box; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; background-color: var(--gray); color: var(--dark); padding-bottom: 80px; }
         
-        /* 헤더 레이아웃 */
         header { 
             background-color: var(--primary); 
             padding: 10px 20px 15px 20px; 
@@ -20,23 +19,16 @@
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         
-        /* 로고 클릭 스타일 */
         h1 { 
-            margin: 0; 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: #000; 
-            cursor: pointer; 
-            transition: opacity 0.2s;
+            margin: 0; font-size: 18px; font-weight: 800; color: #000; 
+            cursor: pointer; transition: opacity 0.2s;
         }
         h1:hover { opacity: 0.7; }
         
-        /* 컨트롤 영역 */
         .controls { display: flex; gap: 5px; }
         select { padding: 8px; border-radius: 6px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; }
         .toggle-btn { background: #000; color: var(--primary); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
         
-        /* 주제 표시 */
         #themeDisplay {
             font-size: 13px; color: #000; background-color: rgba(255,255,255,0.5);
             padding: 6px 12px; border-radius: 6px; font-weight: 700;
@@ -48,7 +40,6 @@
         
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
-        /* 단어/문법 카드 스타일 */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
         
@@ -56,7 +47,6 @@
         .num-badge { background: #000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px; align-self: center; }
         .en-word { font-size: 28px; font-weight: 900; color: #000; letter-spacing: -0.5px; line-height: 1; }
         
-        /* 정의(Definition) 섹션 */
         .def-container { display: flex; flex-direction: column; gap: 15px; }
         .def-row { position: relative; padding-left: 15px; }
         .def-bullet { position: absolute; left: 0; top: 8px; width: 8px; height: 8px; background-color: #8BC34A; border-radius: 50%; }
@@ -64,27 +54,29 @@
         .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; font-family: 'Roboto', sans-serif; }
         .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
 
-        /* 문법 기능/설명 박스 스타일 */
         .desc-box {
-            background-color: #E3F2FD;
-            border-left: 3px solid #2196F3;
-            padding: 8px 10px;
-            margin: 5px 0 10px 0;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #0D47A1;
-            font-weight: 600;
-            line-height: 1.4;
+            background-color: #E3F2FD; border-left: 3px solid #2196F3;
+            padding: 8px 10px; margin: 5px 0 10px 0; border-radius: 4px;
+            font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4;
         }
 
-        /* 예문 스타일 */
         .example-box { margin-top: 4px; padding-left: 0; }
-        .en-example { font-size: 15px; color: #555; margin-bottom: 2px; line-height: 1.4; font-family: 'Georgia', serif; }
-        .kr-example { font-size: 13px; color: #888; margin-bottom: 0; }
+        .en-example { font-size: 15px; color: #333; margin-bottom: 2px; line-height: 1.5; font-family: 'Georgia', serif; }
+        .kr-example { font-size: 13px; color: #888; margin-bottom: 8px; }
+        .kr-example:last-child { margin-bottom: 0; }
         
+        /* 기본 하이라이트 (볼드+노랑) */
         b { background-color: #fff9c4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; }
 
-        /* 파생어 섹션 스타일 */
+        /* === [NEW] 5형식 전용 컬러 하이라이트 === */
+        /* 공통: 글씨 검정, 굵게, 패딩 약간 */
+        .s, .v, .o, .c { color: #000; font-weight: 900; padding: 2px 4px; border-radius: 4px; margin: 0 1px; display: inline-block; }
+        
+        .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; } /* 주어: 옅은 레드 */
+        .v { background-color: #FFF9C4; border: 1px solid #FFF176; } /* 동사: 옅은 옐로우 */
+        .o { background-color: #E3F2FD; border: 1px solid #BBDEFB; } /* 목적어: 옅은 블루 */
+        .c { background-color: #F3E5F5; border: 1px solid #E1BEE7; } /* 보어: 옅은 퍼플 */
+
         .deriv-section { margin-top: 20px; background-color: #F1F3F5; border-left: 4px solid #CED4DA; border-radius: 4px; padding: 12px; }
         .deriv-item { margin-bottom: 12px; }
         .deriv-item:last-child { margin-bottom: 0; }
@@ -94,7 +86,6 @@
         .deriv-pos { font-size: 12px; color: #666; font-style: italic; margin-left: 2px;}
         .deriv-meaning { font-size: 14px; color: #444; font-weight: 600; margin-left: 5px; cursor: pointer;}
 
-        /* 뜻 가리기 모드 */
         .hide-mode .def-meaning, .hide-mode .kr-example, .hide-mode .deriv-meaning, .hide-mode .desc-box,
         .hide-mode .deriv-section .kr-example, .hide-mode .simple-meaning { 
             background-color: #eee; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; 
@@ -131,7 +122,6 @@
 <script src="grammar.js"></script>
 
 <script>
-    // === DAY별 주제 데이터 ===
     const dayThemes = {
         1: "백수탈출 채용",
         2: "드레스코드 규칙 · 법률",
@@ -184,7 +174,6 @@
     };
 
     function initApp() {
-        // 1. 문법 옵션 추가 (맨 위)
         const optStruct = document.createElement('option');
         optStruct.value = "g_struct";
         optStruct.innerText = "1. 기초: 문장구성성분";
@@ -205,13 +194,11 @@
         optVerbals.innerText = "4. 기초: 준동사 (동사 변형)";
         daySelect.appendChild(optVerbals);
 
-        // 2. 구분선 추가
         const optSep = document.createElement('option');
         optSep.disabled = true;
         optSep.innerText = "──────────────";
         daySelect.appendChild(optSep);
 
-        // 3. Day 옵션 추가
         const uniqueDays = [...new Set(vocaData.map(item => item.day))].sort((a,b)=>a-b);
         uniqueDays.forEach(day => {
             const option = document.createElement('option');
@@ -221,7 +208,6 @@
             daySelect.appendChild(option);
         });
         
-        // 기본 렌더링
         renderContent();
     }
 
@@ -245,16 +231,14 @@
         return sentence.replace(regex, '<b>$1</b>');
     }
 
-    // 통합 렌더링 함수
     function renderContent() {
-        window.scrollTo(0, 0); // 스크롤 맨 위로 초기화
+        window.scrollTo(0, 0);
 
         const selectedValue = daySelect.value;
         wordList.innerHTML = '';
         let dataToRender = [];
         let isGrammar = false;
 
-        // 선택된 값에 따라 데이터 소스 결정
         if (selectedValue === "g_struct") {
             dataToRender = grammarData.structure;
             themeDisplay.innerText = "문장구성성분 (주·동·목·보·수)";
@@ -276,7 +260,6 @@
             themeDisplay.style.display = 'block';
             isGrammar = true;
         } else {
-            // Day 선택인 경우
             const selectedDay = parseInt(selectedValue);
             dataToRender = vocaData.filter(item => item.day === selectedDay);
             
@@ -288,12 +271,10 @@
             }
         }
         
-        // 카드 생성 루프
         dataToRender.forEach((item) => {
             const card = document.createElement('div');
             card.className = 'word-card';
             
-            // 문법이 아닐 때만 체크박스 상태 로드
             if (!isGrammar) {
                 const storageKey = `d${item.day}_n${item.num}`;
                 if(localStorage.getItem(storageKey) === 'true') card.classList.add('checked');
@@ -301,29 +282,42 @@
 
             let definitionsHTML = '';
             
-            // 정의(Definitions) 렌더링
             if (item.definitions && item.definitions.length > 0) {
                 definitionsHTML = `<div class="def-container">`;
                 item.definitions.forEach(def => {
                     let exampleBlock = '';
-                    
-                    // 문법 설명(기능/위치) 박스
                     let descBlock = '';
+                    
                     if (def.desc) {
                         descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
                     }
 
                     if (def.example) {
-                        let hlEx = def.example;
-                        // 문법이 아닐때만 자동 하이라이트 (문법은 데이터 자체에 볼드 태그가 있음)
+                        // 1. 문법/단어 예문 텍스트 준비
+                        let enText = def.example;
+                        let krText = def.ex_meaning || "";
+
+                        // 단어장의 경우 자동 하이라이트 적용
                         if(!isGrammar) {
-                             hlEx = highlightWord(def.example, item.word.split(' ')[0]); 
+                             enText = highlightWord(def.example, item.word.split(' ')[0]); 
                         }
+
+                        // 2. 예문이 여러 줄(<br>)인 경우 쪼개서 지그재그 배치
+                        // (영어1 - 한글1 - 영어2 - 한글2 순서)
+                        let enLines = enText.split('<br>');
+                        let krLines = krText.split('<br>');
                         
+                        let interleavedHTML = "";
+                        let maxLines = Math.max(enLines.length, krLines.length);
+
+                        for(let i=0; i<maxLines; i++) {
+                            if(enLines[i]) interleavedHTML += `<div class="en-example">${enLines[i]}</div>`;
+                            if(krLines[i]) interleavedHTML += `<div class="kr-example" onclick="this.classList.toggle('revealed')">${krLines[i]}</div>`;
+                        }
+
                         exampleBlock = `
                             <div class="example-box">
-                                <div class="en-example">${hlEx}</div>
-                                <div class="kr-example" onclick="this.classList.toggle('revealed')">${def.ex_meaning || ''}</div>
+                                ${interleavedHTML}
                             </div>
                         `;
                     }
@@ -342,7 +336,6 @@
                 definitionsHTML += `</div>`;
             }
 
-            // 파생어(Derivatives) 렌더링
             let derivativesHTML = '';
             if (item.derivatives && item.derivatives.length > 0) {
                 let itemsHTML = item.derivatives.map(deriv => {
@@ -376,7 +369,6 @@
                 `;
             }
 
-            // 체크 영역 (문법일 경우 숨김 처리)
             const checkAreaHTML = isGrammar ? '' : `
                 <div class="check-area" onclick="toggleCheck(this, ${item.day}, ${item.num})">
                     <span class="check-icon">✔</span>
@@ -411,12 +403,10 @@
     }
 
     function updateProgress() {
-        // 문법 모드일 때는 진행률 바 0% 처리
         if (daySelect.value.startsWith("g_")) {
             progressBar.style.width = '0%';
             return;
         }
-
         const total = wordList.children.length;
         const checkedCount = document.querySelectorAll('.word-card.checked').length;
         const percentage = total === 0 ? 0 : (checkedCount / total) * 100;
