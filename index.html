@@ -20,16 +20,16 @@
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         
-        /* 로고 스타일 수정 (클릭 가능하게 변경) */
+        /* 로고 클릭 스타일 */
         h1 { 
             margin: 0; 
             font-size: 18px; 
             font-weight: 800; 
             color: #000; 
-            cursor: pointer; /* 마우스 올리면 손가락 모양 */
+            cursor: pointer; 
             transition: opacity 0.2s;
         }
-        h1:hover { opacity: 0.7; } /* 마우스 올렸을 때 살짝 흐려짐 효과 */
+        h1:hover { opacity: 0.7; }
         
         /* 컨트롤 영역 */
         .controls { display: flex; gap: 5px; }
@@ -190,14 +190,19 @@
         optStruct.innerText = "1. 기초: 문장구성성분";
         daySelect.appendChild(optStruct);
 
+        const optPatterns = document.createElement('option');
+        optPatterns.value = "g_patterns";
+        optPatterns.innerText = "2. 기초: 문장의 5형식";
+        daySelect.appendChild(optPatterns);
+
         const optParts = document.createElement('option');
         optParts.value = "g_parts";
-        optParts.innerText = "2. 기초: 8품사";
+        optParts.innerText = "3. 기초: 8품사";
         daySelect.appendChild(optParts);
 
         const optVerbals = document.createElement('option');
         optVerbals.value = "g_verbals";
-        optVerbals.innerText = "3. 기초: 준동사 (동사 변형)";
+        optVerbals.innerText = "4. 기초: 준동사 (동사 변형)";
         daySelect.appendChild(optVerbals);
 
         // 2. 구분선 추가
@@ -220,10 +225,9 @@
         renderContent();
     }
 
-    // [기능 추가] 로고 클릭 시 Day 1으로 이동 및 스크롤 초기화
     function goToDayOne() {
-        daySelect.value = "1"; // Day 1 선택
-        renderContent(); // 화면 갱신
+        daySelect.value = "1";
+        renderContent();
     }
 
     function toggleMode() {
@@ -243,8 +247,7 @@
 
     // 통합 렌더링 함수
     function renderContent() {
-        // [기능 추가] 콘텐츠가 바뀔 때마다 스크롤을 맨 위로 이동
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0); // 스크롤 맨 위로 초기화
 
         const selectedValue = daySelect.value;
         wordList.innerHTML = '';
@@ -255,6 +258,11 @@
         if (selectedValue === "g_struct") {
             dataToRender = grammarData.structure;
             themeDisplay.innerText = "문장구성성분 (주·동·목·보·수)";
+            themeDisplay.style.display = 'block';
+            isGrammar = true;
+        } else if (selectedValue === "g_patterns") {
+            dataToRender = grammarData.patterns;
+            themeDisplay.innerText = "문장의 5형식 (1형식 ~ 5형식)";
             themeDisplay.style.display = 'block';
             isGrammar = true;
         } else if (selectedValue === "g_parts") {
@@ -307,7 +315,7 @@
 
                     if (def.example) {
                         let hlEx = def.example;
-                        // 문법이 아닐때만 자동 하이라이트
+                        // 문법이 아닐때만 자동 하이라이트 (문법은 데이터 자체에 볼드 태그가 있음)
                         if(!isGrammar) {
                              hlEx = highlightWord(def.example, item.word.split(' ')[0]); 
                         }

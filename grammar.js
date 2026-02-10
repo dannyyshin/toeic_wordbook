@@ -68,7 +68,90 @@ const grammarData = {
         }
     ],
 
-    // 2. 8품사 (예문 2개씩 추가됨)
+    // 2. 문장의 5형식 (새로 추가됨)
+    patterns: [
+        {
+            num: 1,
+            word: "1형식 (S + V)",
+            definitions: [
+                {
+                    pos: "S + V",
+                    meaning: "주어가 ~한다. (가장 단순한 구조)",
+                    desc: "핵심: <b>자동사</b> (목적어 필요 없음). 문장이 길다면 수식어(부사, 전치사구) 때문입니다.<br>주요 동사: go, come, arrive, rise, fall, work, happen, disappear",
+                    example: "The stock market <b>fell</b>.<br>I <b>work</b> [at Joheun Chaek Sinsago].",
+                    ex_meaning: "주식 시장이 <b>떨어졌다</b>.<br>나는 [좋은책신사고에서] <b>일한다</b>."
+                }
+            ]
+        },
+        {
+            num: 2,
+            word: "2형식 (S + V + S.C)",
+            definitions: [
+                {
+                    pos: "S + V + S.C",
+                    meaning: "주어는 (보어)이다/하게 되다/느껴지다. (주어 = 보어)",
+                    desc: "핵심: <b>불완전 자동사</b>. 보어 자리에 명사/형용사만 가능 (부사 불가).<br>주요 동사: be, become, remain, seem, look, sound, smell, taste, feel",
+                    example: "He <b>is</b> a web designer.<br>The investment <b>looks</b> promising.",
+                    ex_meaning: "그는 웹 디자이너<b>이다</b>. (신분)<br>그 투자는 유망해 <b>보인다</b>. (상태)"
+                }
+            ]
+        },
+        {
+            num: 3,
+            word: "3형식 (S + V + O)",
+            definitions: [
+                {
+                    pos: "S + V + O",
+                    meaning: "주어가 (목적어)를 ~한다. (가장 흔한 문장)",
+                    desc: "핵심: <b>타동사</b>. 대상이 되는 목적어(~을/를)가 반드시 필요.<br>주요 동사: make, study, discuss, reach, attend, want, hope",
+                    example: "I <b>study English</b> every day.<br>She <b>wants to quit</b> her job.",
+                    ex_meaning: "나는 매일 <b>영어를 공부한다</b>.<br>그녀는 <b>일 그만두기를 원한다</b>."
+                }
+            ]
+        },
+        {
+            num: 4,
+            word: "4형식 (S + V + I.O + D.O)",
+            definitions: [
+                {
+                    pos: "S + V + I.O + D.O",
+                    meaning: "주어가 (누구)에게 (무엇)을 주다.",
+                    desc: "핵심: <b>수여동사</b>. 목적어가 2개 (사람 + 물건 순서).<br>주요 동사: give, send, show, teach, tell, buy, make",
+                    example: "He <b>gave me a refund</b>.<br>Please <b>show me your ID card</b>.",
+                    ex_meaning: "그는 <b>나에게 환불을</b> 해주었다.<br><b>나에게 신분증을</b> 보여주세요."
+                },
+                {
+                    pos: "3형식 전환",
+                    meaning: "4형식을 3형식으로 바꿀 때 (사람을 뒤로 보낼 때)",
+                    desc: "<b>to</b>: give, send, show, teach, tell<br><b>for</b>: buy, make, get, cook<br><b>of</b>: ask",
+                    example: "I sent the file <b>to him</b>.<br>I bought a gift <b>for my wife</b>.",
+                    ex_meaning: "나는 파일을 <b>그에게</b> 보냈다.<br>나는 선물을 <b>아내를 위해</b> 샀다."
+                }
+            ]
+        },
+        {
+            num: 5,
+            word: "5형식 (S + V + O + O.C)",
+            definitions: [
+                {
+                    pos: "S + V + O + O.C",
+                    meaning: "주어는 (목적어)가 (보어)라고 생각하다/하게 만들다.",
+                    desc: "핵심: 목적어와 보어 사이에 <b>주어-서술어 관계</b> 성립 (O = O.C 또는 O가 O.C하다).<br>주요 동사: make, keep, find, consider, call, allow, expect",
+                    example: "You <b>make me happy</b>.<br>They <b>call him a genius</b>.",
+                    ex_meaning: "너는 <b>나를 행복하게</b> 만든다.<br>그들은 <b>그를 천재라고</b> 부른다."
+                },
+                {
+                    pos: "행동 유발 (O.C가 동사)",
+                    meaning: "목적어가 ~한 행동을 하도록 하다",
+                    desc: "<b>to부정사</b>: order, allow, expect, ask<br><b>동사원형</b>: 지각동사(see, hear), 사역동사(make, have, let)",
+                    example: "The manager ordered him <b>to leave</b>.<br>I saw him <b>enter</b> the room.",
+                    ex_meaning: "매니저는 그에게 <b>나가라고</b> 명령했다.<br>나는 그가 <b>들어가는 것을</b> 보았다."
+                }
+            ]
+        }
+    ],
+
+    // 3. 8품사 (순서 변경됨)
     parts: [
         {
             num: 1,
@@ -176,7 +259,7 @@ const grammarData = {
         }
     ],
 
-    // 3. 준동사 (동명사 보어 역할 추가됨)
+    // 4. 준동사
     verbals: [
         {
             num: 1,
