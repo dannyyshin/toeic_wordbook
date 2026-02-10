@@ -1,5 +1,5 @@
 const grammarData = {
-    // 1. 문장 구성 성분 (요약표 추가 및 타이틀 한글(영어)로 통일)
+    // 1. 문장 구성 성분
     structure: [
         {
             num: 0,
@@ -111,7 +111,7 @@ const grammarData = {
         }
     ],
 
-    // 2. 문장의 5형식 (타이틀 한글 우선 표기)
+    // 2. 문장의 5형식 (5형식 보어 범위 수정됨)
     patterns: [
         {
             num: 1,
@@ -230,16 +230,16 @@ const grammarData = {
                 },
                 {
                     pos: "행동 유발 (O.C가 동사)",
-                    meaning: "목적어가 ~한 행동을 하도록 하다",
+                    meaning: "목적어가 ~한 행동을 하도록 하다 (보어 전체 범위)",
                     desc: "<b>to부정사</b>: order, allow, expect, ask<br><b>동사원형</b>: 지각동사(see, hear), 사역동사(make, have, let)",
-                    example: "The manager <span class='v'>ordered</span> <span class='o'>him</span> <span class='c'>to leave</span>.<br><span class='s'>I</span> <span class='v'>saw</span> <span class='o'>him</span> <span class='c'>enter</span> the room.",
-                    ex_meaning: "매니저는 <span class='o'>그에게</span> <span class='c'>나가라고</span> <span class='v'>명령했다</span>.<br><span class='s'>나는</span> <span class='o'>그가</span> <span class='c'>들어가는 것을</span> <span class='v'>보았다</span>."
+                    example: "The manager <span class='v'>ordered</span> <span class='o'>him</span> <span class='c'>to leave</span>.<br><span class='s'>I</span> <span class='v'>saw</span> <span class='o'>him</span> <span class='c'>enter the room</span>.",
+                    ex_meaning: "매니저는 <span class='o'>그에게</span> <span class='c'>나가라고</span> <span class='v'>명령했다</span>.<br><span class='s'>나는</span> <span class='o'>그가</span> <span class='c'>방에 들어가는 것을</span> <span class='v'>보았다</span>."
                 }
             ]
         }
     ],
 
-    // 3. 8품사 (타이틀 한글(영어)로 변경됨)
+    // 3. 8품사
     parts: [
         {
             num: 1,
@@ -347,7 +347,7 @@ const grammarData = {
         }
     ],
 
-    // 4. 준동사 (타이틀 한글(영어)로 변경됨)
+    // 4. 준동사
     verbals: [
         {
             num: 1,
