@@ -1,14 +1,57 @@
 const grammarData = {
-    // 1. 문장 구성 성분
+    // 1. 문장 구성 성분 (요약표 추가 및 타이틀 한글(영어)로 통일)
     structure: [
         {
+            num: 0,
+            word: "문장성분 요약(Summary)",
+            definitions: [
+                {
+                    pos: "개요",
+                    meaning: "문장을 이루는 필수 요소와 수식 요소",
+                    desc: `
+                        <table style="width:100%; border-collapse: collapse; font-size:14px; text-align:center; margin-top:5px;">
+                            <tr style="background:#f4f4f4; border-bottom:2px solid #ddd;">
+                                <th style="padding:8px; width:30%;">성분</th>
+                                <th style="padding:8px;">역할</th>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px; border-bottom:1px solid #eee;"><span class="s">주어(S)</span></td>
+                                <td style="padding:8px; border-bottom:1px solid #eee; text-align:left;">동작의 주체 (주인공)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px; border-bottom:1px solid #eee;"><span class="v">동사(V)</span></td>
+                                <td style="padding:8px; border-bottom:1px solid #eee; text-align:left;">동작이나 상태 서술</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px; border-bottom:1px solid #eee;"><span class="o">목적어(O)</span></td>
+                                <td style="padding:8px; border-bottom:1px solid #eee; text-align:left;">동작의 대상</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px; border-bottom:1px solid #eee;"><span class="c">보어(C)</span></td>
+                                <td style="padding:8px; border-bottom:1px solid #eee; text-align:left;">주어/목적어 보충 설명</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px; color:#888;">수식어(M)</td>
+                                <td style="padding:8px; text-align:left; color:#666;">꾸며주는 말 (생략 가능)</td>
+                            </tr>
+                        </table>
+                        <br>
+                        ※ <b>필수 문장성분</b>: 주어(S), 동사(V), 목적어(O), 보어(C)<br>
+                        ※ 수식어(M)는 문장의 형식을 결정짓지 않는 <b>부가 성분</b>입니다.
+                    `,
+                    example: "",
+                    ex_meaning: ""
+                }
+            ]
+        },
+        {
             num: 1,
-            word: "Subject (주어)",
+            word: "주어(Subject)",
             definitions: [
                 {
                     pos: "S",
-                    meaning: "문장의 주체가 되는 말. 우리말의 '은/는/이/가'가 붙습니다.",
-                    desc: "기능: 문장 맨 앞에 위치합니다. 명사(N)만 이 자리에 올 수 있습니다.",
+                    meaning: "문장의 주인공, 동작을 행하는 주체",
+                    desc: "기능: 문장 맨 앞에 위치합니다. <b>명사(Noun)</b>만 이 자리에 올 수 있습니다. 우리말 '은/는/이/가'가 붙습니다.",
                     example: "<span class='s'>The manager</span> hired a new employee.",
                     ex_meaning: "<span class='s'>그 매니저는</span> 새 직원을 고용했다."
                 }
@@ -16,12 +59,12 @@ const grammarData = {
         },
         {
             num: 2,
-            word: "Verb (동사)",
+            word: "동사(Verb)",
             definitions: [
                 {
                     pos: "V",
-                    meaning: "주어의 동작이나 상태를 서술하는 말. 우리말의 '~다'로 끝납니다.",
-                    desc: "기능: 주어 뒤에 위치합니다. 문장의 결론을 내립니다.",
+                    meaning: "주어의 동작이나 상태를 나타내는 서술어",
+                    desc: "기능: 주어 뒤에 위치합니다. 문장의 결론을 내립니다. 우리말 '~다'로 끝납니다.",
                     example: "The sales <span class='v'>increased</span> significantly.",
                     ex_meaning: "매출이 상당히 <span class='v'>증가했다</span>."
                 }
@@ -29,12 +72,12 @@ const grammarData = {
         },
         {
             num: 3,
-            word: "Object (목적어)",
+            word: "목적어(Object)",
             definitions: [
                 {
                     pos: "O",
-                    meaning: "동사가 하는 행동의 대상. 우리말의 '을/를'이 붙습니다.",
-                    desc: "기능: 타동사 뒤에 옵니다. 명사(N)만 이 자리에 올 수 있습니다.",
+                    meaning: "동사가 하는 행동의 대상",
+                    desc: "기능: 타동사(목적어가 필요한 동사) 뒤에 옵니다. <b>명사(Noun)</b>만 가능합니다. 우리말 '을/를'이 붙습니다.",
                     example: "We attended <span class='o'>the seminar</span>.",
                     ex_meaning: "우리는 <span class='o'>세미나에</span> 참석했다."
                 }
@@ -42,12 +85,12 @@ const grammarData = {
         },
         {
             num: 4,
-            word: "Complement (보어)",
+            word: "보어(Complement)",
             definitions: [
                 {
                     pos: "C",
-                    meaning: "주어(S)나 목적어(O)에 대한 보충 설명. 'A는 B이다'(A=B) 관계가 성립합니다.",
-                    desc: "기능: 명사(N) 또는 형용사(a)가 이 자리에 옵니다. (부사는 절대 불가)",
+                    meaning: "주어 또는 목적어를 보충 설명해주는 말",
+                    desc: "기능: <b>명사(Noun)</b> 또는 <b>형용사(Adjective)</b>가 옵니다. (부사는 절대 불가). 'A는 B이다'(A=B) 관계가 성립합니다.",
                     example: "The report is <span class='c'>informative</span>.",
                     ex_meaning: "그 보고서는 <span class='c'>유익하다</span>. (보고서=유익함)"
                 }
@@ -55,12 +98,12 @@ const grammarData = {
         },
         {
             num: 5,
-            word: "Modifier (수식어)",
+            word: "수식어(Modifier)",
             definitions: [
                 {
                     pos: "M",
-                    meaning: "문장 성분(S,V,O,C)을 제외한 나머지 꾸며주는 말들입니다.",
-                    desc: "기능: 문장에서 지워버려도 문법적으로 틀리지 않습니다. 주로 부사(ad)나 전치사구가 해당됩니다.",
+                    meaning: "다른 문장성분을 꾸며주는 역할 (필수 성분 아님)",
+                    desc: "기능: 문장에서 지워버려도 문법적으로 틀리지 않습니다. 주로 <b>부사(Adverb)</b>나 <b>전치사구</b>가 해당됩니다.",
                     example: "Please review the file <b>carefully</b>.",
                     ex_meaning: "파일을 <b>주의 깊게</b> 검토해 주세요."
                 }
@@ -68,7 +111,7 @@ const grammarData = {
         }
     ],
 
-    // 2. 문장의 5형식
+    // 2. 문장의 5형식 (타이틀 한글 우선 표기)
     patterns: [
         {
             num: 1,
@@ -111,7 +154,7 @@ const grammarData = {
         },
         {
             num: 4,
-            word: "4형식 주어(S) + 동사(V) + 간접목적어(I.O) + 직접목적어(D.O)",
+            word: "4형식 주어(S) + 동사(V) + I.O + D.O",
             definitions: [
                 {
                     pos: "S + V + O + O",
@@ -121,11 +164,56 @@ const grammarData = {
                     ex_meaning: "<span class='s'>그는</span> <span class='o'>나에게</span> <span class='o'>환불을</span> <span class='v'>해주었다</span>.<br><span class='o'>저에게</span> <span class='o'>당신의 신분증을</span> <span class='v'>보여주세요</span>."
                 },
                 {
-                    pos: "3형식 전환",
-                    meaning: "4형식을 3형식으로 바꿀 때 (사람을 뒤로 보낼 때 전치사 사용)",
-                    desc: "<b>to</b>: give, send, show, teach, tell<br><b>for</b>: buy, make, get, cook<br><b>of</b>: ask",
+                    pos: "3형식 전환 규칙",
+                    meaning: "4형식을 3형식으로 바꿀 때 전치사 규칙",
+                    desc: "<b>to</b>: give, send, show, teach, tell (방향)<br><b>for</b>: buy, make, get, cook (정성)<br><b>of</b>: ask (질문)",
                     example: "<span class='s'>I</span> <span class='v'>sent</span> <span class='o'>the file</span> <b>to him</b>.<br><span class='s'>I</span> <span class='v'>bought</span> <span class='o'>a gift</span> <b>for my wife</b>.",
                     ex_meaning: "<span class='s'>나는</span> <span class='o'>파일을</span> <b>그에게</b> <span class='v'>보냈다</span>.<br><span class='s'>나는</span> <span class='o'>선물을</span> <b>아내를 위해</b> <span class='v'>샀다</span>."
+                },
+                {
+                    pos: "실전 전환 연습 (Sets)",
+                    meaning: "의미는 같지만 어순이 다른 3, 4형식 연습",
+                    desc: "사람이 뒤로 가면 전치사(to, for)가 붙는 것을 확인하세요.<br>(관광통역안내사, 토익 필수 구문)",
+                    example: 
+                        "<b>[Set 1. Send]</b><br>" +
+                        "4형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>me</span> <span class='o'>an email</span>.<br>" +
+                        "3형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>an email</span> <b>to me</b>.<br><br>" +
+                        
+                        "<b>[Set 2. Make]</b><br>" +
+                        "4형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>him</span> <span class='o'>a cup of coffee</span>.<br>" +
+                        "3형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>a cup of coffee</span> <b>for him</b>.<br><br>" +
+                        
+                        "<b>[Set 3. Show]</b><br>" +
+                        "4형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>tourists</span> <span class='o'>the palace</span>.<br>" +
+                        "3형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>the palace</span> <b>to tourists</b>.<br><br>" +
+                        
+                        "<b>[Set 4. Cook]</b><br>" +
+                        "4형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>us</span> <span class='o'>a delicious dinner</span>.<br>" +
+                        "3형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>a delicious dinner</span> <b>for us</b>.<br><br>" +
+                        
+                        "<b>[Set 5. Teach]</b><br>" +
+                        "4형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>students</span> <span class='o'>English grammar</span>.<br>" +
+                        "3형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>English grammar</span> <b>to students</b>.",
+                    ex_meaning: 
+                        "(방향성: ~에게 보내다)<br>" +
+                        "그녀는 <b>나에게 이메일을</b> 보냈다.<br>" +
+                        "그녀는 이메일을 보냈다 / <b>나에게</b>.<br><br>" +
+                        
+                        "(정성: ~를 위해 만들어주다)<br>" +
+                        "나는 <b>그에게 커피를</b> 만들어 주었다.<br>" +
+                        "나는 커피를 만들었다 / <b>그를 위해서</b>.<br><br>" +
+                        
+                        "(방향성: ~에게 보여주다)<br>" +
+                        "가이드는 <b>관광객들에게 궁궐을</b> 보여주었다.<br>" +
+                        "가이드는 궁궐을 보여주었다 / <b>관광객들에게</b>.<br><br>" +
+                        
+                        "(정성: ~를 위해 요리해주다)<br>" +
+                        "내 아내는 <b>우리에게 저녁을</b> 요리해 주었다.<br>" +
+                        "내 아내는 저녁을 요리했다 / <b>우리를 위해서</b>.<br><br>" +
+                        
+                        "(방향성: ~에게 가르쳐주다)<br>" +
+                        "그는 <b>학생들에게 문법을</b> 가르친다.<br>" +
+                        "그는 문법을 가르친다 / <b>학생들에게</b>."
                 }
             ]
         },
@@ -151,11 +239,11 @@ const grammarData = {
         }
     ],
 
-    // 3. 8품사 (변동 없음)
+    // 3. 8품사 (타이틀 한글(영어)로 변경됨)
     parts: [
         {
             num: 1,
-            word: "Noun (명사)",
+            word: "명사(Noun)",
             definitions: [
                 {
                     pos: "n.",
@@ -168,7 +256,7 @@ const grammarData = {
         },
         {
             num: 2,
-            word: "Pronoun (대명사)",
+            word: "대명사(Pronoun)",
             definitions: [
                 {
                     pos: "pron.",
@@ -181,7 +269,7 @@ const grammarData = {
         },
         {
             num: 3,
-            word: "Verb (동사)",
+            word: "동사(Verb)",
             definitions: [
                 {
                     pos: "v.",
@@ -194,7 +282,7 @@ const grammarData = {
         },
         {
             num: 4,
-            word: "Adjective (형용사)",
+            word: "형용사(Adjective)",
             definitions: [
                 {
                     pos: "adj.",
@@ -207,7 +295,7 @@ const grammarData = {
         },
         {
             num: 5,
-            word: "Adverb (부사)",
+            word: "부사(Adverb)",
             definitions: [
                 {
                     pos: "adv.",
@@ -220,7 +308,7 @@ const grammarData = {
         },
         {
             num: 6,
-            word: "Preposition (전치사)",
+            word: "전치사(Preposition)",
             definitions: [
                 {
                     pos: "prep.",
@@ -233,7 +321,7 @@ const grammarData = {
         },
         {
             num: 7,
-            word: "Conjunction (접속사)",
+            word: "접속사(Conjunction)",
             definitions: [
                 {
                     pos: "conj.",
@@ -246,7 +334,7 @@ const grammarData = {
         },
         {
             num: 8,
-            word: "Interjection (감탄사)",
+            word: "감탄사(Interjection)",
             definitions: [
                 {
                     pos: "interj.",
@@ -259,11 +347,11 @@ const grammarData = {
         }
     ],
 
-    // 4. 준동사 (변동 없음)
+    // 4. 준동사 (타이틀 한글(영어)로 변경됨)
     verbals: [
         {
             num: 1,
-            word: "to-Infinitive (to부정사)",
+            word: "to부정사(to-Infinitive)",
             definitions: [
                 {
                     pos: "명사적 용법",
@@ -290,7 +378,7 @@ const grammarData = {
         },
         {
             num: 2,
-            word: "Gerund (동명사)",
+            word: "동명사(Gerund)",
             definitions: [
                 {
                     pos: "주어 역할",
@@ -317,7 +405,7 @@ const grammarData = {
         },
         {
             num: 3,
-            word: "Participle (분사)",
+            word: "분사(Participle)",
             definitions: [
                 {
                     pos: "현재분사",
