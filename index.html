@@ -38,7 +38,7 @@
         
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
-        /* 단어 카드 스타일 (문법도 이 스타일을 공유) */
+        /* 단어/문법 카드 스타일 */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
         
@@ -46,13 +46,26 @@
         .num-badge { background: #000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px; align-self: center; }
         .en-word { font-size: 28px; font-weight: 900; color: #000; letter-spacing: -0.5px; line-height: 1; }
         
-        /* 책 스타일 정의(Definition) 섹션 */
+        /* 정의(Definition) 섹션 */
         .def-container { display: flex; flex-direction: column; gap: 15px; }
         .def-row { position: relative; padding-left: 15px; }
         .def-bullet { position: absolute; left: 0; top: 8px; width: 8px; height: 8px; background-color: #8BC34A; border-radius: 50%; }
         .def-header { margin-bottom: 4px; display: flex; align-items: baseline; flex-wrap: wrap; }
         .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; font-family: 'Roboto', sans-serif; }
         .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
+
+        /* 문법 기능/설명 박스 스타일 (추가됨) */
+        .desc-box {
+            background-color: #E3F2FD;
+            border-left: 3px solid #2196F3;
+            padding: 8px 10px;
+            margin: 5px 0 10px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #0D47A1;
+            font-weight: 600;
+            line-height: 1.4;
+        }
 
         /* 예문 스타일 */
         .example-box { margin-top: 4px; padding-left: 0; }
@@ -61,7 +74,7 @@
         
         b { background-color: #fff9c4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; }
 
-        /* [파] 파생어 섹션 스타일 */
+        /* 파생어 섹션 스타일 */
         .deriv-section { margin-top: 20px; background-color: #F1F3F5; border-left: 4px solid #CED4DA; border-radius: 4px; padding: 12px; }
         .deriv-item { margin-bottom: 12px; }
         .deriv-item:last-child { margin-bottom: 0; }
@@ -72,13 +85,14 @@
         .deriv-meaning { font-size: 14px; color: #444; font-weight: 600; margin-left: 5px; cursor: pointer;}
 
         /* 뜻 가리기 모드 */
-        .hide-mode .def-meaning, .hide-mode .kr-example, .hide-mode .deriv-meaning, 
+        .hide-mode .def-meaning, .hide-mode .kr-example, .hide-mode .deriv-meaning, .hide-mode .desc-box,
         .hide-mode .deriv-section .kr-example, .hide-mode .simple-meaning { 
             background-color: #eee; color: transparent; border-radius: 4px; cursor: pointer; user-select: none; 
         }
         .hide-mode .def-meaning:active, .hide-mode .def-meaning.revealed,
         .hide-mode .kr-example:active, .hide-mode .kr-example.revealed,
         .hide-mode .deriv-meaning:active, .hide-mode .deriv-meaning.revealed,
+        .hide-mode .desc-box:active, .hide-mode .desc-box.revealed,
         .hide-mode .simple-meaning:active, .hide-mode .simple-meaning.revealed { 
             background-color: transparent; color: inherit; 
         }
@@ -163,13 +177,18 @@
         // 1. 문법 옵션 추가 (맨 위)
         const optStruct = document.createElement('option');
         optStruct.value = "g_struct";
-        optStruct.innerText = "기초: 문장구성성분";
+        optStruct.innerText = "1. 기초: 문장구성성분";
         daySelect.appendChild(optStruct);
 
         const optParts = document.createElement('option');
         optParts.value = "g_parts";
-        optParts.innerText = "기초: 8품사";
+        optParts.innerText = "2. 기초: 8품사";
         daySelect.appendChild(optParts);
+
+        const optVerbals = document.createElement('option');
+        optVerbals.value = "g_verbals";
+        optVerbals.innerText = "3. 기초: 준동사 (동사 변형)";
+        daySelect.appendChild(optVerbals);
 
         // 2. 구분선 추가
         const optSep = document.createElement('option');
@@ -224,6 +243,11 @@
             themeDisplay.innerText = "8품사 (형·부·대·전·명·접·감·동)";
             themeDisplay.style.display = 'block';
             isGrammar = true;
+        } else if (selectedValue === "g_verbals") {
+            dataToRender = grammarData.verbals;
+            themeDisplay.innerText = "준동사 (동사 출신 변형)";
+            themeDisplay.style.display = 'block';
+            isGrammar = true;
         } else {
             // Day 선택인 경우
             const selectedDay = parseInt(selectedValue);
@@ -255,10 +279,22 @@
                 definitionsHTML = `<div class="def-container">`;
                 item.definitions.forEach(def => {
                     let exampleBlock = '';
+                    
+                    // 문법 설명(기능/위치) 박스 - desc가 있을 때만 표시
+                    let descBlock = '';
+                    if (def.desc) {
+                        descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
+                    }
+
                     if (def.example) {
                         // 문법 예문에는 단어 하이라이트 로직이 안 맞을 수 있으므로 단순 표시하거나 
                         // 필요 시 특정 단어를 강조할 수 있음. 여기선 기본 하이라이트 적용.
-                        const hlEx = highlightWord(def.example, item.word.split(' ')[0]); // 문법 제목이 길면 첫 단어만
+                        let hlEx = def.example;
+                        // 문법이 아닐때만 자동 하이라이트 (문법은 문장 전체가 중요할 수 있음)
+                        if(!isGrammar) {
+                             hlEx = highlightWord(def.example, item.word.split(' ')[0]); 
+                        }
+                        
                         exampleBlock = `
                             <div class="example-box">
                                 <div class="en-example">${hlEx}</div>
@@ -273,6 +309,7 @@
                                 <span class="def-pos">${def.pos}</span>
                                 <span class="def-meaning" onclick="this.classList.toggle('revealed')">${def.meaning}</span>
                             </div>
+                            ${descBlock}
                             ${exampleBlock}
                         </div>
                     `;
@@ -314,7 +351,7 @@
                 `;
             }
 
-            // 체크 영역 (문법일 경우 숨김 처리하거나 기능 끔)
+            // 체크 영역 (문법일 경우 숨김 처리)
             const checkAreaHTML = isGrammar ? '' : `
                 <div class="check-area" onclick="toggleCheck(this, ${item.day}, ${item.num})">
                     <span class="check-icon">✔</span>
@@ -350,7 +387,7 @@
 
     function updateProgress() {
         // 문법 모드일 때는 진행률 바 0% 처리
-        if (daySelect.value === "g_struct" || daySelect.value === "g_parts") {
+        if (daySelect.value.startsWith("g_")) {
             progressBar.style.width = '0%';
             return;
         }

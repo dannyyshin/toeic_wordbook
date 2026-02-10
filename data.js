@@ -10810,5 +10810,3504 @@ const vocaData = [
       }
     ]
   },
+// ==========================================
+  // Day 14: 여행, 항공 (Travel & Airlines)
+  // ==========================================
+  {
+    day: 14,
+    num: 1,
+    word: "international",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "국제적인",
+        example: "International flight.",
+        ex_meaning: "국제선 항공편."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 2,
+    word: "attraction",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "관광 명소",
+        example: "Tourist attraction.",
+        ex_meaning: "관광 명소."
+      }
+    ],
+    derivatives: [
+      {
+        word: "attract",
+        pos: "v.",
+        meaning: "끌다, 유인하다",
+        example: "Attract visitors.",
+        ex_meaning: "방문객을 유치하다."
+      },
+      {
+        word: "attractive",
+        pos: "adj.",
+        meaning: "매력적인",
+        example: "Attractive price.",
+        ex_meaning: "매력적인 가격."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 3,
+    word: "itinerary",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "여행 일정",
+        example: "Travel itinerary.",
+        ex_meaning: "여행 일정."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 4,
+    word: "exotic",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "이국적인, 매혹적인",
+        example: "Exotic places.",
+        ex_meaning: "이국적인 장소들."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 5,
+    word: "diverse",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "다양한",
+        example: "Diverse culture.",
+        ex_meaning: "다양한 문화."
+      }
+    ],
+    derivatives: [
+      {
+        word: "diversify",
+        pos: "v.",
+        meaning: "다양화하다",
+        example: "Diversify the business.",
+        ex_meaning: "사업을 다양화하다."
+      },
+      {
+        word: "diversity",
+        pos: "n.",
+        meaning: "다양성",
+        example: "Cultural diversity.",
+        ex_meaning: "문화적 다양성."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 6,
+    word: "superb",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "최고의, 뛰어난",
+        example: "Superb service.",
+        ex_meaning: "최고의 서비스."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 7,
+    word: "baggage",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "수하물",
+        example: "Baggage claim.",
+        ex_meaning: "수하물 찾는 곳."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 8,
+    word: "destination",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "목적지",
+        example: "Final destination.",
+        ex_meaning: "최종 목적지."
+      }
+    ],
+    derivatives: [
+      {
+        word: "destine",
+        pos: "v.",
+        meaning: "(운명으로) 정해지다",
+        example: "Destined to succeed.",
+        ex_meaning: "성공할 운명인."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 9,
+    word: "missing",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "분실된, 없어진",
+        example: "Missing luggage.",
+        ex_meaning: "분실된 짐."
+      }
+    ],
+    derivatives: [
+      {
+        word: "miss",
+        pos: "v.",
+        meaning: "놓치다; 그리워하다",
+        example: "Miss the flight.",
+        ex_meaning: "비행기를 놓치다."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 10,
+    word: "locate",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(위치를) 찾아내다; ~에 위치하다",
+        example: "Locate the store.",
+        ex_meaning: "가게 위치를 찾다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "location",
+        pos: "n.",
+        meaning: "위치, 장소",
+        example: "Strategic location.",
+        ex_meaning: "전략적 위치."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 11,
+    word: "approximately",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "대략",
+        example: "Approximately one hour.",
+        ex_meaning: "대략 한 시간."
+      }
+    ],
+    derivatives: [
+      {
+        word: "approximate",
+        pos: "adj.",
+        meaning: "대략적인",
+        example: "Approximate cost.",
+        ex_meaning: "대략적인 비용."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 12,
+    word: "duty",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "관세, 세금; 의무",
+        example: "Duty-free shop.",
+        ex_meaning: "면세점."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 13,
+    word: "process",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "과정",
+        example: "A complex process.",
+        ex_meaning: "복잡한 과정."
+      },
+      {
+        pos: "v.",
+        meaning: "처리하다",
+        example: "Process the visa.",
+        ex_meaning: "비자를 처리하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 14,
+    word: "board",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "탑승하다",
+        example: "Board the plane.",
+        ex_meaning: "비행기에 탑승하다."
+      },
+      {
+        pos: "n.",
+        meaning: "이사회",
+        example: "Board of directors.",
+        ex_meaning: "이사회."
+      }
+    ],
+    derivatives: [
+      {
+        word: "boarding",
+        pos: "n.",
+        meaning: "탑승",
+        example: "Boarding pass.",
+        ex_meaning: "탑승권."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 15,
+    word: "comfortable",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "편안한",
+        example: "Comfortable seat.",
+        ex_meaning: "편안한 좌석."
+      }
+    ],
+    derivatives: [
+      {
+        word: "comfort",
+        pos: "n.",
+        meaning: "편안함, 위로",
+        example: "Live in comfort.",
+        ex_meaning: "안락하게 살다."
+      },
+      {
+        word: "comfortably",
+        pos: "adv.",
+        meaning: "편안하게",
+        example: "Sit comfortably.",
+        ex_meaning: "편안하게 앉다."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 16,
+    word: "declare",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(세관에서) 신고하다",
+        example: "Declare goods.",
+        ex_meaning: "물품을 신고하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "declaration",
+        pos: "n.",
+        meaning: "신고, 선언",
+        example: "Customs declaration.",
+        ex_meaning: "세관 신고."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 17,
+    word: "specify",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "명시하다",
+        example: "Specify the date.",
+        ex_meaning: "날짜를 명시하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "specific",
+        pos: "adj.",
+        meaning: "구체적인",
+        example: "Specific instructions.",
+        ex_meaning: "구체적인 지시."
+      },
+      {
+        word: "specification",
+        pos: "n.",
+        meaning: "명세서, 사양",
+        example: "Product specifications.",
+        ex_meaning: "제품 사양."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 18,
+    word: "depart",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "출발하다",
+        example: "Depart on time.",
+        ex_meaning: "정시에 출발하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "departure",
+        pos: "n.",
+        meaning: "출발",
+        example: "Departure time.",
+        ex_meaning: "출발 시간."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 19,
+    word: "emergency",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "비상 사태",
+        example: "In case of emergency.",
+        ex_meaning: "비상시에는."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 20,
+    word: "passenger",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "승객",
+        example: "Passenger seat.",
+        ex_meaning: "조수석(승객 좌석)."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 21,
+    word: "outgoing",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "(장소를) 출발하는, 떠나는; 외향적인",
+        example: "Outgoing flights.",
+        ex_meaning: "출발편 항공기."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 22,
+    word: "tightly",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "단단히, 꽉",
+        example: "Hold on tightly.",
+        ex_meaning: "꽉 잡다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "tight",
+        pos: "adj.",
+        meaning: "단단한, 꽉 끼는",
+        example: "Tight schedule.",
+        ex_meaning: "빠듯한 일정."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 23,
+    word: "tour",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "견학, 여행",
+        example: "Guided tour.",
+        ex_meaning: "가이드 투어."
+      },
+      {
+        pos: "v.",
+        meaning: "여행하다",
+        example: "Tour the city.",
+        ex_meaning: "도시를 여행하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "tourist",
+        pos: "n.",
+        meaning: "관광객",
+        example: "Foreign tourists.",
+        ex_meaning: "외국인 관광객들."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 24,
+    word: "carrier",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "항공사, 수송기; 보균자",
+        example: "Low-cost carrier.",
+        ex_meaning: "저가 항공사."
+      }
+    ],
+    derivatives: [
+      {
+        word: "carry",
+        pos: "v.",
+        meaning: "나르다, 지니다",
+        example: "Carry a bag.",
+        ex_meaning: "가방을 나르다."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 25,
+    word: "customarily",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "관례상, 습관적으로",
+        example: "Customarily done.",
+        ex_meaning: "관례적으로 행해지는."
+      }
+    ],
+    derivatives: [
+      {
+        word: "customary",
+        pos: "adj.",
+        meaning: "관례적인",
+        example: "Customary greeting.",
+        ex_meaning: "관례적인 인사."
+      },
+      {
+        word: "custom",
+        pos: "n.",
+        meaning: "관습; 세관",
+        example: "Local customs.",
+        ex_meaning: "지역 관습."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 26,
+    word: "confuse",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "혼란시키다",
+        example: "Don't confuse me.",
+        ex_meaning: "나를 헷갈리게 하지 마라."
+      }
+    ],
+    derivatives: [
+      {
+        word: "confusion",
+        pos: "n.",
+        meaning: "혼란",
+        example: "Cause confusion.",
+        ex_meaning: "혼란을 야기하다."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 27,
+    word: "arrive",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "도착하다",
+        example: "Arrive at the airport.",
+        ex_meaning: "공항에 도착하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "arrival",
+        pos: "n.",
+        meaning: "도착",
+        example: "Arrival time.",
+        ex_meaning: "도착 시간."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 28,
+    word: "brochure",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "(홍보용) 소책자, 브로슈어",
+        example: "Travel brochure.",
+        ex_meaning: "여행 책자."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 29,
+    word: "involve",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "수반하다, 포함하다; 참여시키다",
+        example: "Involve risk.",
+        ex_meaning: "위험을 수반하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "involvement",
+        pos: "n.",
+        meaning: "관여, 개입",
+        example: "Active involvement.",
+        ex_meaning: "적극적인 개입."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 30,
+    word: "ship",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(물건을) 수송하다, 선적하다",
+        example: "Ship the goods.",
+        ex_meaning: "상품을 배송하다."
+      },
+      {
+        pos: "n.",
+        meaning: "배, 선박",
+        example: "Cruise ship.",
+        ex_meaning: "유람선."
+      }
+    ],
+    derivatives: [
+      {
+        word: "shipment",
+        pos: "n.",
+        meaning: "선적, 화물",
+        example: "Ready for shipment.",
+        ex_meaning: "선적 준비가 된."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 31,
+    word: "suitcase",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "여행 가방",
+        example: "Pack a suitcase.",
+        ex_meaning: "여행 가방을 싸다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 32,
+    word: "unavailable",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "이용할 수 없는, 손에 넣을 수 없는",
+        example: "Currently unavailable.",
+        ex_meaning: "현재 이용 불가능한."
+      }
+    ],
+    derivatives: [
+      {
+        word: "available",
+        pos: "adj.",
+        meaning: "이용 가능한",
+        example: "Seats available.",
+        ex_meaning: "좌석 이용 가능."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 33,
+    word: "fill out",
+    definitions: [
+      {
+        pos: "phr.",
+        meaning: "(서류에) 기입하다, 작성하다",
+        example: "Fill out the form.",
+        ex_meaning: "양식을 작성하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 34,
+    word: "customs",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "세관",
+        example: "Go through customs.",
+        ex_meaning: "세관을 통과하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 35,
+    word: "away",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "떨어져서",
+        example: "Go away.",
+        ex_meaning: "저리 가라(떠나라)."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 36,
+    word: "dramatic",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "멋진, 극적인; 급격한",
+        example: "Dramatic scenery.",
+        ex_meaning: "멋진 풍경."
+      }
+    ],
+    derivatives: [
+      {
+        word: "dramatically",
+        pos: "adv.",
+        meaning: "극적으로",
+        example: "Changed dramatically.",
+        ex_meaning: "극적으로 변했다."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 37,
+    word: "hospitality",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "환대, 친절",
+        example: "Hospitality industry.",
+        ex_meaning: "서비스업(호텔/식당 등)."
+      }
+    ],
+    derivatives: [
+      {
+        word: "hospitable",
+        pos: "adj.",
+        meaning: "환대하는",
+        example: "Hospitable host.",
+        ex_meaning: "환대하는 주인."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 38,
+    word: "indulge",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "빠지다, 탐닉하다",
+        example: "Indulge in luxury.",
+        ex_meaning: "사치에 빠지다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "indulgence",
+        pos: "n.",
+        meaning: "탐닉",
+        example: "Self-indulgence.",
+        ex_meaning: "방종(제멋대로 함)."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 39,
+    word: "proximity",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "가까움, 근접",
+        example: "In close proximity.",
+        ex_meaning: "아주 가까이에."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 14,
+    num: 40,
+    word: "seating",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "(집합적) 좌석 설비; 좌석 배열",
+        example: "Seating capacity.",
+        ex_meaning: "좌석 수용력."
+      }
+    ],
+    derivatives: [
+      {
+        word: "seat",
+        pos: "n.",
+        meaning: "좌석",
+        example: "Take a seat.",
+        ex_meaning: "자리에 앉다."
+      }
+    ]
+  },
+  {
+    day: 14,
+    num: 41,
+    word: "unlimited",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "무제한의",
+        example: "Unlimited access.",
+        ex_meaning: "무제한 접근."
+      }
+    ],
+    derivatives: [
+      {
+        word: "limit",
+        pos: "n.",
+        meaning: "제한",
+        example: "Set a limit.",
+        ex_meaning: "제한을 두다."
+      }
+    ]
+  },
+
+  // ==========================================
+  // Day 15: 계약, 협상 (Contract & Negotiation)
+  // ==========================================
+  {
+    day: 15,
+    num: 1,
+    word: "proposal",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "제안, 계획",
+        example: "Submit a proposal.",
+        ex_meaning: "제안서를 제출하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "propose",
+        pos: "v.",
+        meaning: "제안하다",
+        example: "Propose a plan.",
+        ex_meaning: "계획을 제안하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 2,
+    word: "alliance",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "동맹, 제휴",
+        example: "Form an alliance.",
+        ex_meaning: "동맹을 맺다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "ally",
+        pos: "n.",
+        meaning: "동맹국, 협력자",
+        example: "A close ally.",
+        ex_meaning: "가까운 동맹국."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 3,
+    word: "stipulation",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "계약 조건",
+        example: "Contract stipulation.",
+        ex_meaning: "계약 조건."
+      }
+    ],
+    derivatives: [
+      {
+        word: "stipulate",
+        pos: "v.",
+        meaning: "규정하다",
+        example: "The law stipulates that...",
+        ex_meaning: "그 법은 ...라고 규정한다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 4,
+    word: "term",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "조건; 임기, 기한",
+        example: "Terms of the contract.",
+        ex_meaning: "계약 조건들."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 5,
+    word: "compromise",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "타협, 화해",
+        example: "Reach a compromise.",
+        ex_meaning: "타협에 이르다."
+      },
+      {
+        pos: "v.",
+        meaning: "타협하다",
+        example: "Compromise on quality.",
+        ex_meaning: "품질에 대해 타협하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 6,
+    word: "negotiation",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "협상, 교섭",
+        example: "Under negotiation.",
+        ex_meaning: "협상 중인."
+      }
+    ],
+    derivatives: [
+      {
+        word: "negotiate",
+        pos: "v.",
+        meaning: "협상하다",
+        example: "Negotiate a deal.",
+        ex_meaning: "거래를 협상하다."
+      },
+      {
+        word: "negotiator",
+        pos: "n.",
+        meaning: "협상가",
+        example: "Skilled negotiator.",
+        ex_meaning: "숙련된 협상가."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 7,
+    word: "agreement",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "계약, 협정; 합의",
+        example: "Sign an agreement.",
+        ex_meaning: "계약서에 서명하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "agree",
+        pos: "v.",
+        meaning: "동의하다",
+        example: "Agree to the terms.",
+        ex_meaning: "조건에 동의하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 8,
+    word: "deadlock",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "교착 상태",
+        example: "Break the deadlock.",
+        ex_meaning: "교착 상태를 타개하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 9,
+    word: "review",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "검토하다",
+        example: "Review the document.",
+        ex_meaning: "문서를 검토하다."
+      },
+      {
+        pos: "n.",
+        meaning: "검토, 논평",
+        example: "Peer review.",
+        ex_meaning: "동료 평가."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 10,
+    word: "contract",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "계약(서)",
+        example: "Sign a contract.",
+        ex_meaning: "계약을 체결하다."
+      },
+      {
+        pos: "v.",
+        meaning: "계약하다; 수축하다",
+        example: "Contract with a supplier.",
+        ex_meaning: "공급업체와 계약하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "contractor",
+        pos: "n.",
+        meaning: "계약자, 도급업자",
+        example: "General contractor.",
+        ex_meaning: "종합 건설 업자."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 11,
+    word: "signature",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "서명",
+        example: "Need a signature.",
+        ex_meaning: "서명이 필요하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "sign",
+        pos: "v.",
+        meaning: "서명하다",
+        example: "Sign here.",
+        ex_meaning: "여기에 서명하시오."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 12,
+    word: "originally",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "원래, 처음에는",
+        example: "Originally planned.",
+        ex_meaning: "당초 계획된."
+      }
+    ],
+    derivatives: [
+      {
+        word: "origin",
+        pos: "n.",
+        meaning: "기원",
+        example: "Country of origin.",
+        ex_meaning: "원산지."
+      },
+      {
+        word: "original",
+        pos: "adj.",
+        meaning: "원래의, 독창적인",
+        example: "Original idea.",
+        ex_meaning: "독창적인 아이디어."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 13,
+    word: "direction",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "방향, 지시",
+        example: "Follow directions.",
+        ex_meaning: "지시를 따르다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "direct",
+        pos: "v.",
+        meaning: "지시하다",
+        example: "Direct the traffic.",
+        ex_meaning: "교통을 정리하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 14,
+    word: "initially",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "처음에, 초기에",
+        example: "Initially rejected.",
+        ex_meaning: "처음에는 거절된."
+      }
+    ],
+    derivatives: [
+      {
+        word: "initial",
+        pos: "adj.",
+        meaning: "처음의",
+        example: "Initial stage.",
+        ex_meaning: "초기 단계."
+      },
+      {
+        word: "initiate",
+        pos: "v.",
+        meaning: "시작하다",
+        example: "Initiate talks.",
+        ex_meaning: "회담을 시작하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 15,
+    word: "expire",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(계약 등이) 만료되다",
+        example: "The lease expires soon.",
+        ex_meaning: "임대차 계약이 곧 만료된다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "expiration",
+        pos: "n.",
+        meaning: "만료",
+        example: "Expiration date.",
+        ex_meaning: "만료일."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 16,
+    word: "collaborate",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "협력하다, 공동으로 일하다",
+        example: "Collaborate on a project.",
+        ex_meaning: "프로젝트에 대해 협력하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "collaboration",
+        pos: "n.",
+        meaning: "협력",
+        example: "In collaboration with.",
+        ex_meaning: "~와 협력하여."
+      },
+      {
+        word: "collaborator",
+        pos: "n.",
+        meaning: "협력자",
+        example: "Close collaborator.",
+        ex_meaning: "긴밀한 협력자."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 17,
+    word: "dedicate",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "전념하다, 헌신하다; 바치다",
+        example: "Dedicate time to study.",
+        ex_meaning: "공부에 시간을 바치다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "dedication",
+        pos: "n.",
+        meaning: "헌신",
+        example: "Dedication to duty.",
+        ex_meaning: "임무에 대한 헌신."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 18,
+    word: "revised",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "수정된, 개정된",
+        example: "Revised edition.",
+        ex_meaning: "개정판."
+      }
+    ],
+    derivatives: [
+      {
+        word: "revise",
+        pos: "v.",
+        meaning: "수정하다",
+        example: "Revise the plan.",
+        ex_meaning: "계획을 수정하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 19,
+    word: "imperative",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "반드시 해야 하는, 필수적인",
+        example: "It is imperative to act now.",
+        ex_meaning: "지금 행동하는 것이 필수적이다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 20,
+    word: "cooperatively",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "협력하여, 협조적으로",
+        example: "Work cooperatively.",
+        ex_meaning: "협력하여 일하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "cooperate",
+        pos: "v.",
+        meaning: "협력하다",
+        example: "Cooperate with the team.",
+        ex_meaning: "팀과 협력하다."
+      },
+      {
+        word: "cooperation",
+        pos: "n.",
+        meaning: "협력",
+        example: "Mutual cooperation.",
+        ex_meaning: "상호 협력."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 21,
+    word: "commission",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "수수료; 위원회",
+        example: "Sales commission.",
+        ex_meaning: "판매 수수료."
+      },
+      {
+        pos: "v.",
+        meaning: "의뢰하다, 주문하다",
+        example: "Commission a painting.",
+        ex_meaning: "그림을 의뢰하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 22,
+    word: "omit",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "빠뜨리다, 생략하다",
+        example: "Omit details.",
+        ex_meaning: "세부 사항을 생략하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "omission",
+        pos: "n.",
+        meaning: "생략, 누락",
+        example: "Errors and omissions.",
+        ex_meaning: "오류 및 누락."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 23,
+    word: "conflict",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "대립, 충돌, 갈등",
+        example: "Conflict of interest.",
+        ex_meaning: "이해관계의 충돌."
+      },
+      {
+        pos: "v.",
+        meaning: "대립하다",
+        example: "Opinions conflict.",
+        ex_meaning: "의견이 대립하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 24,
+    word: "renew",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(계약 등을) 갱신하다",
+        example: "Renew a subscription.",
+        ex_meaning: "구독을 갱신하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "renewal",
+        pos: "n.",
+        meaning: "갱신",
+        example: "Contract renewal.",
+        ex_meaning: "계약 갱신."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 25,
+    word: "proficient",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "능숙한, 능한",
+        example: "Proficient in English.",
+        ex_meaning: "영어에 능숙한."
+      }
+    ],
+    derivatives: [
+      {
+        word: "proficiency",
+        pos: "n.",
+        meaning: "숙달, 능숙",
+        example: "Language proficiency.",
+        ex_meaning: "언어 구사 능력."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 26,
+    word: "confidentiality",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "기밀, 비밀",
+        example: "Maintain confidentiality.",
+        ex_meaning: "기밀을 유지하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "confidential",
+        pos: "adj.",
+        meaning: "기밀의",
+        example: "Confidential data.",
+        ex_meaning: "기밀 데이터."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 27,
+    word: "dispute",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "분쟁, 논쟁",
+        example: "Settle a dispute.",
+        ex_meaning: "분쟁을 해결하다."
+      },
+      {
+        pos: "v.",
+        meaning: "논쟁하다, 반박하다",
+        example: "Dispute the claim.",
+        ex_meaning: "주장에 반박하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 28,
+    word: "objection",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "반대, 이의",
+        example: "Raise an objection.",
+        ex_meaning: "이의를 제기하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "object",
+        pos: "v.",
+        meaning: "반대하다",
+        example: "Object to the plan.",
+        ex_meaning: "계획에 반대하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 29,
+    word: "define",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "규정하다, 정의하다",
+        example: "Define the terms.",
+        ex_meaning: "조건을 규정하다(용어를 정의하다)."
+      }
+    ],
+    derivatives: [
+      {
+        word: "definition",
+        pos: "n.",
+        meaning: "정의",
+        example: "Clear definition.",
+        ex_meaning: "명확한 정의."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 30,
+    word: "impression",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "인상",
+        example: "First impression.",
+        ex_meaning: "첫인상."
+      }
+    ],
+    derivatives: [
+      {
+        word: "impress",
+        pos: "v.",
+        meaning: "인상을 주다",
+        example: "Impress the audience.",
+        ex_meaning: "청중에게 인상을 주다."
+      },
+      {
+        word: "impressive",
+        pos: "adj.",
+        meaning: "인상적인",
+        example: "Impressive performance.",
+        ex_meaning: "인상적인 성과."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 31,
+    word: "security",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "보안, 안전, 보호",
+        example: "Security guard.",
+        ex_meaning: "경비원."
+      }
+    ],
+    derivatives: [
+      {
+        word: "secure",
+        pos: "adj.",
+        meaning: "안전한",
+        example: "Secure connection.",
+        ex_meaning: "안전한 연결."
+      },
+      {
+        word: "securely",
+        pos: "adv.",
+        meaning: "안전하게",
+        example: "Fasten seatbelts securely.",
+        ex_meaning: "안전벨트를 단단히 매다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 32,
+    word: "option",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "선택권, 옵션",
+        example: "Have no option.",
+        ex_meaning: "선택의 여지가 없다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "optional",
+        pos: "adj.",
+        meaning: "선택적인",
+        example: "Optional tour.",
+        ex_meaning: "선택 관광."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 33,
+    word: "proceed",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "진행하다, 나아가다",
+        example: "Proceed with the meeting.",
+        ex_meaning: "회의를 진행하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "process",
+        pos: "n.",
+        meaning: "과정",
+        example: "Legal process.",
+        ex_meaning: "법적 절차."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 34,
+    word: "modify",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "수정하다, 변경하다",
+        example: "Modify the design.",
+        ex_meaning: "디자인을 수정하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "modification",
+        pos: "n.",
+        meaning: "수정, 변경",
+        example: "Make a modification.",
+        ex_meaning: "수정을 가하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 35,
+    word: "narrow",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "좁히다",
+        example: "Narrow down the list.",
+        ex_meaning: "목록을 좁히다."
+      },
+      {
+        pos: "adj.",
+        meaning: "좁은",
+        example: "Narrow road.",
+        ex_meaning: "좁은 길."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 36,
+    word: "bid",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "입찰",
+        example: "Win the bid.",
+        ex_meaning: "입찰을 따내다."
+      },
+      {
+        pos: "v.",
+        meaning: "입찰하다",
+        example: "Bid on the project.",
+        ex_meaning: "프로젝트에 입찰하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 15,
+    num: 37,
+    word: "settle",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "해결하다, 처리하다; 정착하다",
+        example: "Settle the bill.",
+        ex_meaning: "계산서를 처리하다(지불하다)."
+      }
+    ],
+    derivatives: [
+      {
+        word: "settlement",
+        pos: "n.",
+        meaning: "해결, 합의",
+        example: "Reach a settlement.",
+        ex_meaning: "합의에 도달하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 38,
+    word: "terminate",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "끝내다, 종결시키다",
+        example: "Terminate the contract.",
+        ex_meaning: "계약을 종료하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "termination",
+        pos: "n.",
+        meaning: "종료",
+        example: "Termination of employment.",
+        ex_meaning: "고용 계약 종료."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 39,
+    word: "challenging",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "도전적인, 힘든",
+        example: "Challenging task.",
+        ex_meaning: "힘든 과제."
+      }
+    ],
+    derivatives: [
+      {
+        word: "challenge",
+        pos: "n.",
+        meaning: "도전",
+        example: "Face a challenge.",
+        ex_meaning: "도전에 직면하다."
+      }
+    ]
+  },
+  {
+    day: 15,
+    num: 40,
+    word: "foundation",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "토대, 기초; 설립",
+        example: "Lay the foundation.",
+        ex_meaning: "기초를 놓다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "found",
+        pos: "v.",
+        meaning: "설립하다",
+        example: "Found a company.",
+        ex_meaning: "회사를 설립하다."
+      },
+      {
+        word: "founder",
+        pos: "n.",
+        meaning: "설립자",
+        example: "Company founder.",
+        ex_meaning: "회사 설립자."
+      }
+    ]
+  },
+// ==========================================
+  // Day 16: 쇼핑, 상업 (Shopping & Commerce)
+  // ==========================================
+  {
+    day: 16,
+    num: 1,
+    word: "completely",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "전적으로, 완전히",
+        example: "Completely different.",
+        ex_meaning: "완전히 다른."
+      }
+    ],
+    derivatives: [
+      {
+        word: "complete",
+        pos: "adj.",
+        meaning: "완전한",
+        example: "Complete silence.",
+        ex_meaning: "완전한 침묵."
+      },
+      {
+        word: "completion",
+        pos: "n.",
+        meaning: "완료",
+        example: "Upon completion.",
+        ex_meaning: "완료 시에."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 2,
+    word: "refuse",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "거절하다",
+        example: "Refuse an offer.",
+        ex_meaning: "제안을 거절하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "refusal",
+        pos: "n.",
+        meaning: "거절",
+        example: "Flat refusal.",
+        ex_meaning: "단호한 거절."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 3,
+    word: "temporarily",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "일시적으로",
+        example: "Temporarily closed.",
+        ex_meaning: "일시적으로 문을 닫은."
+      }
+    ],
+    derivatives: [
+      {
+        word: "temporary",
+        pos: "adj.",
+        meaning: "일시적인, 임시의",
+        example: "Temporary job.",
+        ex_meaning: "임시직."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 4,
+    word: "dealer",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "판매업자, 상인",
+        example: "Car dealer.",
+        ex_meaning: "자동차 판매상."
+      }
+    ],
+    derivatives: [
+      {
+        word: "deal",
+        pos: "v.",
+        meaning: "다루다, 거래하다",
+        example: "Deal with customers.",
+        ex_meaning: "고객을 상대하다."
+      },
+      {
+        word: "dealership",
+        pos: "n.",
+        meaning: "대리점",
+        example: "Authorized dealership.",
+        ex_meaning: "공인 대리점."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 5,
+    word: "bulk",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "대량의",
+        example: "Bulk order.",
+        ex_meaning: "대량 주문."
+      },
+      {
+        pos: "n.",
+        meaning: "대량, 부피",
+        example: "In bulk.",
+        ex_meaning: "대량으로."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 6,
+    word: "inventory",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "재고품, 재고 목록",
+        example: "Check inventory.",
+        ex_meaning: "재고를 확인하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 7,
+    word: "short",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "부족한; 짧은",
+        example: "Short of cash.",
+        ex_meaning: "현금이 부족한."
+      }
+    ],
+    derivatives: [
+      {
+        word: "shortage",
+        pos: "n.",
+        meaning: "부족",
+        example: "Water shortage.",
+        ex_meaning: "물 부족."
+      },
+      {
+        word: "shorten",
+        pos: "v.",
+        meaning: "줄이다",
+        example: "Shorten the dress.",
+        ex_meaning: "드레스를 줄이다."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 8,
+    word: "cost",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "비용",
+        example: "Production cost.",
+        ex_meaning: "생산 비용."
+      },
+      {
+        pos: "v.",
+        meaning: "비용이 들다",
+        example: "It costs a lot.",
+        ex_meaning: "비용이 많이 든다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "costly",
+        pos: "adj.",
+        meaning: "비싼, 손실이 큰",
+        example: "Costly mistake.",
+        ex_meaning: "대가가 큰 실수."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 9,
+    word: "selection",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "선택된 것, 정선품; 선발",
+        example: "Wide selection.",
+        ex_meaning: "다양한 선택(품목)."
+      }
+    ],
+    derivatives: [
+      {
+        word: "select",
+        pos: "v.",
+        meaning: "선택하다",
+        example: "Select a winner.",
+        ex_meaning: "우승자를 선택하다."
+      },
+      {
+        word: "selective",
+        pos: "adj.",
+        meaning: "까다로운, 선별적인",
+        example: "Selective buyer.",
+        ex_meaning: "까다로운 구매자."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 10,
+    word: "commercial",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "상업의, 상업적인",
+        example: "Commercial building.",
+        ex_meaning: "상업용 건물."
+      },
+      {
+        pos: "n.",
+        meaning: "광고",
+        example: "TV commercial.",
+        ex_meaning: "TV 광고."
+      }
+    ],
+    derivatives: [
+      {
+        word: "commerce",
+        pos: "n.",
+        meaning: "상업, 무역",
+        example: "International commerce.",
+        ex_meaning: "국제 무역."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 11,
+    word: "order",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "주문하다",
+        example: "Order online.",
+        ex_meaning: "온라인으로 주문하다."
+      },
+      {
+        pos: "n.",
+        meaning: "주문, 주문품",
+        example: "Place an order.",
+        ex_meaning: "주문을 하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 12,
+    word: "provide",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "공급하다, 제공하다",
+        example: "Provide information.",
+        ex_meaning: "정보를 제공하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "provision",
+        pos: "n.",
+        meaning: "공급, 준비",
+        example: "Provision of services.",
+        ex_meaning: "서비스 제공."
+      },
+      {
+        word: "provider",
+        pos: "n.",
+        meaning: "공급자",
+        example: "Service provider.",
+        ex_meaning: "서비스 제공자."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 13,
+    word: "contact",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "~와 연락하다",
+        example: "Contact us.",
+        ex_meaning: "우리에게 연락하세요."
+      },
+      {
+        pos: "n.",
+        meaning: "연락, 접촉",
+        example: "Keep in contact.",
+        ex_meaning: "계속 연락하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 14,
+    word: "invoice",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "송장, 청구서",
+        example: "Send an invoice.",
+        ex_meaning: "청구서를 보내다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 15,
+    word: "move",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "옮기다, 움직이다; 이사하다",
+        example: "Move the furniture.",
+        ex_meaning: "가구를 옮기다."
+      },
+      {
+        pos: "n.",
+        meaning: "조치, 행동",
+        example: "A smart move.",
+        ex_meaning: "현명한 조치."
+      }
+    ],
+    derivatives: [
+      {
+        word: "movement",
+        pos: "n.",
+        meaning: "움직임, 이동",
+        example: "Free movement.",
+        ex_meaning: "자유로운 이동."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 16,
+    word: "supply",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "공급하다",
+        example: "Supply electricity.",
+        ex_meaning: "전기를 공급하다."
+      },
+      {
+        pos: "n.",
+        meaning: "공급; 비품, 소모품",
+        example: "Office supplies.",
+        ex_meaning: "사무 용품."
+      }
+    ],
+    derivatives: [
+      {
+        word: "supplier",
+        pos: "n.",
+        meaning: "공급업체",
+        example: "Main supplier.",
+        ex_meaning: "주요 공급업체."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 17,
+    word: "discount",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "할인",
+        example: "Get a discount.",
+        ex_meaning: "할인을 받다."
+      },
+      {
+        pos: "v.",
+        meaning: "할인하다",
+        example: "Discounted price.",
+        ex_meaning: "할인된 가격."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 18,
+    word: "distribute",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "배포하다, 배급하다",
+        example: "Distribute flyers.",
+        ex_meaning: "전단지를 배포하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "distribution",
+        pos: "n.",
+        meaning: "유통, 배급",
+        example: "Distribution network.",
+        ex_meaning: "유통망."
+      },
+      {
+        word: "distributor",
+        pos: "n.",
+        meaning: "유통업자",
+        example: "Local distributor.",
+        ex_meaning: "지역 유통업자."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 19,
+    word: "acquisition",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "인수, 획득",
+        example: "Mergers and acquisitions.",
+        ex_meaning: "인수 합병."
+      }
+    ],
+    derivatives: [
+      {
+        word: "acquire",
+        pos: "v.",
+        meaning: "인수하다, 얻다",
+        example: "Acquire a company.",
+        ex_meaning: "회사를 인수하다."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 20,
+    word: "assure",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "~에게 보장하다, 장담하다",
+        example: "I assure you.",
+        ex_meaning: "내가 장담한다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "assurance",
+        pos: "n.",
+        meaning: "보장, 확신",
+        example: "Quality assurance.",
+        ex_meaning: "품질 보증."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 21,
+    word: "subject",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "~하기 쉬운, ~의 대상이 되는",
+        example: "Subject to change.",
+        ex_meaning: "변경될 수 있는(변경의 대상이 되는)."
+      },
+      {
+        pos: "n.",
+        meaning: "주제, 과목",
+        example: "Favorite subject.",
+        ex_meaning: "가장 좋아하는 과목."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 22,
+    word: "seek",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "구하다, 찾다",
+        example: "Seek advice.",
+        ex_meaning: "조언을 구하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 23,
+    word: "satisfactory",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "만족스러운",
+        example: "Satisfactory result.",
+        ex_meaning: "만족스러운 결과."
+      }
+    ],
+    derivatives: [
+      {
+        word: "satisfy",
+        pos: "v.",
+        meaning: "만족시키다",
+        example: "Satisfy needs.",
+        ex_meaning: "욕구를 충족시키다."
+      },
+      {
+        word: "satisfaction",
+        pos: "n.",
+        meaning: "만족",
+        example: "Customer satisfaction.",
+        ex_meaning: "고객 만족."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 24,
+    word: "confirmation",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "확인, 확증",
+        example: "Booking confirmation.",
+        ex_meaning: "예약 확인."
+      }
+    ],
+    derivatives: [
+      {
+        word: "confirm",
+        pos: "v.",
+        meaning: "확인하다",
+        example: "Confirm the date.",
+        ex_meaning: "날짜를 확인하다."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 25,
+    word: "unable",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "~할 수 없는",
+        example: "Unable to attend.",
+        ex_meaning: "참석할 수 없는."
+      }
+    ],
+    derivatives: [
+      {
+        word: "ability",
+        pos: "n.",
+        meaning: "능력",
+        example: "Ability to pay.",
+        ex_meaning: "지불 능력."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 26,
+    word: "payment",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "지불, 납입",
+        example: "Make a payment.",
+        ex_meaning: "지불하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "pay",
+        pos: "v.",
+        meaning: "지불하다",
+        example: "Pay in cash.",
+        ex_meaning: "현금으로 지불하다."
+      },
+      {
+        word: "payable",
+        pos: "adj.",
+        meaning: "지불해야 하는",
+        example: "Payable on demand.",
+        ex_meaning: "요구 즉시 지불해야 하는."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 27,
+    word: "measure",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "대책, 조치",
+        example: "Safety measures.",
+        ex_meaning: "안전 조치."
+      },
+      {
+        pos: "v.",
+        meaning: "측정하다",
+        example: "Measure the size.",
+        ex_meaning: "크기를 측정하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "measurement",
+        pos: "n.",
+        meaning: "측정, 치수",
+        example: "Take measurements.",
+        ex_meaning: "치수를 재다."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 28,
+    word: "bargain",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "특가품, 흥정",
+        example: "A real bargain.",
+        ex_meaning: "진짜 특가품."
+      },
+      {
+        pos: "v.",
+        meaning: "흥정하다",
+        example: "Bargain over the price.",
+        ex_meaning: "가격을 흥정하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 29,
+    word: "stock",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "재고; 주식",
+        example: "Out of stock.",
+        ex_meaning: "품절된(재고가 없는)."
+      },
+      {
+        pos: "v.",
+        meaning: "비축하다",
+        example: "Stock up on food.",
+        ex_meaning: "식량을 비축하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 30,
+    word: "affordability",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "감당할 수 있는 비용, 저렴함",
+        example: "Affordability of housing.",
+        ex_meaning: "주택 가격의 적정성."
+      }
+    ],
+    derivatives: [
+      {
+        word: "afford",
+        pos: "v.",
+        meaning: "~할 여유가 있다",
+        example: "Can afford a car.",
+        ex_meaning: "차를 살 여유가 있다."
+      },
+      {
+        word: "affordable",
+        pos: "adj.",
+        meaning: "저렴한, 알맞은",
+        example: "Affordable rates.",
+        ex_meaning: "저렴한 요금."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 31,
+    word: "clientele",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "(집합적) 고객들, 의뢰인",
+        example: "Wealthy clientele.",
+        ex_meaning: "부유한 고객층."
+      }
+    ],
+    derivatives: [
+      {
+        word: "client",
+        pos: "n.",
+        meaning: "고객",
+        example: "Regular client.",
+        ex_meaning: "단골 고객."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 32,
+    word: "acclaim",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "호평, 찬사",
+        example: "Critical acclaim.",
+        ex_meaning: "비평가의 호평."
+      },
+      {
+        pos: "v.",
+        meaning: "갈채를 보내다",
+        example: "Acclaimed writer.",
+        ex_meaning: "호평받는 작가."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 33,
+    word: "represent",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "대표하다, 대신하다",
+        example: "Represent the company.",
+        ex_meaning: "회사를 대표하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "representative",
+        pos: "n.",
+        meaning: "대표자, 직원",
+        example: "Sales representative.",
+        ex_meaning: "영업 사원."
+      },
+      {
+        word: "representation",
+        pos: "n.",
+        meaning: "대표, 묘사",
+        example: "Legal representation.",
+        ex_meaning: "법적 대리."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 34,
+    word: "rating",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "등급, 평가",
+        example: "Credit rating.",
+        ex_meaning: "신용 등급."
+      }
+    ],
+    derivatives: [
+      {
+        word: "rate",
+        pos: "v.",
+        meaning: "평가하다",
+        example: "Rate the service.",
+        ex_meaning: "서비스를 평가하다."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 35,
+    word: "encompass",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "포함하다, 아우르다",
+        example: "Encompass various topics.",
+        ex_meaning: "다양한 주제를 아우르다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 36,
+    word: "finalize",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "마무리하다, 완결하다",
+        example: "Finalize the deal.",
+        ex_meaning: "거래를 마무리하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "final",
+        pos: "adj.",
+        meaning: "최종의",
+        example: "Final decision.",
+        ex_meaning: "최종 결정."
+      },
+      {
+        word: "finally",
+        pos: "adv.",
+        meaning: "마침내",
+        example: "Finally arrived.",
+        ex_meaning: "마침내 도착했다."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 37,
+    word: "market",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "시장",
+        example: "Target market.",
+        ex_meaning: "표적 시장."
+      },
+      {
+        pos: "v.",
+        meaning: "시장에 내놓다, 광고하다",
+        example: "Market a product.",
+        ex_meaning: "제품을 광고하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 38,
+    word: "retail",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "소매",
+        example: "Retail price.",
+        ex_meaning: "소매 가격."
+      }
+    ],
+    derivatives: [
+      {
+        word: "retailer",
+        pos: "n.",
+        meaning: "소매업자",
+        example: "Online retailer.",
+        ex_meaning: "온라인 소매업체."
+      }
+    ]
+  },
+  {
+    day: 16,
+    num: 39,
+    word: "commodity",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "상품, 원자재",
+        example: "Agricultural commodities.",
+        ex_meaning: "농산물(원자재)."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 16,
+    num: 40,
+    word: "quote",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "견적(액)",
+        example: "Get a quote.",
+        ex_meaning: "견적을 받다."
+      },
+      {
+        pos: "v.",
+        meaning: "견적을 내다; 인용하다",
+        example: "Quote a price.",
+        ex_meaning: "가격을 부르다(견적 내다)."
+      }
+    ],
+    derivatives: [
+      {
+        word: "quotation",
+        pos: "n.",
+        meaning: "견적, 인용",
+        example: "Price quotation.",
+        ex_meaning: "가격 견적."
+      }
+    ]
+  },
+
+  // ==========================================
+  // Day 17: 배송, 물류 (Shipping & Logistics)
+  // ==========================================
+  {
+    day: 17,
+    num: 1,
+    word: "fragile",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "깨지기 쉬운",
+        example: "Fragile handle with care.",
+        ex_meaning: "취급 주의(깨지기 쉬움)."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 2,
+    word: "perishable",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "부패하기 쉬운",
+        example: "Perishable goods.",
+        ex_meaning: "상하기 쉬운 물품."
+      }
+    ],
+    derivatives: [
+      {
+        word: "perish",
+        pos: "v.",
+        meaning: "소멸하다, 썩다",
+        example: "Perish in the fire.",
+        ex_meaning: "화재로 소멸하다."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 3,
+    word: "deliver",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "배달하다; (연설을) 하다",
+        example: "Deliver a speech.",
+        ex_meaning: "연설을 하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "delivery",
+        pos: "n.",
+        meaning: "배달",
+        example: "Express delivery.",
+        ex_meaning: "빠른 배달."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 4,
+    word: "ensure",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "확실하게 하다, 보장하다",
+        example: "Ensure safety.",
+        ex_meaning: "안전을 보장하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 5,
+    word: "courier",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "급송 택배, 운반원",
+        example: "Send by courier.",
+        ex_meaning: "택배로 보내다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 6,
+    word: "carton",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "(큰) 판지 상자",
+        example: "A carton of milk.",
+        ex_meaning: "우유 한 팩(상자)."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 7,
+    word: "address",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "주소",
+        example: "Email address.",
+        ex_meaning: "이메일 주소."
+      },
+      {
+        pos: "v.",
+        meaning: "(어려운 문제 등을) 처리하다, 다루다",
+        example: "Address the issue.",
+        ex_meaning: "문제를 다루다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 8,
+    word: "shipment",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "선적, (화물의) 발송; 수송품",
+        example: "Delay in shipment.",
+        ex_meaning: "선적 지연."
+      }
+    ],
+    derivatives: [
+      {
+        word: "ship",
+        pos: "v.",
+        meaning: "배송하다",
+        example: "Ship overseas.",
+        ex_meaning: "해외로 배송하다."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 9,
+    word: "particularly",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "특히",
+        example: "Particularly interested.",
+        ex_meaning: "특히 관심이 있는."
+      }
+    ],
+    derivatives: [
+      {
+        word: "particular",
+        pos: "adj.",
+        meaning: "특정한, 특별한",
+        example: "In particular.",
+        ex_meaning: "특히."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 10,
+    word: "adequately",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "적절하게, 충분히",
+        example: "Adequately prepared.",
+        ex_meaning: "충분히 준비된."
+      }
+    ],
+    derivatives: [
+      {
+        word: "adequate",
+        pos: "adj.",
+        meaning: "적절한, 충분한",
+        example: "Adequate resources.",
+        ex_meaning: "충분한 자원."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 11,
+    word: "article",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "물품, 기사; 조항",
+        example: "An article of clothing.",
+        ex_meaning: "의류 한 점."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 12,
+    word: "efficient",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "효율적인, 능률적인",
+        example: "Efficient system.",
+        ex_meaning: "효율적인 시스템."
+      }
+    ],
+    derivatives: [
+      {
+        word: "efficiency",
+        pos: "n.",
+        meaning: "효율성",
+        example: "Improve efficiency.",
+        ex_meaning: "효율성을 높이다."
+      },
+      {
+        word: "efficiently",
+        pos: "adv.",
+        meaning: "효율적으로",
+        example: "Work efficiently.",
+        ex_meaning: "효율적으로 일하다."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 13,
+    word: "agency",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "대행 회사, 대리점",
+        example: "Travel agency.",
+        ex_meaning: "여행사."
+      }
+    ],
+    derivatives: [
+      {
+        word: "agent",
+        pos: "n.",
+        meaning: "대리인, 중개인",
+        example: "Real estate agent.",
+        ex_meaning: "부동산 중개인."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 14,
+    word: "enclose",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "~을 동봉하다; 둘러싸다",
+        example: "Enclose a check.",
+        ex_meaning: "수표를 동봉하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "enclosure",
+        pos: "n.",
+        meaning: "동봉(물), 울타리",
+        example: "See enclosure.",
+        ex_meaning: "동봉물 참조."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 15,
+    word: "careful",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "조심스러운, 주의 깊은",
+        example: "Be careful with fire.",
+        ex_meaning: "불조심해라."
+      }
+    ],
+    derivatives: [
+      {
+        word: "care",
+        pos: "n.",
+        meaning: "주의, 돌봄",
+        example: "Handle with care.",
+        ex_meaning: "취급 주의."
+      },
+      {
+        word: "carefully",
+        pos: "adv.",
+        meaning: "주의 깊게",
+        example: "Listen carefully.",
+        ex_meaning: "주의 깊게 들어라."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 16,
+    word: "pick up",
+    definitions: [
+      {
+        pos: "phr.",
+        meaning: "~을 찾다, 도중에 태우다; 집어 올리다",
+        example: "Pick up the package.",
+        ex_meaning: "소포를 찾아오다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 17,
+    word: "carry",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "지니다, 나르다; (가게에서 물건을) 취급하다",
+        example: "We don't carry that item.",
+        ex_meaning: "우리는 그 품목을 취급하지 않습니다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 18,
+    word: "attach",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "붙이다, 첨부하다",
+        example: "Attach a file.",
+        ex_meaning: "파일을 첨부하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "attachment",
+        pos: "n.",
+        meaning: "첨부(파일), 부착",
+        example: "Email attachment.",
+        ex_meaning: "이메일 첨부파일."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 19,
+    word: "formerly",
+    definitions: [
+      {
+        pos: "adv.",
+        meaning: "이전에",
+        example: "Formerly known as...",
+        ex_meaning: "이전에는 ...로 알려진."
+      }
+    ],
+    derivatives: [
+      {
+        word: "former",
+        pos: "adj.",
+        meaning: "이전의, 전자의",
+        example: "Former president.",
+        ex_meaning: "전 대통령."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 20,
+    word: "package",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "소포, 꾸러미",
+        example: "Send a package.",
+        ex_meaning: "소포를 보내다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 21,
+    word: "react",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "반응하다",
+        example: "React quickly.",
+        ex_meaning: "빠르게 반응하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "reaction",
+        pos: "n.",
+        meaning: "반응",
+        example: "Chemical reaction.",
+        ex_meaning: "화학 반응."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 22,
+    word: "content",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "내용물",
+        example: "Table of contents.",
+        ex_meaning: "목차."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 23,
+    word: "convenience",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "편의, 편리",
+        example: "For your convenience.",
+        ex_meaning: "당신의 편의를 위해."
+      }
+    ],
+    derivatives: [
+      {
+        word: "convenient",
+        pos: "adj.",
+        meaning: "편리한",
+        example: "Convenient time.",
+        ex_meaning: "편리한 시간."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 24,
+    word: "acknowledge",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "인정하다; (편지 등의) 수령을 알리다",
+        example: "Acknowledge receipt.",
+        ex_meaning: "수령을 알리다(확인하다)."
+      }
+    ],
+    derivatives: [
+      {
+        word: "acknowledgment",
+        pos: "n.",
+        meaning: "인정, 수령 통지",
+        example: "Letter of acknowledgment.",
+        ex_meaning: "수령 통지서."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 25,
+    word: "caution",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "주의, 조심",
+        example: "Proceed with caution.",
+        ex_meaning: "조심해서 진행하다."
+      },
+      {
+        pos: "v.",
+        meaning: "주의를 주다",
+        example: "Caution him against...",
+        ex_meaning: "그에게 ...하지 않도록 주의를 주다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "cautious",
+        pos: "adj.",
+        meaning: "조심하는",
+        example: "Cautious optimism.",
+        ex_meaning: "조심스러운 낙관."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 26,
+    word: "correspondence",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "편지, 통신문",
+        example: "Business correspondence.",
+        ex_meaning: "사업 서신."
+      }
+    ],
+    derivatives: [
+      {
+        word: "correspond",
+        pos: "v.",
+        meaning: "일치하다; 서신을 교환하다",
+        example: "Correspond with friends.",
+        ex_meaning: "친구들과 편지를 주고받다."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 27,
+    word: "separate",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "분리하다",
+        example: "Separate waste.",
+        ex_meaning: "쓰레기를 분리하다."
+      },
+      {
+        pos: "adj.",
+        meaning: "분리된, 별개의",
+        example: "Separate entrance.",
+        ex_meaning: "별도의 출입구."
+      }
+    ],
+    derivatives: [
+      {
+        word: "separation",
+        pos: "n.",
+        meaning: "분리",
+        example: "Separation of powers.",
+        ex_meaning: "권력 분립."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 28,
+    word: "remarkable",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "현저한, 놀라운",
+        example: "Remarkable achievement.",
+        ex_meaning: "놀라운 성취."
+      }
+    ],
+    derivatives: [
+      {
+        word: "remark",
+        pos: "v.",
+        meaning: "언급하다",
+        example: "Remark on the weather.",
+        ex_meaning: "날씨에 대해 언급하다."
+      },
+      {
+        word: "remarkably",
+        pos: "adv.",
+        meaning: "놀랍게도, 현저하게",
+        example: "Remarkably successful.",
+        ex_meaning: "놀랍도록 성공적인."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 29,
+    word: "handle",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "취급하다, 다루다",
+        example: "Handle complaints.",
+        ex_meaning: "불만 사항을 처리하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 30,
+    word: "warehouse",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "창고",
+        example: "Store in a warehouse.",
+        ex_meaning: "창고에 보관하다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 31,
+    word: "impose",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(세금 등을) 부과하다",
+        example: "Impose a tax.",
+        ex_meaning: "세금을 부과하다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "imposition",
+        pos: "n.",
+        meaning: "부과, 부담",
+        example: "Imposition of fines.",
+        ex_meaning: "벌금 부과."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 32,
+    word: "storage",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "보관, 저장소",
+        example: "In storage.",
+        ex_meaning: "보관 중인."
+      }
+    ],
+    derivatives: [
+      {
+        word: "store",
+        pos: "v.",
+        meaning: "저장하다",
+        example: "Store data.",
+        ex_meaning: "데이터를 저장하다."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 33,
+    word: "detach",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "떼다, 분리하다",
+        example: "Detach the coupon.",
+        ex_meaning: "쿠폰을 떼어내다."
+      }
+    ],
+    derivatives: [
+      {
+        word: "attached",
+        pos: "adj.",
+        meaning: "첨부된 (반의어)",
+        example: "Attached file.",
+        ex_meaning: "첨부 파일."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 34,
+    word: "envelope",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "봉투",
+        example: "Sealed envelope.",
+        ex_meaning: "밀봉된 봉투."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 35,
+    word: "exclusion",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "제외, 배제",
+        example: "Exclusion zone.",
+        ex_meaning: "출입 금지 구역."
+      }
+    ],
+    derivatives: [
+      {
+        word: "exclude",
+        pos: "v.",
+        meaning: "제외하다",
+        example: "Exclude the cost.",
+        ex_meaning: "비용을 제외하다."
+      },
+      {
+        word: "exclusive",
+        pos: "adj.",
+        meaning: "배타적인, 독점적인",
+        example: "Exclusive interview.",
+        ex_meaning: "독점 인터뷰."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 36,
+    word: "recipient",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "수신자",
+        example: "The recipient of the letter.",
+        ex_meaning: "편지 수신자."
+      }
+    ],
+    derivatives: [
+      {
+        word: "receive",
+        pos: "v.",
+        meaning: "받다",
+        example: "Receive a package.",
+        ex_meaning: "소포를 받다."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 37,
+    word: "affix",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "(우표 등을) 붙이다",
+        example: "Affix a stamp.",
+        ex_meaning: "우표를 붙이다."
+      }
+    ],
+    derivatives: []
+  },
+  {
+    day: 17,
+    num: 38,
+    word: "incorrect",
+    definitions: [
+      {
+        pos: "adj.",
+        meaning: "부정확한",
+        example: "Incorrect information.",
+        ex_meaning: "부정확한 정보."
+      }
+    ],
+    derivatives: [
+      {
+        word: "correct",
+        pos: "adj.",
+        meaning: "정확한 (반의어)",
+        example: "Correct answer.",
+        ex_meaning: "정답."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 39,
+    word: "oblige",
+    definitions: [
+      {
+        pos: "v.",
+        meaning: "~에게 강요하다, 어쩔 수 없이 ~하게 하다",
+        example: "Obliged to pay.",
+        ex_meaning: "지불할 의무가 있는."
+      }
+    ],
+    derivatives: [
+      {
+        word: "obligation",
+        pos: "n.",
+        meaning: "의무",
+        example: "Moral obligation.",
+        ex_meaning: "도덕적 의무."
+      },
+      {
+        word: "obligatory",
+        pos: "adj.",
+        meaning: "의무적인",
+        example: "Obligatory military service.",
+        ex_meaning: "의무 병역."
+      }
+    ]
+  },
+  {
+    day: 17,
+    num: 40,
+    word: "step",
+    definitions: [
+      {
+        pos: "n.",
+        meaning: "단계; 조치, 수단",
+        example: "Take steps.",
+        ex_meaning: "조치를 취하다."
+      }
+    ],
+    derivatives: []
+  },
 
 ];
