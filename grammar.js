@@ -104,8 +104,8 @@ const grammarData = {
                     pos: "M",
                     meaning: "다른 문장성분을 꾸며주는 역할 (필수 성분 아님)",
                     desc: "기능: 문장에서 지워버려도 문법적으로 틀리지 않습니다. 주로 <b>부사(Adverb)</b>나 <b>전치사구</b>가 해당됩니다.",
-                    example: "Please review the file <b>carefully</b>.",
-                    ex_meaning: "파일을 <b>주의 깊게</b> 검토해 주세요."
+                    example: "Please review the file <span class='m'>carefully</span>.",
+                    ex_meaning: "파일을 <span class='m'>주의 깊게</span> 검토해 주세요."
                 }
             ]
         }
@@ -121,8 +121,8 @@ const grammarData = {
                     pos: "S + V",
                     meaning: "주어가 ~한다. (가장 단순한 구조)",
                     desc: "핵심: <b>자동사</b> (목적어 필요 없음). 문장이 길다면 수식어(부사, 전치사구) 때문입니다.<br>주요 동사: go, come, arrive, rise, fall, work, happen, disappear",
-                    example: "<span class='s'>The stock market</span> <span class='v'>fell</span>.<br><span class='s'>I</span> <span class='v'>work</span> [at Joheun Chaek Sinsago].<br><span class='s'>The accident</span> <span class='v'>happened</span> [suddenly].",
-                    ex_meaning: "<span class='s'>주식 시장이</span> <span class='v'>떨어졌다</span>.<br><span class='s'>나는</span> [좋은책신사고에서] <span class='v'>일한다</span>.<br><span class='s'>그 사고는</span> [갑자기] <span class='v'>일어났다</span>."
+                    example: "<span class='s'>The stock market</span> <span class='v'>fell</span>.<br><span class='s'>I</span> <span class='v'>work</span> <span class='m'>at the company</span>.<br><span class='s'>The accident</span> <span class='v'>happened</span> <span class='m'>suddenly</span>.",
+                    ex_meaning: "<span class='s'>주식 시장이</span> <span class='v'>떨어졌다</span>.<br><span class='s'>나는</span> <span class='m'>회사에서</span> <span class='v'>일한다</span>.<br><span class='s'>그 사고는</span> <span class='m'>갑자기</span> <span class='v'>일어났다</span>."
                 }
             ]
         },
@@ -197,23 +197,23 @@ const grammarData = {
                     ex_meaning: 
                         "(방향성: ~에게 보내다)<br>" +
                         "그녀는 <b>나에게 이메일을</b> 보냈다.<br>" +
-                        "그녀는 이메일을 보냈다 / <b>나에게</b>.<br><br>" +
+                        "<b>그녀는 이메일을 보냈다</b> / 나에게.<br><br>" +
                         
                         "(정성: ~를 위해 만들어주다)<br>" +
                         "나는 <b>그에게 커피를</b> 만들어 주었다.<br>" +
-                        "나는 커피를 만들었다 / <b>그를 위해서</b>.<br><br>" +
+                        "<b>나는 커피를 만들었다</b> / 그를 위해서.<br><br>" +
                         
                         "(방향성: ~에게 보여주다)<br>" +
                         "가이드는 <b>관광객들에게 궁궐을</b> 보여주었다.<br>" +
-                        "가이드는 궁궐을 보여주었다 / <b>관광객들에게</b>.<br><br>" +
+                        "<b>가이드는 궁궐을 보여주었다</b> / 관광객들에게.<br><br>" +
                         
                         "(정성: ~를 위해 요리해주다)<br>" +
                         "내 아내는 <b>우리에게 저녁을</b> 요리해 주었다.<br>" +
-                        "내 아내는 저녁을 요리했다 / <b>우리를 위해서</b>.<br><br>" +
+                        "<b>내 아내는 저녁을 요리했다</b> / 우리를 위해서.<br><br>" +
                         
                         "(방향성: ~에게 가르쳐주다)<br>" +
                         "그는 <b>학생들에게 문법을</b> 가르친다.<br>" +
-                        "그는 문법을 가르친다 / <b>학생들에게</b>."
+                        "<b>그는 문법을 가르친다</b> / 학생들에게."
                 }
             ]
         },
@@ -232,8 +232,8 @@ const grammarData = {
                     pos: "행동 유발 (O.C가 동사)",
                     meaning: "목적어가 ~한 행동을 하도록 하다 (보어 전체 범위)",
                     desc: "<b>to부정사</b>: order, allow, expect, ask<br><b>동사원형</b>: 지각동사(see, hear), 사역동사(make, have, let)",
-                    example: "The manager <span class='v'>ordered</span> <span class='o'>him</span> <span class='c'>to leave</span>.<br><span class='s'>I</span> <span class='v'>saw</span> <span class='o'>him</span> <span class='c'>enter the room</span>.",
-                    ex_meaning: "매니저는 <span class='o'>그에게</span> <span class='c'>나가라고</span> <span class='v'>명령했다</span>.<br><span class='s'>나는</span> <span class='o'>그가</span> <span class='c'>방에 들어가는 것을</span> <span class='v'>보았다</span>."
+                    example: "<span class='s'>The manager</span> <span class='v'>ordered</span> <span class='o'>him</span> <span class='c'>to leave</span>.<br><span class='s'>I</span> <span class='v'>saw</span> <span class='o'>him</span> <span class='c'>enter the room</span>.",
+                    ex_meaning: "<span class='s'>매니저는</span> <span class='o'>그에게</span> <span class='c'>나가라고</span> <span class='v'>명령했다</span>.<br><span class='s'>나는</span> <span class='o'>그가</span> <span class='c'>방에 들어가는 것을</span> <span class='v'>보았다</span>."
                 }
             ]
         }
