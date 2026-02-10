@@ -147,8 +147,8 @@ const grammarData = {
                     pos: "S + V + O",
                     meaning: "주어가 (목적어)를 ~한다. (가장 흔한 문장)",
                     desc: "핵심: <b>타동사</b>. 대상이 되는 목적어(~을/를)가 반드시 필요.<br>주요 동사: make, study, discuss, reach, attend, want, hope",
-                    example: "<span class='s'>I</span> <span class='v'>study</span> <span class='o'>English</span> every day.<br><span class='s'>She</span> <span class='v'>wants</span> <span class='o'>to quit her job</span>.",
-                    ex_meaning: "<span class='s'>나는</span> 매일 <span class='o'>영어를</span> <span class='v'>공부한다</span>.<br><span class='s'>그녀는</span> <span class='o'>직장을 그만두기를</span> <span class='v'>원한다</span>."
+                    example: "<span class='s'>I</span> <span class='v'>study</span> <span class='o'>English</span> <span class='m'>every day</span>.<br><span class='s'>She</span> <span class='v'>wants</span> <span class='o'>to quit her job</span>.",
+                    ex_meaning: "<span class='s'>나는</span> <span class='m'>매일</span> <span class='o'>영어를</span> <span class='v'>공부한다</span>.<br><span class='s'>그녀는</span> <span class='o'>직장을 그만두기를</span> <span class='v'>원한다</span>."
                 }
             ]
         },
@@ -173,47 +173,47 @@ const grammarData = {
                 {
                     pos: "실전 전환 연습 (Sets)",
                     meaning: "의미는 같지만 어순이 다른 3, 4형식 연습",
-                    desc: "사람이 뒤로 가면 전치사(to, for)가 붙는 것을 확인하세요.<br>(관광통역안내사, 토익 필수 구문)",
+                    desc: "사람이 뒤로 가면 전치사(to, for)가 붙는 것을 확인하세요.<br>",
                     example: 
-                        "<b>[Set 1. Send]</b><br>" +
+                        "[Set 1. Send]<br>" +
                         "4형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>me</span> <span class='o'>an email</span>.<br>" +
-                        "3형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>an email</span> <b>to me</b>.<br><br>" +
+                        "3형식: <span class='s'>She</span> <span class='v'>sent</span> <span class='o'>an email</span> <span class='m'>to me</span>.<br><br>" +
                         
-                        "<b>[Set 2. Make]</b><br>" +
+                        "[Set 2. Make]<br>" +
                         "4형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>him</span> <span class='o'>a cup of coffee</span>.<br>" +
                         "3형식: <span class='s'>I</span> <span class='v'>made</span> <span class='o'>a cup of coffee</span> <b>for him</b>.<br><br>" +
                         
-                        "<b>[Set 3. Show]</b><br>" +
+                        "Set 3. Show]<br>" +
                         "4형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>tourists</span> <span class='o'>the palace</span>.<br>" +
                         "3형식: <span class='s'>The guide</span> <span class='v'>showed</span> <span class='o'>the palace</span> <b>to tourists</b>.<br><br>" +
                         
-                        "<b>[Set 4. Cook]</b><br>" +
+                        "Set 4. Cook]<br>" +
                         "4형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>us</span> <span class='o'>a delicious dinner</span>.<br>" +
                         "3형식: <span class='s'>My wife</span> <span class='v'>cooked</span> <span class='o'>a delicious dinner</span> <b>for us</b>.<br><br>" +
                         
-                        "<b>[Set 5. Teach]</b><br>" +
+                        "[Set 5. Teach]<br>" +
                         "4형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>students</span> <span class='o'>English grammar</span>.<br>" +
                         "3형식: <span class='s'>He</span> <span class='v'>teaches</span> <span class='o'>English grammar</span> <b>to students</b>.",
                     ex_meaning: 
                         "(방향성: ~에게 보내다)<br>" +
-                        "그녀는 <b>나에게 이메일을</b> 보냈다.<br>" +
-                        "<b>그녀는 이메일을 보냈다</b> / 나에게.<br><br>" +
+                        "<span class='s'>그녀는</span><span class='o'>나에게</span> <span class='o'>이메일을</span><span class='v'>보냈다</span>.<br>" +
+                        "<span class='s'>그녀는</span> <span class='o'>이메일을</span> <span class='v'>보냈다</span> / <span class='m'>나에게</span>.<br><br>" +
                         
                         "(정성: ~를 위해 만들어주다)<br>" +
-                        "나는 <b>그에게 커피를</b> 만들어 주었다.<br>" +
-                        "<b>나는 커피를 만들었다</b> / 그를 위해서.<br><br>" +
+                        "<span class='s'>나는</span> <span class='o'>그에게</span> <span class='o'>커피를</span> <span class='v'>만들어 주었다</span>.<br>" +
+                        "<span class='s'>나는</span> <span class='o'>커피를</span> <span class='v'>만들었다</span> / <span class='m'>그를 위해서</span>.<br><br>" +
                         
                         "(방향성: ~에게 보여주다)<br>" +
-                        "가이드는 <b>관광객들에게 궁궐을</b> 보여주었다.<br>" +
-                        "<b>가이드는 궁궐을 보여주었다</b> / 관광객들에게.<br><br>" +
+                        "<span class='s'>가이드는</span> <span class='o'>관광객들에게</span>  <span class='o'>궁궐을</span>  <span class='v'>보여주었다</span> .<br>" +
+                        "<span class='s'>가이드는</span> <span class='o'>궁궐을</span>  <span class='v'>보여주었다</span>  / <span class='m'>관광객들에게</span> .<br><br>" +
                         
                         "(정성: ~를 위해 요리해주다)<br>" +
-                        "내 아내는 <b>우리에게 저녁을</b> 요리해 주었다.<br>" +
-                        "<b>내 아내는 저녁을 요리했다</b> / 우리를 위해서.<br><br>" +
+                        "<span class='s'>내 아내는</span> <span class='o'>우리에게</span>  <span class='o'>저녁을</span>  <span class='v'>요리해 주었다</span> .<br>" +
+                        "<span class='s'>내 아내는</span> <span class='o'>저녁을</span>  <span class='v'>요리했다</span>  / <span class='m'>우리를 위해서</span> .<br><br>" +
                         
                         "(방향성: ~에게 가르쳐주다)<br>" +
-                        "그는 <b>학생들에게 문법을</b> 가르친다.<br>" +
-                        "<b>그는 문법을 가르친다</b> / 학생들에게."
+                        "<span class='s'>그는</span> <span class='o'>학생들에게</span>  <span class='o'>문법을</span>  <span class='v'>가르친다</span> .<br>" +
+                        "<span class='s'>그는</span> <span class='o'>문법을</span>  <span class='v'>가르친다</span>  / <span class='m'>학생들에게</span> ."
                 }
             ]
         },
