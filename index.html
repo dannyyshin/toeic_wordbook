@@ -273,7 +273,9 @@
                 } else if (tags.has('Adjective') && foundVerb) {
                     cssClass = "c"; // 보어
                 }
-
+                } else if (tags.has('Preposition') || tags.has('Conjunction') || tags.has('Adverb')) {
+                    cssClass = "m"; // 전치사, 접속사, 부사를 수식어로 분류
+                }
                 if (cssClass) {
                     html += `<span class="${cssClass}">${text}</span>` + post;
                 } else {
