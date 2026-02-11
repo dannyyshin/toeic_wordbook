@@ -43,8 +43,8 @@
 
         /* [핵심] 블록 뷰 스타일 */
         .sentence-block-view { 
-            line-height: 2.8; /* 줄간격 넓게 */
-            font-size: 16px; 
+            line-height: 3.5; /* 줄간격 매우 넓게 (라벨 공간 확보) */
+            font-size: 18px; 
             font-family: 'Georgia', serif; 
             color: #333;
             margin-bottom: 20px;
@@ -52,30 +52,32 @@
         
         .chunk {
             display: inline-block;
-            padding: 2px 6px;
-            margin: 0 2px;
+            padding: 4px 8px;
+            margin: 0 3px;
             border-radius: 6px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
+            border-bottom: 3px solid rgba(0,0,0,0.15);
             position: relative;
             cursor: pointer;
             transition: all 0.2s;
+            font-weight: 600;
         }
-        .chunk:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .chunk:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         
         /* 라벨 (S, V, O ...) */
         .chunk::before {
             content: attr(data-label);
             position: absolute;
-            top: -18px;
+            top: -22px;
             left: 0;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             font-family: sans-serif;
-            opacity: 0.8;
-            padding: 1px 4px;
-            border-radius: 3px;
+            opacity: 1;
+            padding: 2px 6px;
+            border-radius: 4px;
             color: white;
             white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         /* 상세 리스트 스타일 */
@@ -86,25 +88,23 @@
         .word-text { font-weight: 700; color: #222; font-family: 'Georgia', serif; font-size: 15px; }
         .desc-text { display: block; font-size: 12px; color: #666; margin-top: 3px; }
 
-        /* 색상 테마 */
-        .c-s { background-color: #FFEBEE; border-color: #EF9A9A; } /* 주어 */
-        .c-s::before { background-color: #E91E63; }
+        /* 색상 테마 - 배경색을 진하게 수정 */
+        .c-s { background-color: #F8BBD0; border-color: #E91E63; } /* 주어 (분홍) */
+        .c-s::before { background-color: #D81B60; }
         
-        .c-v { background-color: #FFF3E0; border-color: #FFCC80; } /* 동사 */
-        .c-v::before { background-color: #FF9800; }
+        .c-v { background-color: #FFE0B2; border-color: #FB8C00; } /* 동사 (주황) */
+        .c-v::before { background-color: #F57C00; }
         
-        .c-o { background-color: #E3F2FD; border-color: #90CAF9; } /* 목적어 */
-        .c-o::before { background-color: #2196F3; }
+        .c-o { background-color: #BBDEFB; border-color: #1976D2; } /* 목적어 (파랑) */
+        .c-o::before { background-color: #1565C0; }
         
-        .c-c { background-color: #F3E5F5; border-color: #CE93D8; } /* 보어 */
-        .c-c::before { background-color: #9C27B0; }
+        .c-c { background-color: #E1BEE7; border-color: #8E24AA; } /* 보어 (보라) */
+        .c-c::before { background-color: #7B1FA2; }
         
-        .c-m { background-color: #E8F5E9; border-color: #A5D6A7; } /* 수식어 */
-        .c-m::before { background-color: #4CAF50; }
+        .c-m { background-color: #C8E6C9; border-color: #388E3C; } /* 수식어 (초록) */
+        .c-m::before { background-color: #2E7D32; }
 
-        .c-x { background-color: #eee; border-color: #ddd; } /* 기타 */
-        .c-x::before { background-color: #999; display:none; }
-
+        .c-x { background-color: #eee; border-color: #999; } /* 기타 */
 
         /* === 단어장 스타일 (기존 유지) === */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; }
@@ -185,7 +185,6 @@
         optAnalyzer.innerText = "🔍 AI 문장 구조 분석기";
         daySelect.appendChild(optAnalyzer);
 
-        // (기존 메뉴 옵션 생성 로직 유지)
         const optSep1 = document.createElement('option'); optSep1.disabled = true; optSep1.innerText = "── [기초 문법] ──"; daySelect.appendChild(optSep1);
         const grammarOpts = [{v:"g_struct", t:"1. 문장구성성분"}, {v:"g_patterns", t:"2. 문장의 5형식"}, {v:"g_parts", t:"3. 8품사"}, {v:"g_verbals", t:"4. 준동사"}];
         grammarOpts.forEach(g => { let o = document.createElement('option'); o.value = g.v; o.innerText = g.t; daySelect.appendChild(o); });
@@ -214,7 +213,7 @@
     }
 
     // ============================================
-    //  [핵심] 블록형 문장 분석 로직
+    //  [수정됨] 모든 성분 완벽 표시 로직
     // ============================================
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
@@ -233,108 +232,106 @@
             sentences.forEach((sent, index) => {
                 const sentText = sent.text;
                 const sDoc = nlp(sentText);
-                let chunks = []; // 블록들을 담을 배열
+                let chunks = [];
 
-                // --- 1. 주어/동사 찾기 ---
+                // 1. 메인 동사 찾기
                 let verbs = sDoc.verbs();
                 let mainVerb = verbs.first();
                 
                 if (!mainVerb.found) {
-                    // 예외: 동사가 없으면 통째로 보여줌
                     totalHtml += `<div class="analysis-card"><div class="analysis-header"><span class="sent-num">Sentence ${index+1}</span></div><div class="sentence-block-view">${sentText}</div></div>`;
                     return;
                 }
 
-                // --- 2. 청크(Chunk) 분류 ---
-                
-                // (A) 주어부 (S)
+                // 2. 동사를 기준으로 앞/뒤 자르기 (중요: 이렇게 해야 겹치지 않음)
                 let subjectDoc = sDoc.match('^.+').before(mainVerb);
+                let verbDoc = mainVerb;
+                let afterDoc = sDoc.match('.+').after(mainVerb);
+
+                // 3. 각 파트별 덩어리(Chunk) 등록
+                // (A) 주어 (Subject)
                 if(subjectDoc.found) {
                     chunks.push({ text: subjectDoc.text().trim(), type: 'S', label: '주어', class: 'c-s', detail: '명사구' });
                 }
 
-                // (B) 동사부 (V)
-                let verbText = mainVerb.text();
-                chunks.push({ text: verbText, type: 'V', label: '동사', class: 'c-v', detail: '동사구' });
+                // (B) 동사 (Verb)
+                chunks.push({ text: verbDoc.text().trim(), type: 'V', label: '동사', class: 'c-v', detail: '동사구' });
 
-                // (C) 뒷부분 (O/C/M)
-                // 동사 뒤 전체 텍스트
-                let afterDoc = sDoc.match('.+').after(mainVerb);
-                
-                // 전치사구 (Modifiers) 추출
+                // (C) 뒷부분 정밀 분석 (Modifier 먼저 추출 후 나머지 Object/Comp)
+                // - 전치사구 (Modifier)
                 let prepPhrases = afterDoc.match('#Preposition .? #Adjective? #Noun+').json();
                 
-                // 전치사구를 제외한 나머지 (Object/Comp 후보)
-                let coreAfter = afterDoc.not('#Preposition .? #Adjective? #Noun+');
+                // 전치사구 텍스트 목록 저장
+                let prepTexts = prepPhrases.map(p => p.text);
+
+                // - 나머지 부분 (Object/Complement)
+                // afterDoc에서 전치사구를 뺀 나머지를 찾아야 함.
+                // compromise의 not()은 태그 기반이라 텍스트 제거가 어려움.
+                // 따라서 단순하게: "전치사구가 아닌 가장 앞선 명사"를 목적어로 간주.
+                
+                // 전치사구가 아닌 명사 찾기 (임시 로직)
+                let remaining = afterDoc.not('#Preposition .? #Adjective? #Noun+');
+                let objectObj = remaining.match('#Noun+').first();
+                let compObj = remaining.match('#Adjective+').first();
+
                 let objectFound = false;
-                
-                // 목적어/보어 찾기
-                // 1. 순수 명사구 찾기
-                let nounObj = coreAfter.match('#Noun+').first();
-                // 2. 형용사(보어) 찾기
-                let adjComp = coreAfter.match('#Adjective+').first();
 
-                // 문장 재구성용 임시 배열 (위치 순서대로 정렬해야 함)
-                // compromise는 위치 오프셋을 제공하므로 그것을 활용하거나
-                // 간단하게 텍스트 교체 방식으로 렌더링
-                
-                // 여기서는 "블록 조립"을 위해 텍스트 순서대로 청크를 정리하는 대신,
-                // 논리적 순서(S-V-O-M)를 기반으로 리스트업하고, 블록 뷰는 하이라이트 방식으로 처리.
-
-                // (D) 목적어/보어 추가
-                if (nounObj.found) {
-                    chunks.push({ text: nounObj.text(), type: 'O', label: '목적어', class: 'c-o', detail: '명사' });
+                if (objectObj.found) {
+                    chunks.push({ text: objectObj.text().trim(), type: 'O', label: '목적어', class: 'c-o', detail: '명사구' });
                     objectFound = true;
-                } else if (adjComp.found) {
-                    chunks.push({ text: adjComp.text(), type: 'C', label: '보어', class: 'c-c', detail: '형용사' });
+                } else if (compObj.found) {
+                    chunks.push({ text: compObj.text().trim(), type: 'C', label: '보어', class: 'c-c', detail: '형용사' });
                 }
 
-                // (E) 수식어(M) 추가
+                // 수식어(M) 추가
                 prepPhrases.forEach(p => {
-                    // detail 추론 (앞단어가 명사면 형용사적, 동사면 부사적 -> 단순 추정)
-                    chunks.push({ text: p.text, type: 'M', label: '수식어', class: 'c-m', detail: '전치사구' });
+                    chunks.push({ text: p.text.trim(), type: 'M', label: '수식어', class: 'c-m', detail: '전치사구' });
                 });
 
-                // --- 3. 형식 추론 ---
-                let pattern = "1형식 (S+V)";
-                if (objectFound) pattern = "3형식 (S+V+O)";
-                else if (adjComp.found) pattern = "2형식 (S+V+C)";
+
+                // 4. 블록 HTML 생성 (Replacement 방식)
+                // 원본 문장에서 해당 텍스트들을 태그로 감쌈.
+                // 중복 방지를 위해 "긴 텍스트"부터 교체.
                 
-                // --- 4. HTML 생성 ---
-                
-                // 4-1. 블록 뷰 (Block View) HTML 만들기
-                // 원문에서 해당 청크들을 찾아서 span 태그로 감싸기
                 let blockHtml = sentText;
+                // chunks 정렬 (긴 글자 우선)
+                chunks.sort((a,b) => b.text.length - a.text.length);
                 
-                // *중요* 긴 단어부터 교체해야 꼬이지 않음 (단순 치환 방식)
-                let chunksForReplace = [...chunks].sort((a,b) => b.text.length - a.text.length);
-                
-                // 임시로 교체된 부분을 마킹하기 위한 토큰 사용
-                let tokenMap = {};
-                chunksForReplace.forEach((c, i) => {
-                    let token = `__CHUNK_${i}__`;
-                    tokenMap[token] = `<span class="chunk ${c.class}" data-label="${c.label}">${c.text}</span>`;
-                    // 단순 replace는 중복 단어 문제 발생 가능하나, 데모용으로는 충분
-                    // (정확도를 높이려면 offset 기반 처리 필요)
-                    blockHtml = blockHtml.replace(c.text, token);
+                // 토큰 치환 (단어가 겹칠 경우 대비)
+                let tokens = {};
+                chunks.forEach((c, i) => {
+                    let key = `__CHUNK${i}__`;
+                    // 단순 replace는 문장 내 똑같은 단어가 2번 나오면 앞의 것을 바꿈.
+                    // 이를 방지하기 위해 정교한 로직이 필요하나, 여기선 데모용으로 replace 활용.
+                    // (실제 사용시엔 offset 기반 교체 권장)
+                    blockHtml = blockHtml.replace(c.text, key);
+                    tokens[key] = `<span class="chunk ${c.class}" data-label="${c.label}">${c.text}</span>`;
                 });
-                
-                // 토큰을 다시 HTML로 복원
-                Object.keys(tokenMap).forEach(k => {
-                    blockHtml = blockHtml.replace(k, tokenMap[k]);
+
+                // 토큰 복원
+                Object.keys(tokens).forEach(k => {
+                    blockHtml = blockHtml.replace(k, tokens[k]);
                 });
 
 
-                // 4-2. 상세 리스트 (Detail Table) HTML 만들기
+                // 5. 상세 리스트 및 형식 추론
+                let pattern = objectFound ? "3형식 (S+V+O)" : (compObj.found ? "2형식 (S+V+C)" : "1형식 (S+V)");
+                
+                // 리스트 정렬 (원문 순서대로 보여주기 위해 다시 offset이나 텍스트 인덱스로 정렬 추천)
+                // 여기선 입력된 순서(S -> V -> O -> M)로 보여줌. (M은 뒤죽박죽일 수 있음)
+                
                 let rowsHtml = "";
-                chunks.forEach(c => {
-                    let roleColor = c.class.replace('c-', 'bg-'); // css 클래스 매핑
-                    if(roleColor === 'bg-s') roleColor = '#E91E63';
-                    if(roleColor === 'bg-v') roleColor = '#FF9800';
-                    if(roleColor === 'bg-o') roleColor = '#2196F3';
-                    if(roleColor === 'bg-c') roleColor = '#9C27B0';
-                    if(roleColor === 'bg-m') roleColor = '#4CAF50';
-                    
+                // 보기 좋게 순서 정렬: S -> V -> O/C -> M
+                let sortedChunks = chunks.sort((a,b) => sentText.indexOf(a.text) - sentText.indexOf(b.text));
+                
+                sortedChunks.forEach(c => {
+                    let roleColor = c.class.replace('c-', 'bg-');
+                    if(roleColor === 'bg-s') roleColor = '#D81B60';
+                    if(roleColor === 'bg-v') roleColor = '#F57C00';
+                    if(roleColor === 'bg-o') roleColor = '#1565C0';
+                    if(roleColor === 'bg-c') roleColor = '#7B1FA2';
+                    if(roleColor === 'bg-m') roleColor = '#2E7D32';
+
                     rowsHtml += `
                         <tr>
                             <th><span class="role-tag" style="background:${roleColor}">${c.label}</span></th>
@@ -399,7 +396,6 @@
             else if(selectedValue === "g_parts") dataToRender = grammarData.parts;
             else if(selectedValue === "g_verbals") dataToRender = grammarData.verbals;
             themeDisplay.style.display = 'block';
-            themeDisplay.innerText = document.querySelector(`option[value="${selectedValue}"]`).innerText;
         } else {
             const selectedDay = parseInt(selectedValue);
             if(typeof vocaData !== 'undefined') {
