@@ -534,8 +534,26 @@
                 const wh = whAuxMatch[1];
                 aux = whAuxMatch[2];
                 rest = whAuxMatch[3].trim();
-                // 의문사 자체는 문장 뼈대(S/V/O/C)가 아니라 수식 요소로 처리
-                chunks.push({text: wh, type:'M', label:'의문사', detail:'Wh-word'});
+                // 의문사는 반드시 5대 성분(S/V/O/C/M) 중 하나로 귀속
+                // - why/when/where/how: 의문부사 -> 수식어(M)
+                // - who/whom/what/which/whose: 보통 목적어를 묻는 의문대명사/의문형용사 -> 목적어(O)로 처리
+                //   (완전 정확한 분류는 문장 전체 의미/구조가 필요하지만, 토익식 기본 규칙으로 표시)
+                const whLower = wh.toLowerCase();
+                const isAdvWh = ['why', 'when', 'where', 'how'].includes(whLower);
+                const whType = isAdvWh ? 'M' : 'O';
+                const whLabel = isAdvWh ? '수식어' : '목적어';
+                const whDetail =
+                    whLower === 'why' ? '의문부사(이유) → 수식어(M)' :
+                    whLower === 'when' ? '의문부사(시간) → 수식어(M)' :
+                    whLower === 'where' ? '의문부사(장소) → 수식어(M)' :
+                    whLower === 'how' ? '의문부사(방법/정도) → 수식어(M)' :
+                    whLower === 'whose' ? '의문형용사/소유격(whose) → 목적어(O) 성분' :
+                    whLower === 'which' ? '의문형용사/대명사(which) → 목적어(O) 성분' :
+                    whLower === 'whom' ? '의문대명사(목적격 whom) → 목적어(O)' :
+                    whLower === 'who' ? '의문대명사(who) → 목적어(O) 성분(wh-질문 기본)' :
+                    '의문대명사/형용사 → 목적어(O) 성분';
+
+                chunks.push({text: wh, type: whType, label: whLabel, detail: whDetail});
             } else {
                 aux = auxMatch[1];
                 rest = auxMatch[2].trim();
@@ -593,9 +611,9 @@
             }
         } else {
             // 방어적 처리: 의문문인데 조동사 패턴을 못 잡은 경우
-            // (포맷 유지: 최소한 원문을 "기타"로 표기)
+            // (포맷 유지 + 5대 성분 유지: 전체를 수식어(M)로 표기)
             const fallback = sentText.trim().replace(/\?$/, '');
-            chunks.push({text: fallback, type:'X', label:'문장', detail:'의문문(패턴 미인식)'});
+            chunks.push({text: fallback, type:'M', label:'수식어', detail:'의문문(패턴 미인식) — 수식어로 임시 처리'});
         }
         
         return generateHTML(sentText, chunks, patternText, index);
