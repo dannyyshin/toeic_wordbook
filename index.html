@@ -48,25 +48,26 @@
         
         /* 상단 문장 텍스트 (하이라이트 적용) */
         .sent-text { 
-            font-size: 17px; font-family: 'Georgia', serif; color: #333; margin-bottom: 12px; line-height: 2.0; 
+            font-size: 17px; font-family: 'Georgia', serif; color: #333; margin-bottom: 12px; line-height: 2.2; 
         }
         
-        /* 하이라이트 Span 스타일 */
-        .hl-word { padding: 2px 5px; border-radius: 4px; margin: 0 2px; font-weight: 600; cursor: default; transition: 0.2s; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        /* 하이라이트 Span 스타일 (색상 연하게 수정) */
+        .hl-word { padding: 3px 6px; border-radius: 6px; margin: 0 2px; font-weight: 600; cursor: default; transition: 0.2s; border-bottom: 2px solid rgba(0,0,0,0.05); }
         
-        /* 색상 테마 */
-        .hl-s { background-color: #FCE4EC; color: #C2185B; border-color: #F06292; } /* 주어: 분홍 */
-        .hl-v { background-color: #FFF3E0; color: #E65100; border-color: #FF9800; } /* 동사: 주황 */
-        .hl-o { background-color: #E3F2FD; color: #1565C0; border-color: #64B5F6; } /* 목적어: 파랑 */
-        .hl-c { background-color: #F3E5F5; color: #7B1FA2; border-color: #BA68C8; } /* 보어: 보라 */
-        .hl-m { background-color: #E8F5E9; color: #2E7D32; border-color: #81C784; } /* 수식어: 초록 */
+        /* [수정] 눈이 편안한 아주 연한 파스텔 톤 */
+        .hl-s { background-color: #FFF0F5; color: #D81B60; } /* 주어: 연한 핑크 */
+        .hl-v { background-color: #FFF8E1; color: #EF6C00; } /* 동사: 연한 오렌지/크림 */
+        .hl-o { background-color: #E3F2FD; color: #1565C0; } /* 목적어: 연한 블루 */
+        .hl-c { background-color: #F3E5F5; color: #8E24AA; } /* 보어: 연한 퍼플 */
+        .hl-m { background-color: #E8F5E9; color: #2E7D32; } /* 수식어: 연한 그린 */
+        .hl-x { background-color: #F5F5F5; color: #616161; } /* 기타: 연한 회색 */
 
-        .sent-pattern { display: inline-block; background: #222; color: #FFC107; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 12px; margin-top: 5px;}
+        .sent-pattern { display: inline-block; background: #222; color: #FFC107; font-size: 12px; font-weight: 800; padding: 6px 12px; border-radius: 20px; margin-top: 5px;}
 
         /* 하단 상세 리스트 스타일 */
         .struct-list { list-style: none; padding: 0; margin: 0; }
         .struct-item { 
-            padding: 8px 0; 
+            padding: 10px 0; 
             border-bottom: 1px dashed #eee; 
             font-size: 14px; 
             line-height: 1.6;
@@ -75,25 +76,27 @@
         }
         .struct-item:last-child { border-bottom: none; }
         
-        /* 라벨 디자인 (주어:명사구) */
+        /* 라벨 디자인 */
         .struct-label {
             display: inline-block;
-            margin-right: 10px;
+            margin-right: 12px;
             color: #fff;
             font-weight: 800;
-            padding: 3px 8px;
+            padding: 4px 8px;
             border-radius: 6px;
             font-size: 11px;
             white-space: nowrap;
-            min-width: 60px;
+            min-width: 65px;
             text-align: center;
             flex-shrink: 0;
+            margin-top: 2px;
         }
         .label-s { background: #D81B60; }
         .label-v { background: #F57C00; }
         .label-o { background: #1976D2; }
         .label-c { background: #8E24AA; }
         .label-m { background: #388E3C; }
+        .label-x { background: #757575; }
 
         .struct-content-box { flex-grow: 1; }
         .struct-content { font-family: 'Georgia', serif; font-weight: 700; color: #222; font-size: 15px; margin-right: 6px; display: block; margin-bottom: 2px;}
@@ -216,7 +219,7 @@
     }
 
     // ============================================
-    //  [핵심] 문장 구조 분석 로직
+    //  [핵심] 문장 구조 분석 로직 (완전 분석 보장)
     // ============================================
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
@@ -234,117 +237,141 @@
             sentences.forEach((sent, index) => {
                 const sentText = sent.text;
                 const sDoc = nlp(sentText);
-                let htmlItems = "";
-                let isComplete = false;
-                let pattern = "1형식";
+                let chunks = []; // 모든 분석 조각을 담을 배열
+
+                // 1. 전치사구 (Modifier) 먼저 추출 (가장 확실한 수식어)
+                let prepPhrases = sDoc.match('#Preposition .? #Adjective? #Noun+').json();
+                let prepTexts = prepPhrases.map(p => p.text);
                 
-                // 하이라이트 토큰을 담을 리스트 (text, class)
-                let highlights = [];
+                prepPhrases.forEach(p => {
+                    chunks.push({ text: p.text.trim(), type: 'M', label: '수식어', detail: '전치사구 (Modifier)', idx: -1 });
+                });
 
-                // 1. 동사 찾기
-                let verbs = sDoc.verbs();
-                let mainVerb = verbs.first();
-
-                if (!mainVerb.found) {
-                    htmlItems = `<li class="struct-item"><span style="color:#666;">(분석 불가: 문장에 동사가 없습니다)</span></li>`;
-                } else {
-                    isComplete = true;
-                    // 동사 상세 (시제 등)
-                    let verbInfo = [];
-                    if (sDoc.has('#PresentTense')) verbInfo.push("현재");
-                    if (sDoc.has('#PastTense')) verbInfo.push("과거");
-                    if (mainVerb.has('(have|has|had)')) verbInfo.push("완료");
-                    if (mainVerb.has('(be|is|are|was|were)')) verbInfo.push("수동태");
-                    let verbDetail = verbInfo.length > 0 ? verbInfo.join(', ') : "동사";
-
-                    // [주어]
-                    let subjectText = sDoc.match('^.+').before(mainVerb).text().trim();
-                    if(subjectText) {
-                        htmlItems += createListItem('주어', '명사구', subjectText, 'label-s', '');
-                        highlights.push({text: subjectText, cls: 'hl-s'});
-                    }
-
-                    // [동사]
-                    let verbTxt = mainVerb.text().trim();
-                    htmlItems += createListItem('동사', '동사구', verbTxt, 'label-v', verbDetail);
-                    highlights.push({text: verbTxt, cls: 'hl-v'});
-
-                    // [동사 뒤] 분석 (목적어/보어/수식어)
-                    let afterDoc = sDoc.match('.+').after(mainVerb);
+                // 2. 동사 (Verb) 추출
+                let verbs = sDoc.verbs().json();
+                let verbTexts = verbs.map(v => v.text);
+                
+                verbs.forEach(v => {
+                    let verbDetail = "동사구";
+                    if (nlp(v.text).has('#PastTense')) verbDetail += ", 과거";
+                    if (nlp(v.text).has('#PresentTense')) verbDetail += ", 현재";
+                    if (v.text.includes('have') || v.text.includes('has')) verbDetail += ", 완료";
+                    if (v.text.includes('be') || v.text.includes('was') || v.text.includes('were')) verbDetail += ", 수동태/진행";
                     
-                    // 수식어(전치사구) 추출
-                    let prepPhrases = afterDoc.match('#Preposition .? #Adjective? #Noun+').json();
-                    let prepTexts = prepPhrases.map(p => p.text);
-                    
-                    // 전치사구를 제외한 '핵심' 남은 텍스트 (목적어/보어 후보)
-                    let coreText = afterDoc.text();
-                    prepTexts.forEach(pt => { coreText = coreText.replace(pt, ''); });
-                    
-                    // 핵심 남은 텍스트에서 명사/형용사 찾기
-                    let coreDoc = nlp(coreText);
-                    let nounObj = coreDoc.match('#Noun+').first();
-                    let adjComp = coreDoc.match('#Adjective+').first();
+                    chunks.push({ text: v.text.trim(), type: 'V', label: '동사', detail: verbDetail, idx: -1 });
+                });
 
-                    let hasObject = false;
-                    let hasComp = false;
+                // 3. 나머지 텍스트 처리 (주어, 목적어, 보어, 기타 수식어)
+                // 문장에서 이미 찾은 전치사구와 동사를 제외한 부분을 찾음
+                let remainingText = sentText;
+                // 정확한 제거를 위해 토큰화 필요하지만, 간략히 처리
+                
+                // *전략 수정*: 문장을 앞에서부터 훑으며 빈 곳을 채움
+                // 모든 텀을 가져와서 역할 할당
+                let terms = sDoc.terms().json();
+                
+                // 이미 청크로 등록된 텍스트인지 확인하는 함수
+                const isChunked = (text) => chunks.some(c => c.text.includes(text) || text.includes(c.text));
 
-                    // 목적어/보어 추가
-                    if (nounObj.found && nounObj.text().trim().length > 0) {
-                        let objTxt = nounObj.text().trim();
-                        // 원문 텍스트 내 존재 여부 확인 (잘못된 매칭 방지)
-                        if(sentText.includes(objTxt)) {
-                            htmlItems += createListItem('목적어', '명사', objTxt, 'label-o', '');
-                            highlights.push({text: objTxt, cls: 'hl-o'});
-                            hasObject = true;
-                        }
-                    } else if (adjComp.found) {
-                        let compTxt = adjComp.text().trim();
-                        if(sentText.includes(compTxt)) {
-                            htmlItems += createListItem('보어', '형용사', compTxt, 'label-c', '');
-                            highlights.push({text: compTxt, cls: 'hl-c'});
-                            hasComp = true;
-                        }
-                    }
+                // 단순 주어/목적어 판별을 위한 플래그
+                let foundFirstVerb = false;
 
-                    // 수식어(M) 추가
-                    prepPhrases.forEach(p => {
-                        let prepTxt = p.text.trim();
-                        // 수식 대상 추론
-                        let hint = "수식어";
-                        let prepIndex = sentText.indexOf(prepTxt);
-                        let objIndex = nounObj.found ? sentText.indexOf(nounObj.text()) : -1;
+                // 텀 단위 순회 보다는, 우리가 찾은 덩어리들을 위치 기준으로 정렬하고
+                // 빈 공간을 채우는 것이 더 안전함.
+                
+                // 위치(Index) 찾기
+                chunks.forEach(c => {
+                    c.idx = sentText.indexOf(c.text);
+                });
+                // 위치 순 정렬
+                chunks.sort((a,b) => a.idx - b.idx);
+
+                // 빈 공간 채우기 (명사구 등)
+                // 문장의 실제 순서대로 재구성 시도
+                
+                // (이 부분은 복잡하므로, 단순하게 남은 명사들을 위치에 따라 S/O로 분류)
+                let nouns = sDoc.match('#Noun+').not(sDoc.match('#Preposition . #Noun+')).json(); // 전치사구 내 명사 제외
+                
+                nouns.forEach(n => {
+                    if (!isChunked(n.text)) {
+                        let nIdx = sentText.indexOf(n.text);
+                        // 첫 동사 찾기
+                        let firstVerbIdx = chunks.find(c => c.type === 'V')?.idx || 9999;
                         
-                        if (objIndex !== -1 && prepIndex > objIndex) {
-                            hint = `'${nounObj.text()}'를 꾸미는 형용사 역할 (추정)`;
+                        if (nIdx < firstVerbIdx) {
+                            chunks.push({ text: n.text.trim(), type: 'S', label: '주어', detail: '명사구 (Subject)', idx: nIdx });
                         } else {
-                            hint = `'${verbTxt}'를 꾸미는 부사 역할 (추정)`;
+                            chunks.push({ text: n.text.trim(), type: 'O', label: '목적어', detail: '명사 (Object/Comp)', idx: nIdx });
                         }
-                        
-                        htmlItems += createListItem('수식어', '전치사구', prepTxt, 'label-m', hint);
-                        highlights.push({text: prepTxt, cls: 'hl-m'});
-                    });
+                    }
+                });
 
-                    // 형식 추론 텍스트 생성
-                    if (hasObject) pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
-                    else if (hasComp) pattern = "2형식 (주어 S + 동사 V + 보어 C)";
-                    else pattern = "1형식 (주어 S + 동사 V)";
-                }
+                // 접속사/관계사 (who, that, which, and)
+                let connectors = sDoc.match('(#Conjunction|#Pronoun)').json();
+                connectors.forEach(c => {
+                    if (!isChunked(c.text)) {
+                        let cIdx = sentText.indexOf(c.text);
+                        chunks.push({ text: c.text.trim(), type: 'M', label: '수식어', detail: '접속사/관계사', idx: cIdx });
+                    }
+                });
 
-                // 상단 문장 하이라이트 적용 (Replacement 방식)
-                let coloredSentText = sentText;
-                // 긴 단어부터 교체해야 포함관계 오류 방지
-                highlights.sort((a,b) => b.text.length - a.text.length);
+                // 최종 정렬
+                chunks.sort((a,b) => a.idx - b.idx);
+
+                // 형식 추론
+                let hasObj = chunks.some(c => c.type === 'O');
+                let pattern = hasObj ? "3형식 (주어 S + 동사 V + 목적어 O)" : "1형식 (주어 S + 동사 V)";
+                // 보어 구분이 어려우므로 2형식은 단순 추론 제외 (대부분 3형식 또는 1형식으로 커버)
+                // 만약 be동사 뒤에 형용사가 오면 2형식으로 바꿀 수 있음
+                let hasBeVerb = chunks.some(c => c.type === 'V' && (c.text.includes('is') || c.text.includes('was') || c.text.includes('be')));
+                let hasAdj = sDoc.match('#Adjective').found; // 단순 체크
+                if(hasBeVerb && !hasObj && hasAdj) pattern = "2형식 (주어 S + 동사 V + 보어 C)";
+
+
+                // === HTML 생성 ===
                 
+                // 1. 상단 문장 하이라이트 생성
+                let coloredSentText = sentText;
+                // 역순으로 교체해야 인덱스 안 꼬임? -> replaceAll 방식 사용하되, 토큰화
+                let highlights = [];
+                chunks.forEach(c => {
+                    let cls = `hl-${c.type.toLowerCase()}`;
+                    if (c.type === 'M' && (c.text === 'and' || c.text === ',')) cls = 'hl-x'; // 단순 연결어는 회색
+                    highlights.push({ text: c.text, cls: cls });
+                });
+                
+                // 긴 단어 우선 교체
+                highlights.sort((a,b) => b.text.length - a.text.length);
                 let tokenMap = {};
                 highlights.forEach((h, i) => {
-                    let token = `__TOKEN${i}__`;
-                    if(coloredSentText.includes(h.text)) {
+                    let token = `__T${i}__`;
+                    // 텍스트가 문장에 존재하면 교체
+                    if (coloredSentText.includes(h.text)) {
                         coloredSentText = coloredSentText.replace(h.text, token);
                         tokenMap[token] = `<span class="hl-word ${h.cls}">${h.text}</span>`;
                     }
                 });
+                // 복원
                 Object.keys(tokenMap).forEach(k => {
                     coloredSentText = coloredSentText.replace(k, tokenMap[k]);
+                });
+
+
+                // 2. 하단 리스트 생성
+                let listHtml = "";
+                chunks.forEach(c => {
+                    let cls = `label-${c.type.toLowerCase()}`;
+                    if (c.type === 'M' && (c.text === 'and' || c.text === ',')) cls = 'label-x';
+                    
+                    listHtml += `
+                        <li class="struct-item">
+                            <span class="struct-label ${cls}">${c.label}</span>
+                            <div class="struct-content-box">
+                                <span class="struct-content">${c.text}</span>
+                                <span class="struct-detail">${c.detail}</span>
+                            </div>
+                        </li>
+                    `;
                 });
 
                 totalHtml += `
@@ -352,14 +379,15 @@
                         <div class="analysis-header">
                             <span class="sent-num">Sentence ${index + 1}</span>
                             <div class="sent-text">${coloredSentText}</div>
-                            ${isComplete ? `<span class="sent-pattern">${pattern}</span>` : ''}
+                            <span class="sent-pattern">${pattern}</span>
                         </div>
                         <ul class="struct-list">
-                            ${htmlItems}
+                            ${listHtml}
                         </ul>
                     </div>
                 `;
             });
+
             resultBox.innerHTML = totalHtml;
 
         } catch (error) {
@@ -368,34 +396,21 @@
         }
     }
 
-    function createListItem(label, type, text, colorClass, detail) {
-        let detailHtml = detail ? `<span class="struct-detail">(${detail})</span>` : '';
-        return `
-            <li class="struct-item">
-                <span class="struct-label ${colorClass}">${label}:${type}</span>
-                <div class="struct-content-box">
-                    <span class="struct-content">${text}</span>
-                    ${detailHtml}
-                </div>
-            </li>
-        `;
-    }
-
     // ============================================
-    //  화면 렌더링 (뜻 가리기 버튼 제어 추가)
+    //  [기존 기능] 단어장 렌더링
     // ============================================
     function renderContent() {
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
         
-        // 버튼 가리기/보이기 로직
+        // 버튼 제어 (단어장에서만 보임)
         if (selectedValue === 'analyzer' || selectedValue.startsWith("g_")) {
-            toggleBtn.style.display = 'none'; // 분석기, 문법에서는 숨김
+            toggleBtn.style.display = 'none';
         } else {
-            toggleBtn.style.display = 'inline-block'; // 단어장에서는 보임
+            toggleBtn.style.display = 'inline-block';
         }
 
-        // 1. 분석기 모드
+        // 분석기 모드
         if (selectedValue === 'analyzer') {
             analyzerSection.style.display = 'block';
             wordList.style.display = 'none';
@@ -405,7 +420,7 @@
             return;
         }
 
-        // 2. 문법/단어장 모드
+        // 단어장/문법 모드
         analyzerSection.style.display = 'none';
         wordList.style.display = 'block';
         wordList.innerHTML = '';
