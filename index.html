@@ -6,105 +6,140 @@
     <title>TOEIC STUDY - AI ANALYZER</title>
     <script src="https://unpkg.com/compromise"></script>
     <style>
-        :root { --primary: #FFC107; --dark: #222; --gray: #f4f4f4; --white: #fff; --shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        :root { --primary: #FFC107; --dark: #222; --gray: #f4f4f4; --white: #fff; --shadow: 0 4px 12px rgba(0,0,0,0.08); }
         * { box-sizing: border-box; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; background-color: var(--gray); color: var(--dark); padding-bottom: 80px; }
         
         header { 
             background-color: var(--primary); 
-            padding: 10px 20px 15px 20px; 
+            padding: 12px 20px; 
             position: sticky; top: 0; z-index: 100; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
             display: flex; flex-direction: column; gap: 10px;
         }
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
-        h1 { margin: 0; font-size: 18px; font-weight: 900; color: #000; cursor: pointer; letter-spacing: -0.5px; }
-        .controls { display: flex; gap: 5px; }
-        select { padding: 8px; border-radius: 6px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; }
-        .toggle-btn { background: #000; color: var(--primary); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
-        #themeDisplay { font-size: 13px; color: #000; background-color: rgba(255,255,255,0.5); padding: 6px 12px; border-radius: 6px; font-weight: 700; text-align: center; margin-top: 5px; display: none; }
-        .progress-container { background: #e0e0e0; height: 6px; width: 100%; }
-        .progress-bar { background: #000; height: 100%; width: 0%; transition: width 0.3s; }
-        .container { padding: 20px; max-width: 700px; margin: 0 auto; }
-
-        /* === 분석기 전용 스타일 === */
-        #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 30px; }
-        .input-group label { display: block; font-size: 14px; font-weight: bold; color: #000; margin-bottom: 8px; }
-        .input-box { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; font-family: 'Georgia', serif; line-height: 1.5; resize: vertical; }
-        .input-box:focus { border-color: var(--primary); outline: none; }
-        .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        h1 { margin: 0; font-size: 19px; font-weight: 900; color: #000; cursor: pointer; letter-spacing: -0.5px; }
         
-        /* 문장 분석 카드 */
-        .analysis-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .analysis-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; }
-        .sent-num { font-weight: 900; color: #999; font-size: 14px; }
-        .sent-pattern { background: #222; color: #FFC107; font-size: 12px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
+        .controls { display: flex; gap: 6px; }
+        select { padding: 8px 10px; border-radius: 8px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .toggle-btn { background: #222; color: var(--primary); border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; }
+        
+        #themeDisplay { 
+            font-size: 13px; color: #333; background-color: rgba(255,255,255,0.8); 
+            padding: 8px 12px; border-radius: 8px; font-weight: 700; 
+            text-align: center; margin-top: 5px; display: none; backdrop-filter: blur(4px);
+        }
 
-        /* [핵심] 블록 뷰 스타일 */
+        .progress-container { background: #e0e0e0; height: 6px; width: 100%; }
+        .progress-bar { background: #222; height: 100%; width: 0%; transition: width 0.3s; }
+        
+        .container { padding: 20px; max-width: 720px; margin: 0 auto; }
+
+        /* === [NEW] 분석기 스타일 (예쁜 버전 복원 & 높이 수정) === */
+        #analyzerSection { background: #fff; border-radius: 16px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 30px; }
+        
+        .input-group label { display: block; font-size: 15px; font-weight: 800; color: #222; margin-bottom: 10px; }
+        .input-box { 
+            width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 12px; 
+            font-size: 16px; font-family: 'Georgia', serif; line-height: 1.6; resize: vertical; 
+            transition: 0.2s; background: #fafafa;
+        }
+        .input-box:focus { border-color: var(--primary); background: #fff; outline: none; }
+        
+        .action-btn { 
+            width: 100%; background: #222; color: #FFC107; border: none; padding: 16px; 
+            border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 15px; 
+            transition: transform 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* 분석 결과 카드 */
+        .analysis-card { 
+            background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 24px; 
+            margin-bottom: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); 
+            position: relative; overflow: hidden;
+        }
+        .analysis-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: #222;
+        }
+
+        .analysis-header { 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; 
+            border-bottom: 2px dashed #f0f0f0; padding-bottom: 15px; 
+        }
+        .sent-num { font-weight: 900; color: #aaa; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .sent-pattern { background: #222; color: #FFC107; font-size: 12px; font-weight: 800; padding: 5px 10px; border-radius: 20px; }
+
+        /* [핵심] 블록 뷰 스타일 (높이 조절됨) */
         .sentence-block-view { 
-            line-height: 3.5; /* 줄간격 매우 넓게 (라벨 공간 확보) */
-            font-size: 18px; 
+            line-height: 2.6; /* 줄간격 적당히 조절 (너무 넓지 않게) */
+            font-size: 17px; 
             font-family: 'Georgia', serif; 
-            color: #333;
-            margin-bottom: 20px;
+            color: #444;
+            margin-bottom: 25px;
+            word-break: keep-all;
         }
         
         .chunk {
             display: inline-block;
-            padding: 4px 8px;
+            padding: 2px 8px; /* 내부 여백 */
             margin: 0 3px;
             border-radius: 6px;
-            border-bottom: 3px solid rgba(0,0,0,0.15);
+            border-bottom: 2px solid rgba(0,0,0,0.1);
             position: relative;
             cursor: pointer;
             transition: all 0.2s;
-            font-weight: 600;
+            background-color: #f5f5f5; /* 기본 배경 */
         }
-        .chunk:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .chunk:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 10; }
         
-        /* 라벨 (S, V, O ...) */
+        /* 라벨 (S, V, O) 위치 수정 */
         .chunk::before {
             content: attr(data-label);
             position: absolute;
-            top: -22px;
-            left: 0;
-            font-size: 11px;
-            font-weight: 800;
+            top: -16px; /* 높이 낮춤 (기존 -22px -> -16px) */
+            left: 2px;
+            font-size: 9px;
+            font-weight: 900;
             font-family: sans-serif;
-            opacity: 1;
-            padding: 2px 6px;
+            padding: 2px 5px;
             border-radius: 4px;
             color: white;
             white-space: nowrap;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* 상세 리스트 스타일 */
+        /* 상세 리스트 테이블 */
         .detail-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .detail-table th { text-align: left; color: #888; font-weight: 600; padding: 8px 4px; border-bottom: 1px solid #eee; width: 60px; }
-        .detail-table td { padding: 8px 4px; border-bottom: 1px solid #f9f9f9; vertical-align: top; }
-        .role-tag { font-size: 11px; font-weight: bold; padding: 3px 6px; border-radius: 4px; color: #fff; display: inline-block;}
-        .word-text { font-weight: 700; color: #222; font-family: 'Georgia', serif; font-size: 15px; }
-        .desc-text { display: block; font-size: 12px; color: #666; margin-top: 3px; }
+        .detail-table tr:not(:last-child) { border-bottom: 1px solid #f5f5f5; }
+        .detail-table th { text-align: left; padding: 10px 4px; width: 70px; vertical-align: top; }
+        .detail-table td { padding: 10px 4px; vertical-align: top; }
+        
+        .role-tag { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; color: #fff; display: inline-block; text-align: center; min-width: 50px; }
+        .word-text { font-weight: 700; color: #222; font-family: 'Georgia', serif; font-size: 15px; display: block; margin-bottom: 4px;}
+        .desc-text { font-size: 13px; color: #666; font-weight: 500; }
 
-        /* 색상 테마 - 배경색을 진하게 수정 */
-        .c-s { background-color: #F8BBD0; border-color: #E91E63; } /* 주어 (분홍) */
-        .c-s::before { background-color: #D81B60; }
+        /* 색상 테마 (진하고 예쁜 파스텔) */
+        .c-s { background-color: #FCE4EC; border-color: #EC407A; } /* 주어 (분홍) */
+        .c-s::before, .bg-s { background-color: #D81B60; }
         
-        .c-v { background-color: #FFE0B2; border-color: #FB8C00; } /* 동사 (주황) */
-        .c-v::before { background-color: #F57C00; }
+        .c-v { background-color: #FFF3E0; border-color: #FFA726; } /* 동사 (주황) */
+        .c-v::before, .bg-v { background-color: #F57C00; }
         
-        .c-o { background-color: #BBDEFB; border-color: #1976D2; } /* 목적어 (파랑) */
-        .c-o::before { background-color: #1565C0; }
+        .c-o { background-color: #E3F2FD; border-color: #42A5F5; } /* 목적어 (파랑) */
+        .c-o::before, .bg-o { background-color: #1976D2; }
         
-        .c-c { background-color: #E1BEE7; border-color: #8E24AA; } /* 보어 (보라) */
-        .c-c::before { background-color: #7B1FA2; }
+        .c-c { background-color: #F3E5F5; border-color: #AB47BC; } /* 보어 (보라) */
+        .c-c::before, .bg-c { background-color: #8E24AA; }
         
-        .c-m { background-color: #C8E6C9; border-color: #388E3C; } /* 수식어 (초록) */
-        .c-m::before { background-color: #2E7D32; }
+        .c-m { background-color: #E8F5E9; border-color: #66BB6A; } /* 수식어 (초록) */
+        .c-m::before, .bg-m { background-color: #388E3C; }
 
-        .c-x { background-color: #eee; border-color: #999; } /* 기타 */
+        .c-x { background-color: #EEEEEE; border-color: #BDBDBD; } /* 기타 */
+        .c-x::before, .bg-x { background-color: #757575; }
+
 
         /* === 단어장 스타일 (기존 유지) === */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; }
@@ -157,8 +192,8 @@
             <label>💬 분석할 영어 문장을 입력하세요</label>
             <textarea id="inputEn" class="input-box" rows="5" placeholder="예: The FBI has released images of a masked person."></textarea>
         </div>
-        <button class="action-btn" onclick="runAnalysis()">⚡ 문장 뽀개기 (구조 분석)</button>
-        <div id="resultBox" style="margin-top:20px;"></div>
+        <button class="action-btn" onclick="runAnalysis()">⚡ 문장 뽀개기 (상세 분석)</button>
+        <div id="resultBox" style="margin-top:30px;"></div>
     </div>
 
     <div id="wordList"></div>
@@ -213,7 +248,7 @@
     }
 
     // ============================================
-    //  [수정됨] 모든 성분 완벽 표시 로직
+    //  [완전 수정됨] 동사 기준 강제 분할 분석기
     // ============================================
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
@@ -234,114 +269,128 @@
                 const sDoc = nlp(sentText);
                 let chunks = [];
 
-                // 1. 메인 동사 찾기
+                // 1. 메인 동사 찾기 (없으면 분석 포기)
                 let verbs = sDoc.verbs();
                 let mainVerb = verbs.first();
-                
+
                 if (!mainVerb.found) {
-                    totalHtml += `<div class="analysis-card"><div class="analysis-header"><span class="sent-num">Sentence ${index+1}</span></div><div class="sentence-block-view">${sentText}</div></div>`;
+                    // 동사가 없으면 통째로 '문장'으로 표시
+                    totalHtml += `
+                        <div class="analysis-card">
+                            <div class="analysis-header"><span class="sent-num">Sentence ${index+1}</span><span class="sent-pattern bg-x" style="color:#fff;">분석 불가</span></div>
+                            <div class="sentence-block-view">${sentText}</div>
+                            <div style="font-size:13px; color:#666; padding:10px;">💡 동사를 찾을 수 없는 문장입니다. (제목이나 구문일 수 있음)</div>
+                        </div>`;
                     return;
                 }
 
-                // 2. 동사를 기준으로 앞/뒤 자르기 (중요: 이렇게 해야 겹치지 않음)
+                // 2. 동사 기준으로 앞/뒤 텍스트 추출 (겹침 방지)
+                // - 동사 앞부분 (주어)
                 let subjectDoc = sDoc.match('^.+').before(mainVerb);
-                let verbDoc = mainVerb;
+                let subjectText = subjectDoc.text().trim();
+
+                // - 동사
+                let verbText = mainVerb.text().trim();
+
+                // - 동사 뒷부분 (목적어 + 수식어)
                 let afterDoc = sDoc.match('.+').after(mainVerb);
 
-                // 3. 각 파트별 덩어리(Chunk) 등록
-                // (A) 주어 (Subject)
-                if(subjectDoc.found) {
-                    chunks.push({ text: subjectDoc.text().trim(), type: 'S', label: '주어', class: 'c-s', detail: '명사구' });
+                // 3. 청크 데이터 생성
+                
+                // (A) 주어 (S)
+                if(subjectText) {
+                    chunks.push({ text: subjectText, type: 'S', label: '주어', class: 'c-s', detail: '명사구 (동작의 주체)' });
                 }
 
-                // (B) 동사 (Verb)
-                chunks.push({ text: verbDoc.text().trim(), type: 'V', label: '동사', class: 'c-v', detail: '동사구' });
+                // (B) 동사 (V)
+                chunks.push({ text: verbText, type: 'V', label: '동사', class: 'c-v', detail: '동사구 (동작/상태)' });
 
-                // (C) 뒷부분 정밀 분석 (Modifier 먼저 추출 후 나머지 Object/Comp)
-                // - 전치사구 (Modifier)
+                // (C) 뒷부분 분석
+                // 전략: 뒷부분 전체 텍스트에서 '전치사구(M)'를 찾고, 
+                // 전치사구가 '아닌' 나머지 중 가장 먼저 나오는 명사를 '목적어(O)' 또는 '보어(C)'로 본다.
+                
                 let prepPhrases = afterDoc.match('#Preposition .? #Adjective? #Noun+').json();
                 
-                // 전치사구 텍스트 목록 저장
+                // 전치사구 목록 저장 (나중에 텍스트에서 매칭하기 위해)
                 let prepTexts = prepPhrases.map(p => p.text);
-
-                // - 나머지 부분 (Object/Complement)
-                // afterDoc에서 전치사구를 뺀 나머지를 찾아야 함.
-                // compromise의 not()은 태그 기반이라 텍스트 제거가 어려움.
-                // 따라서 단순하게: "전치사구가 아닌 가장 앞선 명사"를 목적어로 간주.
                 
-                // 전치사구가 아닌 명사 찾기 (임시 로직)
-                let remaining = afterDoc.not('#Preposition .? #Adjective? #Noun+');
-                let objectObj = remaining.match('#Noun+').first();
-                let compObj = remaining.match('#Adjective+').first();
-
+                // 뒷부분 전체 텍스트
+                let afterText = afterDoc.text();
+                
+                // 목적어/보어 찾기
                 let objectFound = false;
+                let compFound = false;
+                
+                // 임시: 전치사구가 아닌 부분을 찾기 위해 단순 replace (데모용)
+                // 더 정확하게 하려면 index 기반으로 잘라야 하지만, 여기선 단순화.
+                let coreText = afterText;
+                prepTexts.forEach(p => { coreText = coreText.replace(p, ''); });
+                
+                // 남은 텍스트(coreText)에서 명사가 있으면 목적어
+                let coreDoc = nlp(coreText);
+                let objMatch = coreDoc.match('#Noun+').first();
+                let compMatch = coreDoc.match('#Adjective+').first();
+                
+                // (D) 목적어/보어/수식어 등록
+                // 순서를 지키기 위해 afterDoc 전체를 순회하며 매칭해야 함.
+                // 여기서는 "문장 뽀개기" 시각화를 위해, 원문에서 위치를 찾아 청크에 넣음.
 
-                if (objectObj.found) {
-                    chunks.push({ text: objectObj.text().trim(), type: 'O', label: '목적어', class: 'c-o', detail: '명사구' });
-                    objectFound = true;
-                } else if (compObj.found) {
-                    chunks.push({ text: compObj.text().trim(), type: 'C', label: '보어', class: 'c-c', detail: '형용사' });
+                // 일단 수식어(M) 먼저 등록
+                prepPhrases.forEach(p => {
+                    chunks.push({ text: p.text.trim(), type: 'M', label: '수식어', class: 'c-m', detail: '전치사구 (수식)' });
+                });
+
+                // 남은 명사 덩어리 -> 목적어
+                if (objMatch.found) {
+                     chunks.push({ text: objMatch.text().trim(), type: 'O', label: '목적어', class: 'c-o', detail: '명사 (대상)' });
+                     objectFound = true;
+                } else if (compMatch.found) {
+                     chunks.push({ text: compMatch.text().trim(), type: 'C', label: '보어', class: 'c-c', detail: '형용사 (상태설명)' });
+                     compFound = true;
                 }
 
-                // 수식어(M) 추가
-                prepPhrases.forEach(p => {
-                    chunks.push({ text: p.text.trim(), type: 'M', label: '수식어', class: 'c-m', detail: '전치사구' });
-                });
-
-
-                // 4. 블록 HTML 생성 (Replacement 방식)
-                // 원본 문장에서 해당 텍스트들을 태그로 감쌈.
-                // 중복 방지를 위해 "긴 텍스트"부터 교체.
-                
-                let blockHtml = sentText;
-                // chunks 정렬 (긴 글자 우선)
+                // 4. HTML 생성 (Replacement 방식)
+                // 긴 단어부터 교체하여 부분 일치 오류 방지
                 chunks.sort((a,b) => b.text.length - a.text.length);
                 
-                // 토큰 치환 (단어가 겹칠 경우 대비)
-                let tokens = {};
+                let blockHtml = sentText;
+                let tokenMap = {};
+                
                 chunks.forEach((c, i) => {
-                    let key = `__CHUNK${i}__`;
-                    // 단순 replace는 문장 내 똑같은 단어가 2번 나오면 앞의 것을 바꿈.
-                    // 이를 방지하기 위해 정교한 로직이 필요하나, 여기선 데모용으로 replace 활용.
-                    // (실제 사용시엔 offset 기반 교체 권장)
-                    blockHtml = blockHtml.replace(c.text, key);
-                    tokens[key] = `<span class="chunk ${c.class}" data-label="${c.label}">${c.text}</span>`;
+                    let token = `__TOKEN${i}__`;
+                    // 단순 replace는 문장 내 같은 단어가 있으면 앞쪽부터 바꿈.
+                    // 이를 방지하기 위해 정교한 offset 처리가 필요하지만, 
+                    // 지금은 사용자가 요청한 "모든 성분 표시"를 위해 강력하게 replace 적용.
+                    if (blockHtml.includes(c.text)) {
+                        blockHtml = blockHtml.replace(c.text, token);
+                        tokenMap[token] = `<span class="chunk ${c.class}" data-label="${c.label}">${c.text}</span>`;
+                    }
                 });
-
+                
                 // 토큰 복원
-                Object.keys(tokens).forEach(k => {
-                    blockHtml = blockHtml.replace(k, tokens[k]);
+                Object.keys(tokenMap).forEach(k => {
+                    blockHtml = blockHtml.replace(k, tokenMap[k]);
                 });
 
+                // 5. 리스트 생성을 위한 정렬 (문장 순서대로)
+                // 원문에서 해당 텍스트의 위치(indexOf)를 찾아 정렬
+                chunks.sort((a,b) => sentText.indexOf(a.text) - sentText.indexOf(b.text));
 
-                // 5. 상세 리스트 및 형식 추론
-                let pattern = objectFound ? "3형식 (S+V+O)" : (compObj.found ? "2형식 (S+V+C)" : "1형식 (S+V)");
-                
-                // 리스트 정렬 (원문 순서대로 보여주기 위해 다시 offset이나 텍스트 인덱스로 정렬 추천)
-                // 여기선 입력된 순서(S -> V -> O -> M)로 보여줌. (M은 뒤죽박죽일 수 있음)
-                
                 let rowsHtml = "";
-                // 보기 좋게 순서 정렬: S -> V -> O/C -> M
-                let sortedChunks = chunks.sort((a,b) => sentText.indexOf(a.text) - sentText.indexOf(b.text));
-                
-                sortedChunks.forEach(c => {
+                chunks.forEach(c => {
                     let roleColor = c.class.replace('c-', 'bg-');
-                    if(roleColor === 'bg-s') roleColor = '#D81B60';
-                    if(roleColor === 'bg-v') roleColor = '#F57C00';
-                    if(roleColor === 'bg-o') roleColor = '#1565C0';
-                    if(roleColor === 'bg-c') roleColor = '#7B1FA2';
-                    if(roleColor === 'bg-m') roleColor = '#2E7D32';
-
                     rowsHtml += `
                         <tr>
-                            <th><span class="role-tag" style="background:${roleColor}">${c.label}</span></th>
+                            <th><span class="role-tag ${roleColor}">${c.label}</span></th>
                             <td>
                                 <span class="word-text">${c.text}</span>
-                                <span class="desc-text">${c.detail} (${c.type})</span>
+                                <span class="desc-text">${c.detail}</span>
                             </td>
                         </tr>
                     `;
                 });
+
+                let pattern = objectFound ? "3형식 (S+V+O)" : (compFound ? "2형식 (S+V+C)" : "1형식 (S+V)");
 
                 totalHtml += `
                     <div class="analysis-card">
@@ -349,12 +398,8 @@
                             <span class="sent-num">Sentence ${index + 1}</span>
                             <span class="sent-pattern">${pattern}</span>
                         </div>
-                        <div class="sentence-block-view">
-                            ${blockHtml}
-                        </div>
-                        <table class="detail-table">
-                            ${rowsHtml}
-                        </table>
+                        <div class="sentence-block-view">${blockHtml}</div>
+                        <table class="detail-table">${rowsHtml}</table>
                     </div>
                 `;
             });
@@ -367,7 +412,7 @@
         }
     }
 
-    // (기존 단어장 렌더링 함수들 유지)
+    // (기존 단어장 함수 유지)
     function renderContent() {
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
@@ -396,6 +441,7 @@
             else if(selectedValue === "g_parts") dataToRender = grammarData.parts;
             else if(selectedValue === "g_verbals") dataToRender = grammarData.verbals;
             themeDisplay.style.display = 'block';
+            themeDisplay.innerText = document.querySelector(`option[value="${selectedValue}"]`).innerText;
         } else {
             const selectedDay = parseInt(selectedValue);
             if(typeof vocaData !== 'undefined') {
