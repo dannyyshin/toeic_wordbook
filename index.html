@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TOEIC STUDY</title>
-    <script src="https://unpkg.com/compromise"></script>
+    <title>TOEIC STUDY - AI ANALYZER</title>
+    <script src="https://unpkg.com/compromise@14.10.0/builds/compromise.min.js"></script>
     <style>
         :root { --primary: #FFC107; --dark: #222; --gray: #f4f4f4; --white: #fff; --shadow: 0 2px 8px rgba(0,0,0,0.1); }
         * { box-sizing: border-box; font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -20,12 +20,7 @@
         
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         
-        h1 { 
-            margin: 0; font-size: 18px; font-weight: 900; color: #000; 
-            cursor: pointer; transition: opacity 0.2s; letter-spacing: -0.5px;
-        }
-        h1:hover { opacity: 0.6; }
-        
+        h1 { margin: 0; font-size: 18px; font-weight: 900; color: #000; cursor: pointer; letter-spacing: -0.5px; }
         .controls { display: flex; gap: 5px; }
         select { padding: 8px; border-radius: 6px; border: none; background: #fff; font-weight: bold; font-size: 14px; max-width: 160px; }
         .toggle-btn { background: #000; color: var(--primary); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
@@ -42,29 +37,25 @@
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
         /* === 단어 카드 스타일 (기존 유지) === */
-        .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
+        .word-card { background: var(--white); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
-        
         .word-header { display: flex; align-items: flex-end; margin-bottom: 15px; flex-wrap: wrap; gap: 8px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .num-badge { background: #000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px; align-self: center; }
+        .num-badge { background: #000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-right: 4px; }
         .en-word { font-size: 28px; font-weight: 900; color: #000; letter-spacing: -0.5px; line-height: 1; }
         
         .def-container { display: flex; flex-direction: column; gap: 15px; }
         .def-row { position: relative; padding-left: 15px; }
         .def-bullet { position: absolute; left: 0; top: 8px; width: 8px; height: 8px; background-color: #8BC34A; border-radius: 50%; }
         .def-header { margin-bottom: 4px; display: flex; align-items: baseline; flex-wrap: wrap; }
-        .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; font-family: 'Roboto', sans-serif; }
+        .def-pos { font-size: 14px; font-weight: 800; color: #1565C0; margin-right: 6px; }
         .def-meaning { font-size: 17px; font-weight: 700; color: #333; line-height: 1.4; }
-
-        .desc-box { background-color: #f5fbff; border-left: 0px solid #2196F3; padding: 8px 10px; margin: 5px 0 10px 0; border-radius: 4px; font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4; }
-        .desc2-box { background-color: #ffffff; border-left: 0px solid #2196F3; padding: 8px 10px; margin: 5px 0 10px 0; border-radius: 4px; font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4; }
-
-        .example-box { margin-top: 4px; padding-left: 0; }
+        .desc-box { background-color: #f5fbff; padding: 8px 10px; margin: 5px 0; border-radius: 4px; font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4; }
+        .desc2-box { background-color: #ffffff; padding: 8px 10px; margin: 5px 0; border-radius: 4px; font-size: 14px; color: #0D47A1; font-weight: 600; line-height: 1.4; }
+        .example-box { margin-top: 4px; }
         .en-example { font-size: 15px; color: #333; margin-bottom: 2px; line-height: 1.5; font-family: 'Georgia', serif; }
         .kr-example { font-size: 13px; color: #888; margin-bottom: 8px; }
         b { background-color: #FFF9C4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; border: 1px solid #FFF59D; }
 
-        /* 단어장용 문법 하이라이트 (기존 유지) */
         .s, .v, .o, .c, .m { color: #000; font-weight: 900; padding: 2px 4px; border-radius: 4px; margin: 0 1px; display: inline-block; }
         .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; }
         .v { background-color: #FFE0B2; border: 1px solid #FFCC80; }
@@ -74,12 +65,11 @@
 
         .deriv-section { margin-top: 20px; background-color: #F1F3F5; border-left: 4px solid #CED4DA; border-radius: 4px; padding: 12px; }
         .deriv-item { margin-bottom: 12px; }
-        .deriv-item:last-child { margin-bottom: 0; }
         .deriv-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; flex-wrap: wrap;}
         .deriv-icon { background: #fff; border: 1px solid #999; color: #555; font-size: 11px; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
         .deriv-word { font-weight: 800; font-size: 16px; color: #333; }
-        .deriv-pos { font-size: 12px; color: #666; font-style: italic; margin-left: 2px;}
-        .deriv-meaning { font-size: 14px; color: #444; font-weight: 600; margin-left: 5px; cursor: pointer;}
+        .deriv-pos { font-size: 12px; color: #666; font-style: italic; }
+        .deriv-meaning { font-size: 14px; color: #444; font-weight: 600; cursor: pointer;}
         .check-area { position: absolute; top: 0; right: 0; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         .check-icon { font-size: 24px; color: #ddd; }
         .word-card.checked .check-icon { color: #4CAF50; }
@@ -116,7 +106,7 @@
         .comp-row { display: flex; align-items: baseline; gap: 8px; font-size: 14px; flex-wrap: wrap;}
         
         .role-badge {
-            font-size: 11px; font-weight: 800; color: #fff; padding: 3px 6px; border-radius: 4px; min-width: 60px; text-align: center;
+            font-size: 11px; font-weight: 800; color: #fff; padding: 3px 6px; border-radius: 4px; min-width: 60px; text-align: center; display: inline-block;
         }
         .comp-text { font-weight: 700; color: #222; font-family: 'Georgia', serif; }
         .comp-detail { font-size: 12px; color: #666; }
@@ -127,6 +117,7 @@
         .bg-o { background-color: #2196F3; }
         .bg-c { background-color: #9C27B0; }
         .bg-m { background-color: #9E9E9E; }
+        .bg-x { background-color: #555; }
 
     </style>
 </head>
@@ -147,7 +138,7 @@
     
     <div id="analyzerSection">
         <div class="input-group">
-            <label>💬 분석할 영어 문장을 입력하세요 (여러 문장 가능)</label>
+            <label>💬 분석할 영어 문장을 입력하세요 (인터넷 필수)</label>
             <textarea id="inputEn" class="input-box" rows="4" placeholder="예: The FBI has released images of a masked person."></textarea>
         </div>
         
@@ -165,6 +156,7 @@
 <script src="grammar.js"></script>
 
 <script>
+    // === 1. 기본 설정 및 데이터 ===
     const dayThemes = {
         1: "백수탈출 채용", 2: "드레스코드 규칙 · 법률", 3: "사무의 달인 일반사무 (1)", 4: "업무 노하우 일반사무 (2)",
         5: "비밀병기 일반사무 (3)", 6: "쉴 휴(休) 여가 · 공동체", 7: "마케팅 전략 마케팅 (1)", 8: "글로벌 마케팅 마케팅 (2)",
@@ -183,11 +175,13 @@
     const themeDisplay = document.getElementById('themeDisplay');
     let isHideMode = false;
 
+    // === 2. 초기화 ===
     window.onload = function() {
         initApp();
     };
 
     function initApp() {
+        // 메뉴 생성
         const optAnalyzer = document.createElement('option');
         optAnalyzer.value = "analyzer";
         optAnalyzer.innerText = "🔍 AI 문장 구조 분석기";
@@ -197,10 +191,14 @@
         optSep1.disabled = true; optSep1.innerText = "── [기초 문법] ──";
         daySelect.appendChild(optSep1);
 
-        const optStruct = document.createElement('option'); optStruct.value = "g_struct"; optStruct.innerText = "1. 문장구성성분"; daySelect.appendChild(optStruct);
-        const optPatterns = document.createElement('option'); optPatterns.value = "g_patterns"; optPatterns.innerText = "2. 문장의 5형식"; daySelect.appendChild(optPatterns);
-        const optParts = document.createElement('option'); optParts.value = "g_parts"; optParts.innerText = "3. 8품사"; daySelect.appendChild(optParts);
-        const optVerbals = document.createElement('option'); optVerbals.value = "g_verbals"; optVerbals.innerText = "4. 준동사"; daySelect.appendChild(optVerbals);
+        const grammarOpts = [
+            {v:"g_struct", t:"1. 문장구성성분"}, {v:"g_patterns", t:"2. 문장의 5형식"},
+            {v:"g_parts", t:"3. 8품사"}, {v:"g_verbals", t:"4. 준동사"}
+        ];
+        grammarOpts.forEach(g => {
+            let o = document.createElement('option'); o.value = g.v; o.innerText = g.t;
+            daySelect.appendChild(o);
+        });
 
         const optSep2 = document.createElement('option');
         optSep2.disabled = true; optSep2.innerText = "── [단어장 Day] ──";
@@ -217,14 +215,13 @@
             });
         }
         
+        // 초기화면
         daySelect.value = "analyzer";
         renderContent();
     }
 
-    function goToMain() { 
-        daySelect.value = "analyzer"; 
-        renderContent(); 
-    }
+    // === 3. 화면 전환 및 공통 기능 ===
+    function goToMain() { daySelect.value = "analyzer"; renderContent(); }
 
     function toggleMode() {
         isHideMode = !isHideMode;
@@ -235,112 +232,116 @@
         btn.style.color = isHideMode ? "#000" : "#FFC107";
     }
 
-    // ============================================
-    //  [핵심] 정밀 문장 분석 로직 (리스트 뷰)
-    // ============================================
+    function createRow(role, text, detail, colorClass) {
+        return `
+            <div class="comp-row">
+                <span class="role-badge ${colorClass}">${role}</span>
+                <span class="comp-text">${text}</span>
+                <span class="comp-detail">(${detail})</span>
+            </div>
+        `;
+    }
+
+    // === 4. 핵심 분석 로직 (안전성 강화) ===
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
         const resultBox = document.getElementById('resultBox');
         const outputDiv = document.getElementById('outputEn');
 
-        if (!input || input.trim() === "") { 
-            alert("영어 문장을 입력해주세요!"); return; 
-        }
+        if (!input || input.trim() === "") { alert("영어 문장을 입력해주세요!"); return; }
+        
+        // 라이브러리 로드 체크
         if (typeof nlp === 'undefined') {
-            alert("분석 도구가 로드되지 않았습니다."); return;
+            alert("분석 라이브러리가 로드되지 않았습니다. 인터넷 연결을 확인해주세요.");
+            return;
         }
 
         try {
-            outputDiv.innerHTML = ""; // 초기화
+            outputDiv.innerHTML = "";
+            
+            // 문장 단위 분리
             const doc = nlp(input);
-            const sentences = doc.sentences().json(); // 문장 단위로 분리
+            const sentences = doc.json(); // .sentences().json() 대신 안전하게 전체 json 호출
 
             let totalHtml = "";
 
             sentences.forEach((sent, index) => {
                 const sentText = sent.text;
-                let sDoc = nlp(sentText);
+                let sDoc = nlp(sentText); // 개별 문장 재분석
                 
-                // 1. 핵심 성분 추출
-                // 동사구 (Verb Phrase)
+                // --- A. 동사 찾기 ---
                 let verbs = sDoc.verbs();
-                let mainVerb = verbs.first(); // 메인 동사 가정
+                let mainVerb = verbs.first(); 
                 let verbText = mainVerb.text();
-                
-                // 시제/태 파악
+
+                // 동사가 없는 문장(제목 등) 예외처리
+                if (!mainVerb.found) {
+                    totalHtml += `
+                        <div class="sentence-card">
+                            <div class="sentence-header"><b>${index + 1}.</b> ${sentText}</div>
+                            <div class="comp-list">${createRow('분석불가', sentText, '동사 없음 / 불완전 문장', 'bg-x')}</div>
+                        </div>`;
+                    return; 
+                }
+
+                // 동사 상세 (시제 등)
                 let verbDetail = "동사구";
                 if (sDoc.has('#PresentTense')) verbDetail += ", 현재";
                 if (sDoc.has('#PastTense')) verbDetail += ", 과거";
                 if (mainVerb.has('(have|has|had) #PastTense')) verbDetail += ", 완료형";
                 if (mainVerb.has('(be|is|are|was|were) #PastTense')) verbDetail += ", 수동태";
 
-                // 주어 (Subject) : 동사 앞부분
+                // --- B. 주어 찾기 (동사 앞 전체) ---
+                // lookBehind를 쓰면 복잡해지므로, 단순히 동사 앞부분을 가져옴
                 let subjectText = sDoc.match('^.+').ifBefore(mainVerb).text();
-                // 전치사구가 주어에 붙어있으면 제거하려 노력하지만, 
-                // 여기서는 "The FBI" 처럼 명확한 명사구 위주로 표시
                 
-                // 목적어/보어/수식어 분리
-                // 동사 뒤 전체 텍스트
-                let afterVerb = sDoc.match(sDoc.after(mainVerb));
+                // --- C. 동사 뒤 (목적어/보어/수식어) ---
+                let afterVerbDoc = sDoc.match(sDoc.after(mainVerb));
                 
-                // 전치사구들 (수식어)
-                let preps = afterVerb.match('#Preposition . #Noun+').json(); 
+                // 1) 전치사구 분리 (수식어)
+                let prepPhrases = afterVerbDoc.match('#Preposition . #Noun+').json();
                 
-                // 목적어 (전치사구가 아닌 명사 덩어리)
-                let objectMatch = afterVerb.not('#Preposition . #Noun+').match('#Noun+').first();
+                // 2) 전치사구가 '아닌' 명사 (목적어 후보)
+                // 전치사구를 제외한 나머지에서 명사 찾기
+                let objectMatch = afterVerbDoc.not('#Preposition . #Noun+').match('#Noun+').first();
                 let objectText = objectMatch.text();
 
-                // 보어 (형용사 덩어리)
-                let compMatch = afterVerb.not('#Preposition . #Noun+').match('#Adjective+').first();
+                // 3) 전치사구가 '아닌' 형용사 (보어 후보)
+                let compMatch = afterVerbDoc.not('#Preposition . #Noun+').match('#Adjective+').first();
                 let compText = compMatch.text();
 
-                // 2. 리스트 아이템 생성
+                // --- D. 리스트 조립 ---
                 let rowsHtml = "";
 
-                // (A) 주어
-                if (subjectText) {
-                    rowsHtml += createRow('주어(S)', subjectText, '명사구', 'bg-s');
-                }
+                // 주어
+                if (subjectText) rowsHtml += createRow('주어(S)', subjectText, '명사구', 'bg-s');
+                // 동사
+                rowsHtml += createRow('동사(V)', verbText, verbDetail, 'bg-v');
 
-                // (B) 동사
-                if (verbText) {
-                    rowsHtml += createRow('동사(V)', verbText, verbDetail, 'bg-v');
-                }
-
-                // (C) 목적어 / 보어
                 let hasObject = false;
                 let hasComp = false;
 
+                // 목적어 / 보어
                 if (objectText) {
                     rowsHtml += createRow('목적어(O)', objectText, '명사', 'bg-o');
                     hasObject = true;
-                }
-                if (compText && !objectText) { // 목적어 없으면 보어로 간주
+                } else if (compText) { // 목적어가 없을 때만 보어 체크 (단순화)
                     rowsHtml += createRow('보어(C)', compText, '형용사', 'bg-c');
                     hasComp = true;
                 }
 
-                // (D) 수식어 (전치사구, 부사절 등)
-                // 전치사구 루프
-                preps.forEach(p => {
-                    // detail 추론: 위치상 동사 바로 뒤면 부사적, 명사 뒤면 형용사적... (단순 추정)
-                    // 정확한 수식 대상 파악은 어렵지만, 위치로 힌트 제공
-                    let hint = "수식어 (전치사구)";
-                    rowsHtml += createRow('수식어(M)', p.text, hint, 'bg-m');
+                // 수식어 (전치사구)
+                prepPhrases.forEach(p => {
+                    rowsHtml += createRow('수식어(M)', p.text, '전치사구', 'bg-m');
                 });
 
-                // (E) 접속사절/부사절 (Comma + who/which/that 등)
-                let clauses = sDoc.clauses().ifAfter(mainVerb).not(mainVerb).text();
-                if (clauses && clauses !== objectText && clauses !== compText) {
-                   // 이미 전치사구로 잡힌게 아니면 출력
-                   // 중복 방지 로직 필요하나 단순화
-                }
+                // 접속사/부사절 (단순 체크: 콤마 뒤 who/which 등)
+                // 단순화를 위해 나머지 텍스트 중 긴 것은 기타 수식어로 표기 가능하나 생략
 
-                // 3. 문장 형식 추론
+                // --- E. 형식 추론 ---
                 let pattern = "1형식 ($S + V$)";
                 if (hasObject) pattern = "3형식 ($S + V + O$)";
                 else if (hasComp) pattern = "2형식 ($S + V + C$)";
-                // 4, 5형식은 단순 로직으로 구분 어려워 3형식으로 퉁침
 
                 totalHtml += `
                     <div class="sentence-card">
@@ -360,28 +361,11 @@
 
         } catch (error) {
             console.error(error);
-            alert("분석 중 오류가 발생했습니다.");
+            alert("분석 중 오류가 발생했습니다. 문장이 너무 복잡하거나 형식이 맞지 않을 수 있습니다.");
         }
     }
 
-    // 리스트 한 줄(Row) 만드는 헬퍼 함수
-    function createRow(role, text, detail, colorClass) {
-        return `
-            <div class="comp-row">
-                <span class="role-badge ${colorClass}">${role}</span>
-                <span class="comp-text">${text}</span>
-                <span class="comp-detail">(${detail})</span>
-            </div>
-        `;
-    }
-
-    function highlightWord(sentence, targetWord) {
-        if (!sentence || !targetWord) return sentence;
-        const regex = new RegExp(`(${targetWord}[a-zA-Z]*)`, 'gi'); 
-        return sentence.replace(regex, '<b>$1</b>');
-    }
-
-    // 통합 렌더링
+    // === 5. 통합 렌더링 ===
     function renderContent() {
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
@@ -392,7 +376,7 @@
         themeDisplay.style.display = 'none';
         wordList.innerHTML = '';
 
-        // 1. 분석기 모드
+        // 모드 분기
         if (selectedValue === 'analyzer') {
             analyzerSection.style.display = 'block';
             themeDisplay.innerText = "문장 구조 분석기";
@@ -401,13 +385,17 @@
             return;
         }
 
-        // 2. 단어장 모드
+        // 단어장 모드
         wordList.style.display = 'block';
         let dataToRender = [];
         let isGrammar = false;
 
         if (selectedValue.startsWith("g_")) {
             isGrammar = true;
+            if (typeof grammarData === 'undefined') {
+                wordList.innerHTML = "<div style='padding:20px; text-align:center;'>문법 데이터(grammar.js)가 없습니다.</div>";
+                return;
+            }
             if(selectedValue === "g_struct") { dataToRender = grammarData.structure; themeDisplay.innerText = "문장구성성분"; }
             else if(selectedValue === "g_patterns") { dataToRender = grammarData.patterns; themeDisplay.innerText = "문장의 5형식"; }
             else if(selectedValue === "g_parts") { dataToRender = grammarData.parts; themeDisplay.innerText = "8품사"; }
@@ -421,42 +409,37 @@
                     themeDisplay.innerText = dayThemes[selectedDay];
                     themeDisplay.style.display = 'block';
                 }
+            } else {
+                wordList.innerHTML = "<div style='padding:20px; text-align:center;'>단어 데이터(data.js)가 없습니다.</div>";
+                return;
             }
         }
         
+        // 카드 렌더링
         dataToRender.forEach((item) => {
             const card = document.createElement('div');
             card.className = 'word-card';
-            
             if (!isGrammar) {
                 const storageKey = `d${item.day}_n${item.num}`;
                 if(localStorage.getItem(storageKey) === 'true') card.classList.add('checked');
             }
 
             let definitionsHTML = '';
-            
             if (item.definitions && item.definitions.length > 0) {
                 definitionsHTML = `<div class="def-container">`;
                 item.definitions.forEach(def => {
-                    let exampleBlock = '';
                     let descBlock = '';
-                    
-                    if (def.desc) {
-                       descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
-                      } else if (def.desc2) {
-                           descBlock = `<div class="desc2-box" onclick="this.classList.toggle('revealed')">${def.desc2}</div>`;
-                      }
+                    if (def.desc) descBlock = `<div class="desc-box" onclick="this.classList.toggle('revealed')">${def.desc}</div>`;
+                    else if (def.desc2) descBlock = `<div class="desc2-box" onclick="this.classList.toggle('revealed')">${def.desc2}</div>`;
 
+                    let exampleBlock = '';
                     if (def.example) {
                         let hlEx = def.example;
-                        if(!isGrammar) hlEx = highlightWord(def.example, item.word.split(' ')[0]); 
-                        
+                        if(!isGrammar) hlEx = highlightWord(def.example, item.word.split(' ')[0]);
                         let enLines = hlEx.split('<br>');
                         let krLines = (def.ex_meaning || "").split('<br>');
                         let interleavedHTML = "";
-                        let maxLines = Math.max(enLines.length, krLines.length);
-
-                        for(let i=0; i<maxLines; i++) {
+                        for(let i=0; i<Math.max(enLines.length, krLines.length); i++) {
                             if(enLines[i]) interleavedHTML += `<div class="en-example">${enLines[i]}</div>`;
                             if(krLines[i]) interleavedHTML += `<div class="kr-example" onclick="this.classList.toggle('revealed')">${krLines[i]}</div>`;
                         }
@@ -471,8 +454,7 @@
                             </div>
                             ${descBlock}
                             ${exampleBlock}
-                        </div>
-                    `;
+                        </div>`;
                 });
                 definitionsHTML += `</div>`;
             }
@@ -483,42 +465,24 @@
                     let derivExHTML = '';
                     if (deriv.example) {
                         const hlDeriv = highlightWord(deriv.example, deriv.word);
-                        derivExHTML = `
-                            <div class="example-box">
-                                <div class="en-example" style="font-size:14px;">${hlDeriv}</div>
-                                <div class="kr-example" onclick="this.classList.toggle('revealed')">${deriv.ex_meaning || ''}</div>
-                            </div>
-                        `;
+                        derivExHTML = `<div class="example-box"><div class="en-example" style="font-size:14px;">${hlDeriv}</div><div class="kr-example" onclick="this.classList.toggle('revealed')">${deriv.ex_meaning || ''}</div></div>`;
                     }
-                    return `
-                        <div class="deriv-item">
-                            <div class="deriv-header">
-                                <span class="deriv-icon">파</span>
-                                <span class="deriv-word">${deriv.word}</span>
-                                <span class="deriv-pos">${deriv.pos}</span>
-                                <span class="deriv-meaning" onclick="this.classList.toggle('revealed')">${deriv.meaning}</span>
-                            </div>
-                            ${derivExHTML}
-                        </div>
-                    `;
+                    return `<div class="deriv-item"><div class="deriv-header"><span class="deriv-icon">파</span><span class="deriv-word">${deriv.word}</span><span class="deriv-pos">${deriv.pos}</span><span class="deriv-meaning" onclick="this.classList.toggle('revealed')">${deriv.meaning}</span></div>${derivExHTML}</div>`;
                 }).join('');
                 derivativesHTML = `<div class="deriv-section">${itemsHTML}</div>`;
             }
 
             const checkAreaHTML = isGrammar ? '' : `<div class="check-area" onclick="toggleCheck(this, ${item.day}, ${item.num})"><span class="check-icon">✔</span></div>`;
-
-            card.innerHTML = `
-                ${checkAreaHTML}
-                <div class="word-header">
-                    <span class="num-badge">${item.num}</span>
-                    <span class="en-word">${item.word}</span>
-                </div>
-                ${definitionsHTML}
-                ${derivativesHTML}
-            `;
+            card.innerHTML = `${checkAreaHTML}<div class="word-header"><span class="num-badge">${item.num}</span><span class="en-word">${item.word}</span></div>${definitionsHTML}${derivativesHTML}`;
             wordList.appendChild(card);
         });
         updateProgress();
+    }
+
+    function highlightWord(sentence, targetWord) {
+        if (!sentence || !targetWord) return sentence;
+        const regex = new RegExp(`(${targetWord}[a-zA-Z]*)`, 'gi'); 
+        return sentence.replace(regex, '<b>$1</b>');
     }
 
     function toggleCheck(btn, day, num) {
@@ -536,13 +500,11 @@
 
     function updateProgress() {
         if (daySelect.value === 'analyzer' || daySelect.value.startsWith("g_")) {
-            progressBar.style.width = '0%';
-            return;
+            progressBar.style.width = '0%'; return;
         }
         const total = wordList.children.length;
         const checkedCount = document.querySelectorAll('.word-card.checked').length;
-        const percentage = total === 0 ? 0 : (checkedCount / total) * 100;
-        progressBar.style.width = `${percentage}%`;
+        progressBar.style.width = total === 0 ? '0%' : `${(checkedCount / total) * 100}%`;
     }
 </script>
 </body>
