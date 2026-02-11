@@ -164,18 +164,6 @@
             <label>💬 분석할 영어 문장을 입력하세요</label>
             <textarea id="inputEn" class="input-box" rows="5" placeholder="예: Why do you love me?"></textarea>
         </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
-            <select id="grammarLang" style="flex:1; min-width:160px;">
-                <option value="en-US">English (US)</option>
-                <option value="en-GB">English (UK)</option>
-                <option value="en">English (Auto)</option>
-            </select>
-            <label style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700;">
-                <input type="checkbox" id="autoAnalyzeAfterFix" checked>
-                교정 후 구조분석
-            </label>
-        </div>
-        <button class="action-btn" onclick="runGrammarFix()">✍️ 영문법 교정</button>
         <button class="action-btn" onclick="runAnalysis()">⚡ 문장 구조 정밀 분석</button>
         <div id="resultBox" style="margin-top:20px;"></div>
     </div>
@@ -286,195 +274,6 @@
         }
     }
 
-    // ============================================
-    //  [추가] 영문법 교정 (LanguageTool API)
-    // ============================================
-    async function runGrammarFix() {
-        const inputEl = document.getElementById('inputEn');
-        const resultBox = document.getElementById('resultBox');
-        const lang = document.getElementById('grammarLang')?.value || 'en-US';
-        const autoAnalyze = document.getElementById('autoAnalyzeAfterFix')?.checked ?? true;
-        const input = inputEl.value;
-
-        if (!input || input.trim() === "") { alert("영어 문장을 입력해주세요!"); return; }
-
-        resultBox.innerHTML = `
-            <div class="analysis-card">
-                <div class="analysis-header">
-                    <span class="sent-num">Grammar</span>
-                    <div class="sent-text">문법 교정 중...</div>
-                    <span class="sent-pattern">LanguageTool</span>
-                </div>
-                <ul class="struct-list"></ul>
-            </div>
-        `;
-
-        try {
-            const { corrected, matches } = await checkGrammarWithLanguageTool(input, lang);
-
-            const beforeEsc = escapeHtml(input);
-            const afterEsc = escapeHtml(corrected);
-
-            let matchesHtml = '';
-            if (!matches || matches.length === 0) {
-                matchesHtml = `
-                    <li class="struct-item">
-                        <span class="struct-label label-x">결과</span>
-                        <div class="struct-content-box">
-                            <span class="struct-content">문법적으로 큰 문제를 찾지 못했어요.</span>
-                            <span class="struct-detail">No matches</span>
-                        </div>
-                    </li>
-                `;
-            } else {
-                matches.slice(0, 50).forEach((m, i) => {
-                    const repl = (m.replacements || []).slice(0, 5).map(r => r.value).join(', ');
-                    const msg = m.message || m.shortMessage || 'Suggestion';
-                    const ruleId = m.rule?.id ? ` (${m.rule.id})` : '';
-                    matchesHtml += `
-                        <li class="struct-item">
-                            <span class="struct-label label-m">제안 ${i + 1}</span>
-                            <div class="struct-content-box">
-                                <span class="struct-content">${escapeHtml(msg)}${escapeHtml(ruleId)}</span>
-                                <span class="struct-detail">${repl ? `추천: ${escapeHtml(repl)}` : '추천 없음'}</span>
-                            </div>
-                        </li>
-                    `;
-                });
-            }
-
-            resultBox.innerHTML = `
-                <div class="analysis-card">
-                    <div class="analysis-header">
-                        <span class="sent-num">Grammar</span>
-                        <div class="sent-text">
-                            <div style="font-size:12px; font-weight:900; color:#888; margin-bottom:6px;">BEFORE</div>
-                            <div style="font-family:'Georgia', serif; line-height:1.8; margin-bottom:12px;">${beforeEsc}</div>
-                            <div style="font-size:12px; font-weight:900; color:#888; margin-bottom:6px;">AFTER</div>
-                            <div style="font-family:'Georgia', serif; line-height:1.8;">${afterEsc}</div>
-                        </div>
-                        <span class="sent-pattern">교정 완료</span>
-                    </div>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-                        <button class="toggle-btn" onclick="applyCorrectedToInput(${JSON.stringify(corrected)})">교정문 입력창에 적용</button>
-                        <button class="toggle-btn" onclick="copyText(${JSON.stringify(corrected)})">교정문 복사</button>
-                        <button class="toggle-btn" onclick="runAnalysisWithText(${JSON.stringify(corrected)})">교정문으로 구조분석</button>
-                    </div>
-                    <ul class="struct-list">${matchesHtml}</ul>
-                </div>
-            `;
-
-            if (autoAnalyze) {
-                // 입력창에 반영은 사용자가 원치 않을 수 있어, 분석만 실행
-                runAnalysisWithText(corrected);
-            }
-        } catch (e) {
-            console.error(e);
-            resultBox.innerHTML = `
-                <div class="analysis-card">
-                    <div class="analysis-header">
-                        <span class="sent-num">Grammar</span>
-                        <div class="sent-text">문법 교정에 실패했어요.</div>
-                        <span class="sent-pattern">오류</span>
-                    </div>
-                    <ul class="struct-list">
-                        <li class="struct-item">
-                            <span class="struct-label label-x">원인</span>
-                            <div class="struct-content-box">
-                                <span class="struct-content">${escapeHtml(e?.message || String(e))}</span>
-                                <span class="struct-detail">파일을 더블클릭으로 열면( file:// ) 일부 환경에서 네트워크 요청이 제한될 수 있어요. 가능하면 로컬 서버로 열어주세요.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            `;
-        }
-    }
-
-    async function checkGrammarWithLanguageTool(text, language) {
-        // Public endpoint. If this ever rate-limits, user can run a local LT server.
-        const url = 'https://api.languagetool.org/v2/check';
-        const body = new URLSearchParams();
-        body.set('text', text);
-        body.set('language', language || 'en-US');
-        body.set('enabledOnly', 'false');
-
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body
-        });
-        if (!res.ok) {
-            const t = await res.text().catch(() => '');
-            throw new Error(`LanguageTool API 오류: HTTP ${res.status} ${t ? '- ' + t.slice(0, 200) : ''}`);
-        }
-        const data = await res.json();
-        const matches = Array.isArray(data.matches) ? data.matches : [];
-        const corrected = applyLanguageToolMatches(text, matches);
-        return { corrected, matches };
-    }
-
-    function applyLanguageToolMatches(original, matches) {
-        // offsets are based on original text; apply from end to avoid shifting
-        const sorted = (matches || [])
-            .filter(m => typeof m.offset === 'number' && typeof m.length === 'number')
-            .slice()
-            .sort((a, b) => (b.offset - a.offset) || (b.length - a.length));
-
-        let out = original;
-        for (const m of sorted) {
-            const replacement = (m.replacements && m.replacements[0] && typeof m.replacements[0].value === 'string')
-                ? m.replacements[0].value
-                : null;
-            if (replacement == null) continue;
-            const start = m.offset;
-            const end = m.offset + m.length;
-            if (start < 0 || end > out.length || start >= end) continue;
-            out = out.slice(0, start) + replacement + out.slice(end);
-        }
-        return out;
-    }
-
-    function applyCorrectedToInput(corrected) {
-        const inputEl = document.getElementById('inputEn');
-        inputEl.value = corrected || '';
-        inputEl.focus();
-    }
-
-    async function copyText(text) {
-        try {
-            await navigator.clipboard.writeText(text || '');
-            alert('복사 완료!');
-        } catch {
-            // fallback
-            const ta = document.createElement('textarea');
-            ta.value = text || '';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-            alert('복사 완료!');
-        }
-    }
-
-    function escapeHtml(s) {
-        return String(s)
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;')
-            .replaceAll('"', '&quot;')
-            .replaceAll("'", '&#039;')
-            .replaceAll('\n', '<br>');
-    }
-
-    function runAnalysisWithText(text) {
-        const inputEl = document.getElementById('inputEn');
-        const prev = inputEl.value;
-        inputEl.value = text || '';
-        runAnalysis();
-        inputEl.value = prev; // 사용자가 입력창을 원치 않게 바꾸지 않도록 복구
-    }
-
     // 단일 문장 분석 함수
     function analyzeSentence(sentText, index) {
         let chunks = [];
@@ -520,44 +319,12 @@
         let chunks = [];
         let patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
         
-        // 조동사 찾기 (Yes/No 질문)
+        // 조동사 찾기
         let auxMatch = sentText.match(/^(do|does|did|will|would|can|could|may|might|shall|should|must|have|has|had|is|are|am|was|were)\s+(.+)/i);
-        // 의문사 + 조동사 (Wh- 질문) 예: Why do you love me?
-        let whAuxMatch = null;
-        if (!auxMatch) {
-            whAuxMatch = sentText.match(/^(who|whom|whose|what|which|when|where|why|how)\b\s+(do|does|did|will|would|can|could|may|might|shall|should|must|have|has|had|is|are|am|was|were)\s+(.+)/i);
-        }
         
-        if(auxMatch || whAuxMatch) {
-            let aux, rest;
-            if (whAuxMatch) {
-                const wh = whAuxMatch[1];
-                aux = whAuxMatch[2];
-                rest = whAuxMatch[3].trim();
-                // 의문사는 반드시 5대 성분(S/V/O/C/M) 중 하나로 귀속
-                // - why/when/where/how: 의문부사 -> 수식어(M)
-                // - who/whom/what/which/whose: 보통 목적어를 묻는 의문대명사/의문형용사 -> 목적어(O)로 처리
-                //   (완전 정확한 분류는 문장 전체 의미/구조가 필요하지만, 토익식 기본 규칙으로 표시)
-                const whLower = wh.toLowerCase();
-                const isAdvWh = ['why', 'when', 'where', 'how'].includes(whLower);
-                const whType = isAdvWh ? 'M' : 'O';
-                const whLabel = isAdvWh ? '수식어' : '목적어';
-                const whDetail =
-                    whLower === 'why' ? '의문부사(이유) → 수식어(M)' :
-                    whLower === 'when' ? '의문부사(시간) → 수식어(M)' :
-                    whLower === 'where' ? '의문부사(장소) → 수식어(M)' :
-                    whLower === 'how' ? '의문부사(방법/정도) → 수식어(M)' :
-                    whLower === 'whose' ? '의문형용사/소유격(whose) → 목적어(O) 성분' :
-                    whLower === 'which' ? '의문형용사/대명사(which) → 목적어(O) 성분' :
-                    whLower === 'whom' ? '의문대명사(목적격 whom) → 목적어(O)' :
-                    whLower === 'who' ? '의문대명사(who) → 목적어(O) 성분(wh-질문 기본)' :
-                    '의문대명사/형용사 → 목적어(O) 성분';
-
-                chunks.push({text: wh, type: whType, label: whLabel, detail: whDetail});
-            } else {
-                aux = auxMatch[1];
-                rest = auxMatch[2].trim();
-            }
+        if(auxMatch) {
+            let aux = auxMatch[1];
+            let rest = auxMatch[2].trim();
             
             // 조동사 추가
             chunks.push({text: aux, type:'V', label:'동사', detail:'조동사'});
@@ -609,11 +376,6 @@
                     patternText = "2형식 (주어 S + 동사 V + 보어 C)";
                 }
             }
-        } else {
-            // 방어적 처리: 의문문인데 조동사 패턴을 못 잡은 경우
-            // (포맷 유지 + 5대 성분 유지: 전체를 수식어(M)로 표기)
-            const fallback = sentText.trim().replace(/\?$/, '');
-            chunks.push({text: fallback, type:'M', label:'수식어', detail:'의문문(패턴 미인식) — 수식어로 임시 처리'});
         }
         
         return generateHTML(sentText, chunks, patternText, index);
