@@ -41,7 +41,7 @@
         
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
-        /* === 단어 카드 스타일 === */
+        /* === 단어 카드 스타일 (기존 유지) === */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; transition: all 0.2s; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
         
@@ -62,11 +62,9 @@
         .example-box { margin-top: 4px; padding-left: 0; }
         .en-example { font-size: 15px; color: #333; margin-bottom: 2px; line-height: 1.5; font-family: 'Georgia', serif; }
         .kr-example { font-size: 13px; color: #888; margin-bottom: 8px; }
-        
-        /* 기본 하이라이트 */
         b { background-color: #FFF9C4; color: #000; font-weight: 900; padding: 0 2px; border-radius: 2px; border: 1px solid #FFF59D; }
 
-        /* 문법 설명용 하이라이트 (단어장 전용) */
+        /* 단어장용 문법 하이라이트 (기존 유지) */
         .s, .v, .o, .c, .m { color: #000; font-weight: 900; padding: 2px 4px; border-radius: 4px; margin: 0 1px; display: inline-block; }
         .s { background-color: #FFEBEE; border: 1px solid #FFCDD2; }
         .v { background-color: #FFE0B2; border: 1px solid #FFCC80; }
@@ -82,7 +80,6 @@
         .deriv-word { font-weight: 800; font-size: 16px; color: #333; }
         .deriv-pos { font-size: 12px; color: #666; font-style: italic; margin-left: 2px;}
         .deriv-meaning { font-size: 14px; color: #444; font-weight: 600; margin-left: 5px; cursor: pointer;}
-
         .check-area { position: absolute; top: 0; right: 0; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         .check-icon { font-size: 24px; color: #ddd; }
         .word-card.checked .check-icon { color: #4CAF50; }
@@ -94,81 +91,43 @@
         .hide-mode .kr-example:active, .hide-mode .kr-example.revealed,
         .hide-mode .desc-box:active, .hide-mode .desc-box.revealed { background-color: transparent; color: inherit; }
 
-        /* === [NEW] 분석기 및 결과 블록 스타일 === */
+        /* === [NEW] 정밀 문장 분석기 스타일 === */
         #analyzerSection { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 30px; }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-size: 14px; font-weight: bold; color: #000; margin-bottom: 8px; }
-        .input-box { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 18px; font-family: 'Georgia', serif; transition: 0.2s; line-height: 1.5; }
+        .input-box { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; font-family: 'Georgia', serif; transition: 0.2s; line-height: 1.5; }
         .input-box:focus { border-color: var(--primary); outline: none; }
-        
         .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
         .action-btn:active { transform: scale(0.98); }
-        
-        /* 덩어리 분석 결과를 보여줄 컨테이너 */
-        .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            background-color: #f8f9fa;
-            border: 2px solid #EEE;
-            display: none; /* 기본 숨김 */
-        }
-        .result-title { font-size: 14px; color: #888; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
 
-        /* 블록형 카드 디자인 */
-        .analysis-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: flex-start;
+        /* 문장별 카드 */
+        .sentence-card {
+            background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .chunk-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 8px 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 8px;
-            flex-grow: 0;
+        .sentence-header {
+            font-size: 15px; line-height: 1.5; font-family: 'Georgia', serif; color: #333; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee;
         }
-        .chunk-label {
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            width: 100%;
-            text-align: center;
+        .sentence-type {
+            font-size: 12px; font-weight: bold; color: #1565C0; background: #E3F2FD; display: inline-block; padding: 4px 8px; border-radius: 4px; margin-bottom: 10px;
         }
-        .chunk-text {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            font-family: 'Georgia', serif;
-            white-space: nowrap;
-        }
-        .chunk-detail {
-            font-size: 10px;
-            color: #888;
-            margin-top: 4px;
-            border-top: 1px dashed #eee;
-            padding-top: 2px;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* 역할별 색상 (분석기 전용) */
-        .tag-s { background-color: #E91E63; } /* 주어 */
-        .tag-v { background-color: #FF9800; } /* 동사 */
-        .tag-o { background-color: #2196F3; } /* 목적어 */
-        .tag-c { background-color: #9C27B0; } /* 보어 */
-        .tag-m { background-color: #9E9E9E; } /* 수식어 */
         
+        /* 분석 컴포넌트 리스트 */
+        .comp-list { display: flex; flex-direction: column; gap: 6px; }
+        .comp-row { display: flex; align-items: baseline; gap: 8px; font-size: 14px; flex-wrap: wrap;}
+        
+        .role-badge {
+            font-size: 11px; font-weight: 800; color: #fff; padding: 3px 6px; border-radius: 4px; min-width: 60px; text-align: center;
+        }
+        .comp-text { font-weight: 700; color: #222; font-family: 'Georgia', serif; }
+        .comp-detail { font-size: 12px; color: #666; }
+
+        /* 역할별 뱃지 색상 */
+        .bg-s { background-color: #E91E63; }
+        .bg-v { background-color: #FF9800; }
+        .bg-o { background-color: #2196F3; }
+        .bg-c { background-color: #9C27B0; }
+        .bg-m { background-color: #9E9E9E; }
+
     </style>
 </head>
 <body>
@@ -188,14 +147,13 @@
     
     <div id="analyzerSection">
         <div class="input-group">
-            <label>💬 분석할 영어 문장을 입력하세요 (인터넷 필수)</label>
-            <textarea id="inputEn" class="input-box" rows="3" placeholder="예: The FBI has released images of a masked person."></textarea>
+            <label>💬 분석할 영어 문장을 입력하세요 (여러 문장 가능)</label>
+            <textarea id="inputEn" class="input-box" rows="4" placeholder="예: The FBI has released images of a masked person."></textarea>
         </div>
         
-        <button class="action-btn" onclick="runAnalysis()">⚡ 문장 구조 덩어리 분석</button>
+        <button class="action-btn" onclick="runAnalysis()">⚡ 상세 구조 분석하기</button>
 
-        <div id="resultBox" class="result-box">
-            <div id="patternHint" style="margin-bottom:15px; padding:10px; background:#e3f2fd; border-radius:8px; font-weight:bold; color:#1565C0; font-size:14px;"></div>
+        <div id="resultBox" style="margin-top:20px; display:none;">
             <div id="outputEn"></div>
         </div>
     </div>
@@ -230,7 +188,6 @@
     };
 
     function initApp() {
-        // 메뉴 구성
         const optAnalyzer = document.createElement('option');
         optAnalyzer.value = "analyzer";
         optAnalyzer.innerText = "🔍 AI 문장 구조 분석기";
@@ -260,7 +217,6 @@
             });
         }
         
-        // 초기 화면 설정 (분석기)
         daySelect.value = "analyzer";
         renderContent();
     }
@@ -279,123 +235,144 @@
         btn.style.color = isHideMode ? "#000" : "#FFC107";
     }
 
-    // === [수정된 분석 로직] 덩어리(Chunk) 인식 및 시각화 ===
+    // ============================================
+    //  [핵심] 정밀 문장 분석 로직 (리스트 뷰)
+    // ============================================
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
         const resultBox = document.getElementById('resultBox');
         const outputDiv = document.getElementById('outputEn');
-        const patternHintDiv = document.getElementById('patternHint');
 
         if (!input || input.trim() === "") { 
             alert("영어 문장을 입력해주세요!"); return; 
         }
         if (typeof nlp === 'undefined') {
-            alert("분석 도구가 로드되지 않았습니다. 인터넷 연결을 확인하세요."); return;
+            alert("분석 도구가 로드되지 않았습니다."); return;
         }
 
         try {
+            outputDiv.innerHTML = ""; // 초기화
             const doc = nlp(input);
-            let chunks = [];
+            const sentences = doc.sentences().json(); // 문장 단위로 분리
 
-            // 복잡한 문장을 절(clause) 단위로 처리하거나 단순 문장 처리
-            // 여기서는 단순화를 위해 전체 문장 대상으로 주요 성분 덩어리를 추출합니다.
+            let totalHtml = "";
 
-            // 1. 전치사구 먼저 추출 (수식어 M 덩어리)
-            // 전치사 + 한정사(The/A)? + 형용사? + 명사 덩어리
-            let preps = doc.match('#Preposition #Determiner? #Adjective? #Noun+ (of #Determiner? #Adjective? #Noun+)?');
-            
-            // 2. 주어 (동사 앞에 있는 명사구 덩어리)
-            // 전치사구는 위에서 잡히므로 제외하고 순수 주어부만 찾기 위해 노력
-            let verbs = doc.verbs();
-            let mainVerb = verbs.first(); // 첫 번째 동사를 메인 동사로 가정
+            sentences.forEach((sent, index) => {
+                const sentText = sent.text;
+                let sDoc = nlp(sentText);
+                
+                // 1. 핵심 성분 추출
+                // 동사구 (Verb Phrase)
+                let verbs = sDoc.verbs();
+                let mainVerb = verbs.first(); // 메인 동사 가정
+                let verbText = mainVerb.text();
+                
+                // 시제/태 파악
+                let verbDetail = "동사구";
+                if (sDoc.has('#PresentTense')) verbDetail += ", 현재";
+                if (sDoc.has('#PastTense')) verbDetail += ", 과거";
+                if (mainVerb.has('(have|has|had) #PastTense')) verbDetail += ", 완료형";
+                if (mainVerb.has('(be|is|are|was|were) #PastTense')) verbDetail += ", 수동태";
 
-            let subjectPhrase = doc.match('^#Determiner? #Adjective? #Noun+ (of #Determiner? #Adjective? #Noun+)?').not(preps);
+                // 주어 (Subject) : 동사 앞부분
+                let subjectText = sDoc.match('^.+').ifBefore(mainVerb).text();
+                // 전치사구가 주어에 붙어있으면 제거하려 노력하지만, 
+                // 여기서는 "The FBI" 처럼 명확한 명사구 위주로 표시
+                
+                // 목적어/보어/수식어 분리
+                // 동사 뒤 전체 텍스트
+                let afterVerb = sDoc.match(sDoc.after(mainVerb));
+                
+                // 전치사구들 (수식어)
+                let preps = afterVerb.match('#Preposition . #Noun+').json(); 
+                
+                // 목적어 (전치사구가 아닌 명사 덩어리)
+                let objectMatch = afterVerb.not('#Preposition . #Noun+').match('#Noun+').first();
+                let objectText = objectMatch.text();
 
-            // 3. 목적어/보어 (동사 뒤에 있는 명사/형용사 덩어리)
-            let afterVerb = doc.match(doc.after(mainVerb)).not(preps);
-            let objectPhrase = afterVerb.match('#Determiner? #Adjective? #Noun+').first();
-            let complementPhrase = afterVerb.match('#Adjective+').not('#Noun').first();
+                // 보어 (형용사 덩어리)
+                let compMatch = afterVerb.not('#Preposition . #Noun+').match('#Adjective+').first();
+                let compText = compMatch.text();
 
-            // 4. 추출된 데이터를 순서대로 정렬하기 위해 원문 위치 기반으로 재구성
-            // (NLP 라이브러리 한계상, 직관적인 "블록 조립"을 위해 텍스트 순서대로 렌더링 리스트 작성)
-            
-            // 시각화용 데이터 리스트 생성 함수
-            function addChunk(matchResult, type, detail, tag) {
-                if (matchResult.found) {
-                    // 중복 방지: 이미 추가된 텍스트에 포함되지 않는 경우만
-                    let text = matchResult.text();
-                    // 간단한 중복 체크
-                    let isDuplicate = chunks.some(c => c.text.includes(text) || text.includes(c.text));
-                    
-                    if (!isDuplicate || type === '동사(V)') { 
-                        // 동사는 우선순위 높음. 겹치면 기존꺼 대체하거나 전략 필요하지만 단순화
-                        chunks.push({ text: text, type: type, detail: detail, tag: tag, index: matchResult.out('offset') });
-                    }
+                // 2. 리스트 아이템 생성
+                let rowsHtml = "";
+
+                // (A) 주어
+                if (subjectText) {
+                    rowsHtml += createRow('주어(S)', subjectText, '명사구', 'bg-s');
                 }
-            }
 
-            // (A) 주어부 추가
-            if (subjectPhrase.found) addChunk(subjectPhrase, '주어(S)', '명사구', 'tag-s');
-            
-            // (B) 동사부 추가
-            if (mainVerb.found) addChunk(mainVerb, '동사(V)', '동사구', 'tag-v');
-            
-            // (C) 목적어/보어 추가
-            if (objectPhrase.found) addChunk(objectPhrase, '목적어(O)', '명사구', 'tag-o');
-            else if (complementPhrase.found) addChunk(complementPhrase, '보어(C)', '형용사', 'tag-c');
+                // (B) 동사
+                if (verbText) {
+                    rowsHtml += createRow('동사(V)', verbText, verbDetail, 'bg-v');
+                }
 
-            // (D) 수식어(전치사구) 추가 - 여러 개일 수 있음
-            preps.forEach(m => {
-                addChunk(m, '수식어(M)', '전치사구', 'tag-m');
+                // (C) 목적어 / 보어
+                let hasObject = false;
+                let hasComp = false;
+
+                if (objectText) {
+                    rowsHtml += createRow('목적어(O)', objectText, '명사', 'bg-o');
+                    hasObject = true;
+                }
+                if (compText && !objectText) { // 목적어 없으면 보어로 간주
+                    rowsHtml += createRow('보어(C)', compText, '형용사', 'bg-c');
+                    hasComp = true;
+                }
+
+                // (D) 수식어 (전치사구, 부사절 등)
+                // 전치사구 루프
+                preps.forEach(p => {
+                    // detail 추론: 위치상 동사 바로 뒤면 부사적, 명사 뒤면 형용사적... (단순 추정)
+                    // 정확한 수식 대상 파악은 어렵지만, 위치로 힌트 제공
+                    let hint = "수식어 (전치사구)";
+                    rowsHtml += createRow('수식어(M)', p.text, hint, 'bg-m');
+                });
+
+                // (E) 접속사절/부사절 (Comma + who/which/that 등)
+                let clauses = sDoc.clauses().ifAfter(mainVerb).not(mainVerb).text();
+                if (clauses && clauses !== objectText && clauses !== compText) {
+                   // 이미 전치사구로 잡힌게 아니면 출력
+                   // 중복 방지 로직 필요하나 단순화
+                }
+
+                // 3. 문장 형식 추론
+                let pattern = "1형식 ($S + V$)";
+                if (hasObject) pattern = "3형식 ($S + V + O$)";
+                else if (hasComp) pattern = "2형식 ($S + V + C$)";
+                // 4, 5형식은 단순 로직으로 구분 어려워 3형식으로 퉁침
+
+                totalHtml += `
+                    <div class="sentence-card">
+                        <div class="sentence-header">
+                            <b>${index + 1}.</b> ${sentText}
+                        </div>
+                        <div class="sentence-type">${pattern} (추정)</div>
+                        <div class="comp-list">
+                            ${rowsHtml}
+                        </div>
+                    </div>
+                `;
             });
 
-            // (E) 접속사나 부사 등 남은 찌꺼기 처리 (선택사항)
-            // 여기서는 주요 성분만 깔끔하게 보여주기 위해 생략
-
-            // 인덱스 순서대로 정렬 (문장 순서대로 보여주기 위함)
-            // *참고: compromise의 offset 기능이 완벽하지 않을 수 있어, 
-            // 실제로는 원문 텍스트 내 위치(indexOf)를 찾아 정렬하는 것이 안전
-            chunks.sort((a, b) => input.indexOf(a.text) - input.indexOf(b.text));
-
-
-            // 5. HTML 렌더링
-            let html = `<div class="analysis-container">`;
-            
-            if (chunks.length === 0) {
-                html += `<div class="chunk-card"><span class="chunk-text">${input}</span></div>`;
-            } else {
-                chunks.forEach(chunk => {
-                    html += `
-                        <div class="chunk-card" style="border-top: 3px solid var(--primary);">
-                            <span class="chunk-label ${chunk.tag}">${chunk.type}</span>
-                            <span class="chunk-text">${chunk.text}</span>
-                            <span class="chunk-detail">${chunk.detail}</span>
-                        </div>
-                    `;
-                });
-            }
-            html += `</div>`;
-
-            // 6. 형식 추론
-            let patternText = "분석된 구조";
-            const vCount = chunks.filter(c => c.type === '동사(V)').length;
-            const oCount = chunks.filter(c => c.type === '목적어(O)').length;
-            const cCount = chunks.filter(c => c.type === '보어(C)').length;
-
-            if (vCount > 0) {
-                if (oCount === 1) patternText = "3형식 ($S + V + O$) 추정";
-                else if (cCount === 1 && oCount === 0) patternText = "2형식 ($S + V + C$) 추정";
-                else if (oCount === 0 && cCount === 0) patternText = "1형식 ($S + V$) 추정";
-            }
-
-            patternHintDiv.innerHTML = `💡 ${patternText}`;
-            outputDiv.innerHTML = html;
+            outputDiv.innerHTML = totalHtml;
             resultBox.style.display = 'block';
 
         } catch (error) {
             console.error(error);
             alert("분석 중 오류가 발생했습니다.");
         }
+    }
+
+    // 리스트 한 줄(Row) 만드는 헬퍼 함수
+    function createRow(role, text, detail, colorClass) {
+        return `
+            <div class="comp-row">
+                <span class="role-badge ${colorClass}">${role}</span>
+                <span class="comp-text">${text}</span>
+                <span class="comp-detail">(${detail})</span>
+            </div>
+        `;
     }
 
     function highlightWord(sentence, targetWord) {
