@@ -55,8 +55,8 @@
         .hl-word { padding: 3px 6px; border-radius: 6px; margin: 0 2px; font-weight: 600; cursor: default; transition: 0.2s; border-bottom: 2px solid rgba(0,0,0,0.05); }
         
         /* 색상 테마 (아주 연한 파스텔) */
-        .hl-s { background-color: #FFF0F5; color: #C2185B; } /* 주어: 연한 핑크 */
-        .hl-v { background-color: #FFF8E1; color: #E65100; } /* 동사: 연한 오렌지 */
+        .hl-s { background-color: #FFF0F5; color: #D81B60; } /* 주어: 연한 핑크 */
+        .hl-v { background-color: #FFF8E1; color: #EF6C00; } /* 동사: 연한 오렌지 */
         .hl-o { background-color: #E3F2FD; color: #1565C0; } /* 목적어: 연한 블루 */
         .hl-c { background-color: #F3E5F5; color: #7B1FA2; } /* 보어: 연한 보라 */
         .hl-m { background-color: #E8F5E9; color: #2E7D32; } /* 수식어: 연한 초록 */
@@ -159,7 +159,7 @@
     <div id="analyzerSection">
         <div class="input-group">
             <label>💬 분석할 영어 문장을 입력하세요 (인터넷 필수)</label>
-            <textarea id="inputEn" class="input-box" rows="5" placeholder="예: The FBI has released images of a masked person."></textarea>
+            <textarea id="inputEn" class="input-box" rows="5" placeholder="예: Why do you love me?&#13;&#10;예: The FBI has released images of a masked person in the hunt."></textarea>
         </div>
         <button class="action-btn" onclick="runAnalysis()">⚡ 문장 구조 분석 시작</button>
         <div id="resultBox" style="margin-top:20px;"></div>
@@ -219,8 +219,7 @@
     }
 
     // ============================================
-    //  [핵심] 문장 구조 분석 로직 (순차 스캔 방식)
-    //  - 끊김 없이 전체 문장을 분석 보장
+    //  [고급 분석 로직] 문법적 우선순위 기반 분할
     // ============================================
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
@@ -238,94 +237,188 @@
             sentences.forEach((sent, index) => {
                 const sentText = sent.text;
                 const sDoc = nlp(sentText);
-                let chunks = []; // 순서대로 쌓을 블록들
+                let chunks = []; // 분석 조각 저장
 
-                // 1. 핵심 동사 찾기
-                let verbs = sDoc.verbs();
-                let mainVerb = verbs.first();
+                // === 1. 고급 청크 추출 (우선순위: 절 > 부정사 > 전치사구) ===
+                
+                // 1-1. 부사절/관계사절 접속사 (who, which, that, after, because...)
+                // 이들이 이끄는 절을 먼저 식별 (단순화: 접속사+동사 포함 덩어리)
+                let clauses = sDoc.match('(#Conjunction|#Pronoun) .? #Verb+ .?').json();
+                
+                // 1-2. To부정사 (to + 동사)
+                let infinitives = sDoc.match('to #Verb .? (#Noun|#Adjective)?').json();
+                
+                // 1-3. 전치사구 (Preposition Phrases)
+                let prepPhrases = sDoc.match('#Preposition .? #Adjective? #Noun+').json();
 
-                // 2. 동사가 없으면 전체를 기타로 처리
-                if (!mainVerb.found) {
-                    chunks.push({ text: sentText, type: 'X', label: '문장', detail: '동사 없음 (구문/제목 등)' });
+                // === 2. 의문문 vs 평서문 분기 ===
+                let isQuestion = sentText.trim().endsWith('?');
+                let mainVerb = null;
+                let subject = null;
+                let auxVerb = null;
+
+                if (isQuestion) {
+                    // 의문문 로직 (Why do you love me?)
+                    // Wh-word(M) + Aux(V) + Subject(S) + MainVerb(V) + Object(O)
+                    let questionWord = sDoc.match('#QuestionWord').first();
+                    auxVerb = sDoc.match('#Auxiliary').first(); // do
+                    // 주어 찾기 (조동사와 본동사 사이)
+                    subject = sDoc.match('#Noun+').between(auxVerb, sDoc.verbs().not(auxVerb).first());
+                    if (!subject.found) subject = sDoc.match('#Pronoun').between(auxVerb, sDoc.verbs().not(auxVerb).first());
+                    
+                    // 본동사
+                    mainVerb = sDoc.verbs().not(auxVerb).first(); // love
+
+                    if(questionWord.found) chunks.push({ text: questionWord.text(), type: 'M', label: '수식어', detail: '의문사' });
+                    if(auxVerb.found) chunks.push({ text: auxVerb.text(), type: 'V', label: '동사', detail: '조동사' });
+                    if(subject.found) chunks.push({ text: subject.text(), type: 'S', label: '주어', detail: '명사(구)' });
+                    if(mainVerb.found) chunks.push({ text: mainVerb.text(), type: 'V', label: '동사', detail: '본동사' });
+
                 } else {
-                    // === [A] 주어 (동사 앞 전체) ===
-                    let preText = sDoc.match('^.+').before(mainVerb).text().trim();
-                    if (preText) {
-                        chunks.push({ text: preText, type: 'S', label: '주어', detail: '명사구' });
-                    }
+                    // 평서문 로직
+                    let verbs = sDoc.verbs();
+                    mainVerb = verbs.first(); // 첫 동사를 메인으로 가정
 
-                    // === [B] 동사 ===
-                    let verbText = mainVerb.text().trim();
-                    let verbDetail = "동사구";
-                    // 시제/태 간단 추론
-                    if (nlp(verbText).has('#PastTense')) verbDetail += ", 과거";
-                    else if (nlp(verbText).has('#PresentTense')) verbDetail += ", 현재";
-                    if (verbText.match(/have|has|had/i)) verbDetail += ", 완료";
-                    if (verbText.match(/be|is|are|was|were/i)) verbDetail += ", 수동태/진행";
-                    
-                    chunks.push({ text: verbText, type: 'V', label: '동사', detail: verbDetail });
-
-                    // === [C] 나머지 (동사 뒤 전체 순차 스캔) ===
-                    let postText = sDoc.match('.+').after(mainVerb).text().trim();
-                    
-                    if (postText) {
-                        // 스캔을 위한 임시 토큰화 (단순 공백 기준이 아니라, 단어 단위 처리)
-                        // 여기서는 로직 단순화를 위해, postText를 다시 NLP로 분석해서
-                        // 전치사(Preposition)가 나올 때마다 끊어줌.
+                    if (mainVerb.found) {
+                        let sub = sDoc.match('^.+').before(mainVerb);
+                        if(sub.found) chunks.push({ text: sub.text().trim(), type: 'S', label: '주어', detail: '명사구' });
                         
-                        let pDoc = nlp(postText);
-                        let terms = pDoc.terms().json();
+                        let verbTxt = mainVerb.text();
+                        // 동사 시제 분석
+                        let vDetail = "동사구";
+                        if(nlp(verbTxt).has('#PastTense')) vDetail += ", 과거";
+                        else if(nlp(verbTxt).has('#PresentTense')) vDetail += ", 현재";
+                        if(verbTxt.includes('have')) vDetail += ", 완료";
                         
-                        let buffer = [];
-                        let currentType = 'O'; // 기본은 목적어(O)로 시작 (명사가 오면)
-                        
-                        // 첫 단어가 형용사면 보어(C)일 확률 높음
-                        if (terms.length > 0 && nlp(terms[0].text).has('#Adjective') && !nlp(terms[0].text).has('#Noun')) {
-                            currentType = 'C';
-                        }
-
-                        for (let i = 0; i < terms.length; i++) {
-                            let t = terms[i];
-                            let word = t.text;
-                            let isPrep = nlp(word).has('#Preposition'); // 전치사인지 확인
-                            
-                            // 전치사를 만나면 -> 지금까지 버퍼를 저장하고, 새로 시작
-                            if (isPrep) {
-                                // 기존 버퍼 저장
-                                if (buffer.length > 0) {
-                                    addChunkFromBuffer(chunks, buffer, currentType);
-                                    buffer = [];
-                                }
-                                // 새 타입은 수식어(M)
-                                currentType = 'M';
-                            }
-                            
-                            buffer.push(word);
-                        }
-                        // 남은 버퍼 저장
-                        if (buffer.length > 0) {
-                            addChunkFromBuffer(chunks, buffer, currentType);
-                        }
+                        chunks.push({ text: verbTxt, type: 'V', label: '동사', detail: vDetail });
+                    } else {
+                        // 동사 없으면 전체 문장 처리
+                        chunks.push({ text: sentText, type: 'X', label: '문장', detail: '동사 없음' });
                     }
                 }
 
-                // 3. 문장 형식 추론
+                // === 3. 나머지 요소 채우기 (목적어, 보어, 수식어) ===
+                // 이미 찾은 S, V, Aux를 제외한 나머지 텍스트 분석
+                
+                // 헬퍼: 이미 등록된 청크인지 확인
+                const isChunked = (txt) => chunks.some(c => c.text.includes(txt) || txt.includes(c.text));
+
+                // (1) To부정사 등록
+                infinitives.forEach(inf => {
+                    if(!isChunked(inf.text)) {
+                        // 목적어 역할인지 수식어 역할인지 위치로 추정
+                        let type = 'M'; let label = '수식어'; let det = 'To부정사 (부사적/형용사적)';
+                        // 동사 바로 뒤면 목적어일 가능성 (seek to identify)
+                        if (mainVerb && sentText.indexOf(inf.text) > sentText.indexOf(mainVerb.text()) && !sentText.substring(sentText.indexOf(mainVerb.text()), sentText.indexOf(inf.text)).includes(' ')) {
+                             type = 'O'; label = '목적어'; det = 'To부정사 (명사적 용법)';
+                        }
+                        chunks.push({ text: inf.text, type: type, label: label, detail: det });
+                    }
+                });
+
+                // (2) 접속사절/관계사절 등록 (who they say...)
+                clauses.forEach(cl => {
+                    let txt = cl.text.trim();
+                    if(!isChunked(txt) && txt.length > 2) {
+                        chunks.push({ text: txt, type: 'M', label: '수식어', detail: '관계사절/접속사절' });
+                    }
+                });
+
+                // (3) 전치사구 등록 (Role 추론 적용)
+                prepPhrases.forEach(pp => {
+                    let txt = pp.text.trim();
+                    if(!isChunked(txt)) {
+                        // [Role 추론] 바로 앞 단어 확인
+                        let ppIndex = sentText.indexOf(txt);
+                        let preWord = sentText.substring(0, ppIndex).trim().split(' ').pop();
+                        let hint = "전치사구";
+                        
+                        // 앞 단어가 명사면 -> 형용사 역할
+                        if(preWord && nlp(preWord).has('#Noun')) {
+                            hint = `'${preWord}' 수식 (형용사 역할)`;
+                        } 
+                        // 앞 단어가 동사면 -> 부사 역할
+                        else if(preWord && nlp(preWord).has('#Verb')) {
+                            hint = `'${preWord}' 수식 (부사 역할)`;
+                        }
+
+                        chunks.push({ text: txt, type: 'M', label: '수식어', detail: hint });
+                    }
+                });
+
+                // (4) 남은 명사 (목적어/보어)
+                // 위에서 처리되지 않은 명사 덩어리 찾기
+                let nouns = sDoc.match('#Noun+').json();
+                nouns.forEach(n => {
+                    let txt = n.text.trim();
+                    if(!isChunked(txt)) {
+                        // 위치가 동사 뒤면 목적어/보어
+                        if (mainVerb && sentText.indexOf(txt) > sentText.indexOf(mainVerb.text())) {
+                            // 단순화: 명사는 목적어, 형용사는 보어
+                            chunks.push({ text: txt, type: 'O', label: '목적어', detail: '명사 (동작의 대상)' });
+                        }
+                    }
+                });
+                
+                // (5) 남은 형용사 (보어)
+                let adjs = sDoc.match('#Adjective').json();
+                adjs.forEach(a => {
+                    let txt = a.text.trim();
+                    if(!isChunked(txt)) {
+                         if (mainVerb && sentText.indexOf(txt) > sentText.indexOf(mainVerb.text())) {
+                            chunks.push({ text: txt, type: 'C', label: '보어', detail: '형용사 (상태 설명)' });
+                         }
+                    }
+                });
+
+
+                // 4. 정렬 및 후처리
+                // 원문 순서대로 정렬 (indexOf 사용)
+                chunks.forEach(c => { c.idx = sentText.indexOf(c.text); });
+                chunks.sort((a,b) => a.idx - b.idx);
+                
+                // 중복 제거 (포함 관계 정리) - 큰 덩어리가 작은 덩어리 먹음
+                // (예: "in the hunt"가 "the hunt"를 먹어야 함)
+                let finalChunks = [];
+                for(let i=0; i<chunks.length; i++) {
+                    let keep = true;
+                    for(let j=0; j<chunks.length; j++) {
+                        if(i!==j && chunks[j].text.includes(chunks[i].text) && chunks[j].text.length > chunks[i].text.length) {
+                            keep = false; // 더 큰 덩어리에 포함되면 제외
+                        }
+                    }
+                    if(keep) finalChunks.push(chunks[i]);
+                }
+                chunks = finalChunks;
+
+
+                // 5. 형식 추론
                 let hasObj = chunks.some(c => c.type === 'O');
                 let hasComp = chunks.some(c => c.type === 'C');
                 let pattern = "1형식 (주어 S + 동사 V)";
                 if (hasObj) pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
                 else if (hasComp) pattern = "2형식 (주어 S + 동사 V + 보어 C)";
 
-                // 4. HTML 생성
-                // (1) 상단 하이라이트 문장 (chunks를 이어 붙여서 만듦 -> 100% 일치 보장)
-                let coloredSentHtml = "";
-                chunks.forEach((c, i) => {
-                    let cls = `hl-${c.type.toLowerCase()}`;
-                    // 단어 사이 띄어쓰기 추가 (맨 마지막 제외)
-                    coloredSentHtml += `<span class="hl-word ${cls}">${c.text}</span> `;
+
+                // 6. HTML 생성
+                // 상단 문장 하이라이트 (Replacement 방식)
+                let coloredSent = sentText;
+                // 긴 것부터 교체
+                let sortedForColor = [...chunks].sort((a,b) => b.text.length - a.text.length);
+                let tokenMap = {};
+                
+                sortedForColor.forEach((c, i) => {
+                    let token = `__T${i}__`;
+                    if(coloredSent.includes(c.text)) {
+                        coloredSent = coloredSent.replace(c.text, token);
+                        tokenMap[token] = `<span class="hl-word hl-${c.type.toLowerCase()}">${c.text}</span>`;
+                    }
+                });
+                Object.keys(tokenMap).forEach(k => {
+                    coloredSent = coloredSent.replace(k, tokenMap[k]);
                 });
 
-                // (2) 하단 리스트
+                // 하단 리스트
                 let listHtml = "";
                 chunks.forEach(c => {
                     let cls = `label-${c.type.toLowerCase()}`;
@@ -344,7 +437,7 @@
                     <div class="analysis-card">
                         <div class="analysis-header">
                             <span class="sent-num">Sentence ${index + 1}</span>
-                            <div class="sent-text">${coloredSentHtml}</div>
+                            <div class="sent-text">${coloredSent}</div>
                             <span class="sent-pattern">${pattern}</span>
                         </div>
                         <ul class="struct-list">
@@ -362,31 +455,13 @@
         }
     }
 
-    // 버퍼 내용을 텍스트로 합쳐서 청크에 추가하는 헬퍼 함수
-    function addChunkFromBuffer(chunks, buffer, type) {
-        let text = buffer.join(' '); // 단순 공백 연결 (원문 띄어쓰기와 다를 수 있으나 분석용으론 충분)
-        // 구두점 처리 (단어 뒤에 붙은 점, 콤마 등은 compromise가 알아서 처리했음)
-        // 정교한 처리를 위해선 terms의 pre/post 속성을 써야하나, 여기선 텍스트 결합만.
-        
-        let label = '기타';
-        let detail = '';
-
-        if (type === 'O') { label = '목적어'; detail = '명사 (동작의 대상)'; }
-        else if (type === 'C') { label = '보어'; detail = '형용사/명사 (주어 설명)'; }
-        else if (type === 'M') { label = '수식어'; detail = '전치사구/부사 (수식)'; }
-        
-        chunks.push({ text: text, type: type, label: label, detail: detail });
-    }
-
-
     // ============================================
-    //  화면 렌더링 (기존 기능 유지)
+    //  화면 렌더링 (기존 기능)
     // ============================================
     function renderContent() {
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
         
-        // 버튼 제어
         if (selectedValue === 'analyzer' || selectedValue.startsWith("g_")) {
             toggleBtn.style.display = 'none';
         } else {
