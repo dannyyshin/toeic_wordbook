@@ -279,6 +279,14 @@
         let chunks = [];
         let patternText = "1형식 (주어 S + 동사 V)";
         
+        // 의문문 판별
+        let isQuestion = sentText.trim().endsWith('?') || sentText.match(/^(do|does|did|will|would|can|could|may|might|shall|should|must|have|has|had|is|are|am|was|were)\s+/i);
+        
+        if(isQuestion) {
+            // 의문문 처리
+            return analyzeQuestion(sentText, index);
+        }
+        
         // 1. 메인 동사 찾기
         let mainVerbInfo = findMainVerb(sentText);
         if(!mainVerbInfo) return '';
@@ -303,6 +311,73 @@
         patternText = afterChunks.pattern;
         
         // HTML 생성
+        return generateHTML(sentText, chunks, patternText, index);
+    }
+
+    // 의문문 분석 함수
+    function analyzeQuestion(sentText, index) {
+        let chunks = [];
+        let patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
+        
+        // 조동사 찾기
+        let auxMatch = sentText.match(/^(do|does|did|will|would|can|could|may|might|shall|should|must|have|has|had|is|are|am|was|were)\s+(.+)/i);
+        
+        if(auxMatch) {
+            let aux = auxMatch[1];
+            let rest = auxMatch[2].trim();
+            
+            // 조동사 추가
+            chunks.push({text: aux, type:'V', label:'동사', detail:'조동사'});
+            
+            // 나머지 부분에서 주어와 본동사 찾기
+            let doc = nlp(rest);
+            let verbs = doc.verbs().json();
+            
+            if(verbs.length > 0) {
+                let mainVerb = verbs[0].text;
+                let vIdx = rest.indexOf(mainVerb);
+                
+                // 주어 (조동사와 본동사 사이)
+                let subject = rest.substring(0, vIdx).trim();
+                if(subject) {
+                    chunks.push({text: subject, type:'S', label:'주어', detail:'대명사/명사'});
+                }
+                
+                // 본동사
+                let verbType = getVerbType(mainVerb);
+                chunks.push({text: mainVerb, type:'V', label:'동사', detail: verbType});
+                
+                // 목적어/보어
+                let postVerb = rest.substring(vIdx + mainVerb.length).trim().replace(/\?$/, '');
+                
+                if(postVerb) {
+                    // be동사인 경우 보어
+                    if(mainVerb.match(/^(be|is|are|am|was|were)$/i)) {
+                        chunks.push({text: postVerb, type:'C', label:'주격보어(S.C)', detail:'형용사/명사'});
+                        patternText = "2형식 (주어 S + 동사 V + 보어 C)";
+                    }
+                    // 자동사인 경우 수식어
+                    else if(mainVerb.match(/^(go|come|arrive|live|work|happen)$/i)) {
+                        chunks.push({text: postVerb, type:'M', label:'수식어', detail:'부사/전치사구'});
+                        patternText = "1형식 (주어 S + 동사 V)";
+                    }
+                    // 타동사인 경우 목적어
+                    else {
+                        chunks.push({text: postVerb, type:'O', label:'목적어', detail:'명사구'});
+                        patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
+                    }
+                }
+            } else {
+                // 본동사가 없는 경우 (be동사만 있는 경우)
+                let words = rest.split(/\s+/);
+                if(words.length >= 2) {
+                    chunks.push({text: words[0], type:'S', label:'주어', detail:'대명사/명사'});
+                    chunks.push({text: words.slice(1).join(' ').replace(/\?$/, ''), type:'C', label:'주격보어(S.C)', detail:'형용사/명사'});
+                    patternText = "2형식 (주어 S + 동사 V + 보어 C)";
+                }
+            }
+        }
+        
         return generateHTML(sentText, chunks, patternText, index);
     }
 
