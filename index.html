@@ -34,21 +34,36 @@
         .progress-bar { background: #000; height: 100%; width: 0%; transition: width 0.3s; }
         .container { padding: 20px; max-width: 700px; margin: 0 auto; }
 
-        /* === [NEW] 분석기 스타일 (요청하신 리스트 형태) === */
+        /* === 분석기 스타일 === */
         #analyzerSection { display: none; background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 30px; }
         .input-group label { display: block; font-size: 14px; font-weight: bold; color: #000; margin-bottom: 8px; }
         .input-box { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; font-family: 'Georgia', serif; line-height: 1.5; resize: vertical; }
         .input-box:focus { border-color: var(--primary); outline: none; }
         .action-btn { width: 100%; background: #000; color: #FFC107; border: none; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px; }
         
-        /* 분석 카드 */
+        /* 분석 카드 디자인 */
         .analysis-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .analysis-header { border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; margin-bottom: 15px; }
-        .sent-num { font-weight: 900; color: #888; font-size: 12px; display: block; margin-bottom: 4px; }
-        .sent-text { font-size: 16px; font-family: 'Georgia', serif; color: #222; margin-bottom: 10px; line-height: 1.5; font-weight: 600; }
-        .sent-pattern { display: inline-block; background: #E3F2FD; color: #1565C0; font-size: 12px; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
+        .analysis-header { border-bottom: 2px solid #f4f4f4; padding-bottom: 15px; margin-bottom: 15px; }
+        .sent-num { font-weight: 900; color: #888; font-size: 12px; display: block; margin-bottom: 6px; }
+        
+        /* 상단 문장 텍스트 (하이라이트 적용) */
+        .sent-text { 
+            font-size: 17px; font-family: 'Georgia', serif; color: #333; margin-bottom: 12px; line-height: 2.0; 
+        }
+        
+        /* 하이라이트 Span 스타일 */
+        .hl-word { padding: 2px 5px; border-radius: 4px; margin: 0 2px; font-weight: 600; cursor: default; transition: 0.2s; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        
+        /* 색상 테마 */
+        .hl-s { background-color: #FCE4EC; color: #C2185B; border-color: #F06292; } /* 주어: 분홍 */
+        .hl-v { background-color: #FFF3E0; color: #E65100; border-color: #FF9800; } /* 동사: 주황 */
+        .hl-o { background-color: #E3F2FD; color: #1565C0; border-color: #64B5F6; } /* 목적어: 파랑 */
+        .hl-c { background-color: #F3E5F5; color: #7B1FA2; border-color: #BA68C8; } /* 보어: 보라 */
+        .hl-m { background-color: #E8F5E9; color: #2E7D32; border-color: #81C784; } /* 수식어: 초록 */
 
-        /* 구조 분석 리스트 스타일 */
+        .sent-pattern { display: inline-block; background: #222; color: #FFC107; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 12px; margin-top: 5px;}
+
+        /* 하단 상세 리스트 스타일 */
         .struct-list { list-style: none; padding: 0; margin: 0; }
         .struct-item { 
             padding: 8px 0; 
@@ -57,32 +72,34 @@
             line-height: 1.6;
             display: flex;
             align-items: flex-start;
-            flex-wrap: wrap;
         }
         .struct-item:last-child { border-bottom: none; }
         
         /* 라벨 디자인 (주어:명사구) */
         .struct-label {
             display: inline-block;
-            margin-right: 8px;
-            color: #444;
-            font-weight: bold;
-            background-color: #f5f5f5;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
+            margin-right: 10px;
+            color: #fff;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
             white-space: nowrap;
+            min-width: 60px;
+            text-align: center;
+            flex-shrink: 0;
         }
-        .label-s { color: #D81B60; background: #FCE4EC; }
-        .label-v { color: #F57C00; background: #FFF3E0; }
-        .label-o { color: #1976D2; background: #E3F2FD; }
-        .label-c { color: #8E24AA; background: #F3E5F5; }
-        .label-m { color: #388E3C; background: #E8F5E9; }
+        .label-s { background: #D81B60; }
+        .label-v { background: #F57C00; }
+        .label-o { background: #1976D2; }
+        .label-c { background: #8E24AA; }
+        .label-m { background: #388E3C; }
 
-        .struct-content { font-family: 'Georgia', serif; font-weight: 600; color: #222; margin-right: 6px; }
-        .struct-detail { color: #666; font-size: 13px; }
+        .struct-content-box { flex-grow: 1; }
+        .struct-content { font-family: 'Georgia', serif; font-weight: 700; color: #222; font-size: 15px; margin-right: 6px; display: block; margin-bottom: 2px;}
+        .struct-detail { color: #666; font-size: 13px; display: block; }
 
-        /* === 기존 단어장/문법 스타일 (유지) === */
+        /* === 단어장 스타일 === */
         .word-card { background: var(--white); border-radius: 12px; padding: 20px 20px 25px 20px; margin-bottom: 15px; box-shadow: var(--shadow); position: relative; border-left: 5px solid transparent; }
         .word-card.checked { opacity: 0.6; background-color: #f9f9f9; border-left: 5px solid #aaa; }
         .word-header { display: flex; align-items: flex-end; margin-bottom: 15px; flex-wrap: wrap; gap: 8px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
@@ -160,6 +177,7 @@
     const analyzerSection = document.getElementById('analyzerSection');
     const progressBar = document.getElementById('progressBar');
     const themeDisplay = document.getElementById('themeDisplay');
+    const toggleBtn = document.querySelector('.toggle-btn');
     let isHideMode = false;
 
     // === 초기화 ===
@@ -194,8 +212,7 @@
     function toggleMode() {
         isHideMode = !isHideMode;
         document.body.classList.toggle('hide-mode');
-        const btn = document.querySelector('.toggle-btn');
-        btn.innerText = isHideMode ? "뜻 보이기" : "뜻 가리기";
+        toggleBtn.innerText = isHideMode ? "뜻 보이기" : "뜻 가리기";
     }
 
     // ============================================
@@ -220,6 +237,9 @@
                 let htmlItems = "";
                 let isComplete = false;
                 let pattern = "1형식";
+                
+                // 하이라이트 토큰을 담을 리스트 (text, class)
+                let highlights = [];
 
                 // 1. 동사 찾기
                 let verbs = sDoc.verbs();
@@ -241,10 +261,13 @@
                     let subjectText = sDoc.match('^.+').before(mainVerb).text().trim();
                     if(subjectText) {
                         htmlItems += createListItem('주어', '명사구', subjectText, 'label-s', '');
+                        highlights.push({text: subjectText, cls: 'hl-s'});
                     }
 
                     // [동사]
-                    htmlItems += createListItem('동사', '동사구', mainVerb.text().trim(), 'label-v', verbDetail);
+                    let verbTxt = mainVerb.text().trim();
+                    htmlItems += createListItem('동사', '동사구', verbTxt, 'label-v', verbDetail);
+                    highlights.push({text: verbTxt, cls: 'hl-v'});
 
                     // [동사 뒤] 분석 (목적어/보어/수식어)
                     let afterDoc = sDoc.match('.+').after(mainVerb);
@@ -267,43 +290,68 @@
 
                     // 목적어/보어 추가
                     if (nounObj.found && nounObj.text().trim().length > 0) {
-                        htmlItems += createListItem('목적어', '명사', nounObj.text().trim(), 'label-o', '');
-                        hasObject = true;
+                        let objTxt = nounObj.text().trim();
+                        // 원문 텍스트 내 존재 여부 확인 (잘못된 매칭 방지)
+                        if(sentText.includes(objTxt)) {
+                            htmlItems += createListItem('목적어', '명사', objTxt, 'label-o', '');
+                            highlights.push({text: objTxt, cls: 'hl-o'});
+                            hasObject = true;
+                        }
                     } else if (adjComp.found) {
-                        htmlItems += createListItem('보어', '형용사', adjComp.text().trim(), 'label-c', '');
-                        hasComp = true;
+                        let compTxt = adjComp.text().trim();
+                        if(sentText.includes(compTxt)) {
+                            htmlItems += createListItem('보어', '형용사', compTxt, 'label-c', '');
+                            highlights.push({text: compTxt, cls: 'hl-c'});
+                            hasComp = true;
+                        }
                     }
 
                     // 수식어(M) 추가
                     prepPhrases.forEach(p => {
-                        // 수식 대상 추론 (단순 위치 기반 추정)
+                        let prepTxt = p.text.trim();
+                        // 수식 대상 추론
                         let hint = "수식어";
-                        // 해당 전치사구가 문장 내 어디에 위치하는지 대략 파악
-                        let prepIndex = sentText.indexOf(p.text);
+                        let prepIndex = sentText.indexOf(prepTxt);
                         let objIndex = nounObj.found ? sentText.indexOf(nounObj.text()) : -1;
                         
                         if (objIndex !== -1 && prepIndex > objIndex) {
                             hint = `'${nounObj.text()}'를 꾸미는 형용사 역할 (추정)`;
                         } else {
-                            hint = `'${mainVerb.text()}'를 꾸미는 부사 역할 (추정)`;
+                            hint = `'${verbTxt}'를 꾸미는 부사 역할 (추정)`;
                         }
                         
-                        htmlItems += createListItem('수식어', '전치사구', p.text.trim(), 'label-m', hint);
+                        htmlItems += createListItem('수식어', '전치사구', prepTxt, 'label-m', hint);
+                        highlights.push({text: prepTxt, cls: 'hl-m'});
                     });
 
-                    // 형식 추론
-                    if (hasObject) pattern = "3형식 ($S + V + O$)";
-                    else if (hasComp) pattern = "2형식 ($S + V + C$)";
-                    else pattern = "1형식 ($S + V$)";
+                    // 형식 추론 텍스트 생성
+                    if (hasObject) pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
+                    else if (hasComp) pattern = "2형식 (주어 S + 동사 V + 보어 C)";
+                    else pattern = "1형식 (주어 S + 동사 V)";
                 }
+
+                // 상단 문장 하이라이트 적용 (Replacement 방식)
+                let coloredSentText = sentText;
+                // 긴 단어부터 교체해야 포함관계 오류 방지
+                highlights.sort((a,b) => b.text.length - a.text.length);
+                
+                let tokenMap = {};
+                highlights.forEach((h, i) => {
+                    let token = `__TOKEN${i}__`;
+                    if(coloredSentText.includes(h.text)) {
+                        coloredSentText = coloredSentText.replace(h.text, token);
+                        tokenMap[token] = `<span class="hl-word ${h.cls}">${h.text}</span>`;
+                    }
+                });
+                Object.keys(tokenMap).forEach(k => {
+                    coloredSentText = coloredSentText.replace(k, tokenMap[k]);
+                });
 
                 totalHtml += `
                     <div class="analysis-card">
                         <div class="analysis-header">
-                            <div>
-                                <span class="sent-num">Sentence ${index + 1}</span>
-                                <div class="sent-text">${sentText}</div>
-                            </div>
+                            <span class="sent-num">Sentence ${index + 1}</span>
+                            <div class="sent-text">${coloredSentText}</div>
                             ${isComplete ? `<span class="sent-pattern">${pattern}</span>` : ''}
                         </div>
                         <ul class="struct-list">
@@ -325,19 +373,29 @@
         return `
             <li class="struct-item">
                 <span class="struct-label ${colorClass}">${label}:${type}</span>
-                <span class="struct-content">${text}</span>
-                ${detailHtml}
+                <div class="struct-content-box">
+                    <span class="struct-content">${text}</span>
+                    ${detailHtml}
+                </div>
             </li>
         `;
     }
 
     // ============================================
-    //  단어장 렌더링 (기존 기능 복구)
+    //  화면 렌더링 (뜻 가리기 버튼 제어 추가)
     // ============================================
     function renderContent() {
         window.scrollTo(0, 0);
         const selectedValue = daySelect.value;
         
+        // 버튼 가리기/보이기 로직
+        if (selectedValue === 'analyzer' || selectedValue.startsWith("g_")) {
+            toggleBtn.style.display = 'none'; // 분석기, 문법에서는 숨김
+        } else {
+            toggleBtn.style.display = 'inline-block'; // 단어장에서는 보임
+        }
+
+        // 1. 분석기 모드
         if (selectedValue === 'analyzer') {
             analyzerSection.style.display = 'block';
             wordList.style.display = 'none';
@@ -347,6 +405,7 @@
             return;
         }
 
+        // 2. 문법/단어장 모드
         analyzerSection.style.display = 'none';
         wordList.style.display = 'block';
         wordList.innerHTML = '';
