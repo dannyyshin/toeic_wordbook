@@ -228,7 +228,8 @@
     }
 
     // ============================================
-    //  [핵심] 문장 구조 분석 로직 (개선된 정밀 분석)
+    // ============================================
+    //  [핵심] 문장 구조 분석 로직 (계층적 절 분석)
     // ============================================
     function runAnalysis() {
         const input = document.getElementById('inputEn').value;
@@ -238,243 +239,415 @@
         
         try {
             resultBox.innerHTML = "";
-            const doc = nlp(input);
-            const sentences = doc.sentences().json();
+            
+            // 인용문 분리 (큰따옴표 기준)
+            let parts = input.split(/("[^"]+")/).filter(p => p.trim());
             let totalHtml = "";
+            let sentIndex = 0;
 
-            sentences.forEach((sent, index) => {
-                const sentText = sent.text;
-                const sDoc = nlp(sentText);
-                let chunks = [];
-                let patternText = "1형식 (주어 S + 동사 V)";
-
-                // 1. 의문문 판별
-                let isQuestion = sentText.trim().endsWith('?') || sDoc.has('#QuestionWord');
+            parts.forEach(part => {
+                part = part.trim();
+                if(!part) return;
                 
-                // 2. 메인 동사 찾기 (종속절 동사 제외)
-                let allVerbs = sDoc.verbs().json();
-                let mainVerb = null;
-                
-                for(let v of allVerbs) {
-                    let vText = v.text.trim();
-                    let vIdx = sentText.indexOf(vText);
-                    if(vIdx === -1) continue;
+                // 인용문인 경우
+                if(part.startsWith('"') && part.endsWith('"')) {
+                    let innerText = part.substring(1, part.length - 1);
+                    let innerSents = nlp(innerText).sentences().json();
                     
-                    // to부정사 제외
-                    let beforeVerb = sentText.substring(0, vIdx).trim();
-                    let lastWord = beforeVerb.split(/\s+/).pop() || '';
-                    lastWord = lastWord.toLowerCase().replace(/[,.!?]/g, '');
-                    
-                    if(lastWord === 'to') continue;
-                    
-                    // 종속절 접속사 뒤 동사 제외
-                    if(['that','which','who','whom','if','because','since','when','while','although','unless','until'].includes(lastWord)) continue;
-                    
-                    mainVerb = v;
-                    break;
+                    innerSents.forEach(sent => {
+                        totalHtml += analyzeSentence(sent.text, ++sentIndex);
+                    });
+                } else {
+                    // 일반 문장
+                    let sentences = nlp(part).sentences().json();
+                    sentences.forEach(sent => {
+                        totalHtml += analyzeSentence(sent.text, ++sentIndex);
+                    });
                 }
-                
-                if(!mainVerb && allVerbs.length > 0) mainVerb = allVerbs[0];
-
-                if(mainVerb) {
-                    let vText = mainVerb.text;
-                    let vIdx = sentText.indexOf(vText);
-                    
-                    // 동사 종류 판별
-                    let verbType = '일반동사';
-                    let is1st = vText.match(/^(go|come|arrive|rise|fall|work|happen|disappear|sleep|die|exist|live|walk|run|sit|stand)$/i);
-                    let is2nd = vText.match(/^(is|are|am|was|were|be|become|remain|seem|look|sound|smell|taste|feel|appear|get|grow|turn|prove)$/i);
-                    let is4th = vText.match(/^(tell|give|show|teach|send|offer|bring|buy|ask|get|make|cook|lend|pass|pay|promise|read|sell|write|owe|hand)$/i);
-                    let is5th = vText.match(/^(make|keep|find|consider|call|elect|name|think|believe|appoint|declare|leave|drive|paint|get|want)$/i);
-                    
-                    if(is2nd) verbType = '불완전자동사(2형식)';
-                    else if(is4th) verbType = '수여동사(4형식)';
-                    else if(is5th) verbType = '불완전타동사(5형식)';
-                    else if(is1st) verbType = '자동사(1형식)';
-                    else verbType = '타동사(3형식)';
-                    
-                    // [주어] 동사 앞부분
-                    let subText = sentText.substring(0, vIdx).trim();
-                    if(subText) {
-                        // 의문사 제거
-                        let cleanSub = subText.replace(/^(what|who|where|when|why|how|which)\s+/i, '').trim();
-                        // 조동사 제거
-                        cleanSub = cleanSub.replace(/^(do|does|did|will|would|can|could|may|might|shall|should|must|have|has|had)\s+/i, '').trim();
-                        
-                        if(cleanSub) {
-                            chunks.push({text: cleanSub, idx: sentText.indexOf(cleanSub), type:'S', label:'주어', detail:'명사구'});
-                        }
-                    }
-                    
-                    // [동사]
-                    chunks.push({text: vText, idx: vIdx, type:'V', label:'동사', detail: verbType});
-                    
-                    // [동사 뒤] 목적어/보어/수식어
-                    let postText = sentText.substring(vIdx + vText.length).trim();
-                    if(postText) {
-                        postText = postText.replace(/\?$/, '').trim();
-                        
-                        // 1형식 - 전부 수식어
-                        if(is1st) {
-                            chunks.push({text: postText, idx: sentText.indexOf(postText, vIdx), type:'M', label:'수식어', detail:'부사구/전치사구'});
-                            patternText = "1형식 (주어 S + 동사 V)";
-                        }
-                        // 2형식 - 보어
-                        else if(is2nd) {
-                            let postDoc = nlp(postText);
-                            let preps = postDoc.match('#Preposition+ #Noun+').json();
-                            
-                            // 전치사구 분리
-                            let complement = postText;
-                            preps.forEach(p => {
-                                chunks.push({text: p.text, idx: sentText.indexOf(p.text, vIdx), type:'M', label:'수식어', detail:'전치사구'});
-                                complement = complement.replace(p.text, '');
-                            });
-                            
-                            complement = complement.trim();
-                            if(complement) {
-                                let compType = postDoc.match('#Adjective').found ? '형용사' : '명사';
-                                chunks.push({text: complement, idx: sentText.indexOf(complement, vIdx), type:'C', label:'주격보어(S.C)', detail: compType});
-                                patternText = "2형식 (주어 S + 동사 V + 보어 C)";
-                            }
-                        }
-                        // 4형식 - IO + DO
-                        else if(is4th && postText.includes(' ')) {
-                            let postDoc = nlp(postText);
-                            let words = postText.split(/\s+/);
-                            
-                            // that절이 있으면 4형식 확정
-                            if(postText.match(/\b(that|if|whether)\b/i)) {
-                                let parts = postText.split(/\s+(that|if|whether)\s+/i);
-                                if(parts.length >= 3) {
-                                    let io = parts[0].trim();
-                                    let doClause = parts.slice(1).join(' ').trim();
-                                    
-                                    chunks.push({text: io, idx: sentText.indexOf(io, vIdx), type:'O', label:'간접목적어(IO)', detail:'대상'});
-                                    chunks.push({text: doClause, idx: sentText.indexOf(doClause, vIdx), type:'O', label:'직접목적어(DO)', detail:'명사절'});
-                                    patternText = "4형식 (주어 S + 동사 V + I.O + D.O)";
-                                }
-                            } else {
-                                // 일반 4형식 (명사 + 명사)
-                                let firstNoun = postDoc.match('^#Noun+').first();
-                                if(firstNoun.found) {
-                                    let io = firstNoun.text();
-                                    let rest = postText.substring(io.length).trim();
-                                    
-                                    if(rest) {
-                                        chunks.push({text: io, idx: sentText.indexOf(io, vIdx), type:'O', label:'간접목적어(IO)', detail:'사람/대상'});
-                                        chunks.push({text: rest, idx: sentText.indexOf(rest, vIdx), type:'O', label:'직접목적어(DO)', detail:'물건/내용'});
-                                        patternText = "4형식 (주어 S + 동사 V + I.O + D.O)";
-                                    } else {
-                                        chunks.push({text: io, idx: sentText.indexOf(io, vIdx), type:'O', label:'목적어', detail:'명사구'});
-                                        patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
-                                    }
-                                }
-                            }
-                        }
-                        // 5형식 - O + O.C
-                        else if(is5th) {
-                            let postDoc = nlp(postText);
-                            let firstNoun = postDoc.match('^#Noun+').first();
-                            
-                            if(firstNoun.found) {
-                                let obj = firstNoun.text();
-                                let oc = postText.substring(obj.length).trim();
-                                
-                                chunks.push({text: obj, idx: sentText.indexOf(obj, vIdx), type:'O', label:'목적어', detail:'명사구'});
-                                
-                                if(oc) {
-                                    let ocType = '형용사/명사/to부정사';
-                                    if(nlp(oc).has('#Adjective')) ocType = '형용사';
-                                    else if(nlp(oc).has('to #Verb')) ocType = 'to부정사';
-                                    else if(nlp(oc).has('#Noun')) ocType = '명사';
-                                    
-                                    chunks.push({text: oc, idx: sentText.indexOf(oc, vIdx), type:'C', label:'목적격보어(O.C)', detail: ocType});
-                                    patternText = "5형식 (주어 S + 동사 V + 목적어 O + 보어 C)";
-                                } else {
-                                    patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
-                                }
-                            }
-                        }
-                        // 3형식 - 일반 목적어
-                        else {
-                            let postDoc = nlp(postText);
-                            
-                            // that절 목적어
-                            if(postText.match(/^(that|if|whether)\b/i)) {
-                                chunks.push({text: postText, idx: sentText.indexOf(postText, vIdx), type:'O', label:'목적어', detail:'명사절'});
-                                patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
-                            } else {
-                                // 전치사구 분리
-                                let preps = postDoc.match('#Preposition+ #Noun+').json();
-                                let objText = postText;
-                                
-                                preps.forEach(p => {
-                                    if(!p.text.match(/^to\s+[a-z]+$/i)) { // to부정사 제외
-                                        chunks.push({text: p.text, idx: sentText.indexOf(p.text, vIdx), type:'M', label:'수식어', detail:'전치사구'});
-                                        objText = objText.replace(p.text, '');
-                                    }
-                                });
-                                
-                                objText = objText.trim();
-                                if(objText) {
-                                    chunks.push({text: objText, idx: sentText.indexOf(objText, vIdx), type:'O', label:'목적어', detail:'명사구'});
-                                    patternText = "3형식 (주어 S + 동사 V + 목적어 O)";
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // 상단 하이라이트 (Replace 방식)
-                let highlightedSent = "";
-                let tempSent = sentText;
-                let tokenMap = {};
-                
-                // 긴 단어부터 마킹
-                let sortedForReplace = [...chunks].sort((a,b) => b.text.length - a.text.length);
-                sortedForReplace.forEach((c, i) => {
-                    let token = `__TOKEN${i}__`;
-                    if (tempSent.indexOf(c.text) !== -1) {
-                        tempSent = tempSent.replace(c.text, token);
-                        let cls = `hl-${c.type.toLowerCase()}`;
-                        tokenMap[token] = `<span class="hl-word ${cls}">${c.text}</span>`;
-                    }
-                });
-                Object.keys(tokenMap).forEach(k => { tempSent = tempSent.replace(k, tokenMap[k]); });
-                highlightedSent = tempSent;
-
-                // 하단 리스트
-                let listHtml = "";
-                chunks.forEach(c => {
-                    let cls = `label-${c.type.toLowerCase()}`;
-                    listHtml += `
-                        <li class="struct-item">
-                            <span class="struct-label ${cls}">${c.label}:${c.type}</span>
-                            <div class="struct-content-box">
-                                <span class="struct-content">${c.text}</span>
-                                <span class="struct-detail">${c.detail}</span>
-                            </div>
-                        </li>`;
-                });
-
-                totalHtml += `
-                    <div class="analysis-card">
-                        <div class="analysis-header">
-                            <span class="sent-num">Sentence ${index + 1}</span>
-                            <div class="sent-text">${highlightedSent}</div>
-                            <span class="sent-pattern">${patternText}</span>
-                        </div>
-                        <ul class="struct-list">${listHtml}</ul>
-                    </div>`;
             });
 
             resultBox.innerHTML = totalHtml;
 
         } catch (error) {
             console.error(error);
-            alert("분석 중 오류가 발생했습니다.");
+            alert("분석 중 오류가 발생했습니다: " + error.message);
         }
+    }
+
+    // 단일 문장 분석 함수
+    function analyzeSentence(sentText, index) {
+        let chunks = [];
+        let patternText = "1형식 (주어 S + 동사 V)";
+        
+        // 1. 메인 동사 찾기
+        let mainVerbInfo = findMainVerb(sentText);
+        if(!mainVerbInfo) return '';
+        
+        let {verb: vText, index: vIdx, type: verbType} = mainVerbInfo;
+        
+        // 2. 주어 추출 (동사 앞)
+        let subjectText = sentText.substring(0, vIdx).trim();
+        if(subjectText) {
+            // 콤마로 구분된 동격 처리
+            subjectText = subjectText.replace(/,$/, '');
+            chunks.push({text: subjectText, type:'S', label:'주어', detail:'명사구'});
+        }
+        
+        // 3. 동사
+        chunks.push({text: vText, type:'V', label:'동사', detail: verbType});
+        
+        // 4. 동사 뒤 분석
+        let postText = sentText.substring(vIdx + vText.length).trim();
+        let afterChunks = analyzePostVerb(postText, vText, vIdx, sentText);
+        chunks = chunks.concat(afterChunks.chunks);
+        patternText = afterChunks.pattern;
+        
+        // HTML 생성
+        return generateHTML(sentText, chunks, patternText, index);
+    }
+
+    // 메인 동사 찾기 함수
+    function findMainVerb(sentText) {
+        let doc = nlp(sentText);
+        let allVerbs = doc.verbs().json();
+        
+        for(let v of allVerbs) {
+            let vText = v.text.trim();
+            let vIdx = sentText.indexOf(vText);
+            if(vIdx === -1) continue;
+            
+            let beforeVerb = sentText.substring(0, vIdx).trim();
+            let words = beforeVerb.split(/\s+/);
+            let lastWord = words[words.length - 1] || '';
+            lastWord = lastWord.toLowerCase().replace(/[,.!?]/g, '');
+            
+            // to부정사 제외
+            if(lastWord === 'to') continue;
+            
+            // 종속절 제외
+            if(['that','which','who','whom','if','because','since','when','while','although','unless','until','after'].includes(lastWord)) continue;
+            
+            // 동사 타입 판별
+            let verbType = getVerbType(vText);
+            return {verb: vText, index: vIdx, type: verbType};
+        }
+        
+        if(allVerbs.length > 0) {
+            let v = allVerbs[0];
+            return {verb: v.text, index: sentText.indexOf(v.text), type: getVerbType(v.text)};
+        }
+        return null;
+    }
+
+    // 동사 타입 판별
+    function getVerbType(vText) {
+        if(vText.match(/^(is|are|am|was|were|be|become|remain|seem|look|sound|smell|taste|feel|appear|get|grow|turn|prove)$/i))
+            return '불완전자동사(2형식)';
+        if(vText.match(/^(tell|give|show|teach|send|offer|bring|buy|ask|get|make|cook|lend|pass|pay|promise|read|sell|write|owe|hand|told)$/i))
+            return '수여동사(4형식)';
+        if(vText.match(/^(make|keep|find|consider|call|elect|name|think|believe|appoint|declare|leave|drive|paint|want|expect|expects)$/i))
+            return '불완전타동사(5형식)';
+        if(vText.match(/^(go|come|arrive|rise|fall|work|happen|disappear|sleep|die|exist|live|walk|run|sit|stand|been)$/i))
+            return '자동사(1형식)';
+        return '타동사(3형식)';
+    }
+
+    // 동사 뒤 분석
+    function analyzePostVerb(postText, vText, vIdx, fullSent) {
+        let chunks = [];
+        let pattern = "1형식 (주어 S + 동사 V)";
+        
+        if(!postText) return {chunks, pattern};
+        
+        postText = postText.replace(/[.!?]$/, '').trim();
+        
+        // 1형식 - 자동사
+        if(vText.match(/^(go|come|arrive|rise|fall|work|happen|disappear|sleep|die|exist|live|walk|run|sit|stand|been)$/i)) {
+            if(postText) {
+                chunks.push({text: postText, type:'M', label:'수식어', detail:'부사구/전치사구'});
+            }
+            pattern = "1형식 (주어 S + 동사 V)";
+        }
+        // 2형식 - be동사/불완전자동사
+        else if(vText.match(/^(is|are|am|was|were|be|become|remain|seem|look|sound|smell|taste|feel|appear|get|grow|turn|prove|'re)$/i)) {
+            let doc = nlp(postText);
+            
+            // 전치사구 분리
+            let preps = doc.match('#Preposition+ .+').json();
+            let complement = postText;
+            
+            preps.forEach(p => {
+                chunks.push({text: p.text, type:'M', label:'수식어', detail:'전치사구'});
+                complement = complement.replace(p.text, '').trim();
+            });
+            
+            if(complement) {
+                // and로 연결된 형용사 처리
+                let compType = doc.match('#Adjective').found ? '형용사' : '명사';
+                chunks.push({text: complement, type:'C', label:'주격보어(S.C)', detail: compType});
+                pattern = "2형식 (주어 S + 동사 V + 보어 C)";
+            }
+        }
+        // 4형식 - 수여동사 (IO + DO)
+        else if(vText.match(/^(tell|give|show|teach|send|offer|bring|buy|ask|get|make|cook|lend|pass|pay|promise|read|sell|write|owe|hand|told|tells)$/i)) {
+            // that절이 있는 경우
+            let thatMatch = postText.match(/^([^,]+),?\s+(that\s+.+)/i);
+            if(thatMatch) {
+                let io = thatMatch[1].trim();
+                let doClause = thatMatch[2].trim();
+                
+                chunks.push({text: io, type:'O', label:'간접목적어(I.O)', detail:'대상'});
+                
+                // that절 내부 분석
+                let innerChunks = analyzeThatClause(doClause);
+                chunks = chunks.concat(innerChunks);
+                
+                pattern = "4형식 (주어 S + 동사 V + I.O + D.O)";
+            } else {
+                // 일반 4형식
+                let words = postText.split(/\s+/);
+                if(words.length >= 2) {
+                    let io = words[0];
+                    let rest = words.slice(1).join(' ');
+                    
+                    chunks.push({text: io, type:'O', label:'간접목적어(I.O)', detail:'사람'});
+                    chunks.push({text: rest, type:'O', label:'직접목적어(D.O)', detail:'물건/내용'});
+                    pattern = "4형식 (주어 S + 동사 V + I.O + D.O)";
+                } else {
+                    chunks.push({text: postText, type:'O', label:'목적어', detail:'명사구'});
+                    pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
+                }
+            }
+        }
+        // 5형식 - 불완전타동사 (O + O.C)
+        else if(vText.match(/^(make|keep|find|consider|call|elect|name|think|believe|appoint|declare|leave|drive|paint|want|expect|expects)$/i)) {
+            // to부정사구가 있는 경우
+            let toInfMatch = postText.match(/^(.+?)\s+(to\s+.+)$/);
+            if(toInfMatch) {
+                let obj = toInfMatch[1].trim();
+                let oc = toInfMatch[2].trim();
+                
+                chunks.push({text: obj, type:'O', label:'목적어', detail:'명사구'});
+                
+                // to부정사 내부 분석
+                let innerChunks = analyzeToInfinitive(oc);
+                chunks = chunks.concat(innerChunks);
+                
+                pattern = "5형식 (주어 S + 동사 V + 목적어 O + 보어 C)";
+            } else {
+                let words = postText.split(/\s+/);
+                if(words.length >= 2) {
+                    let obj = words[0];
+                    let oc = words.slice(1).join(' ');
+                    
+                    chunks.push({text: obj, type:'O', label:'목적어', detail:'명사구'});
+                    chunks.push({text: oc, type:'C', label:'목적격보어(O.C)', detail:'형용사/명사'});
+                    pattern = "5형식 (주어 S + 동사 V + 목적어 O + 보어 C)";
+                } else {
+                    chunks.push({text: postText, type:'O', label:'목적어', detail:'명사구'});
+                    pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
+                }
+            }
+        }
+        // 3형식 - 일반 타동사
+        else {
+            // that절 목적어
+            if(postText.match(/^(that|if|whether)\s+/i)) {
+                let innerChunks = analyzeThatClause(postText);
+                chunks = chunks.concat(innerChunks);
+                pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
+            }
+            // 부사절 처리 (after, when 등)
+            else if(postText.match(/,\s+(after|when|while|before|since|although)\s+/i)) {
+                let parts = postText.split(/,\s+(after|when|while|before|since|although)\s+/i);
+                
+                if(parts[0].trim()) {
+                    chunks.push({text: parts[0].trim(), type:'O', label:'목적어', detail:'명사구'});
+                }
+                
+                if(parts.length > 1) {
+                    let conjunction = parts[1];
+                    let adverbClause = parts.slice(2).join(' ');
+                    chunks.push({text: conjunction, type:'M', label:'수식어', detail:'종속접속사'});
+                    
+                    // 부사절 내부 분석
+                    let innerChunks = analyzeAdverbClause(adverbClause);
+                    chunks = chunks.concat(innerChunks);
+                }
+                
+                pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
+            }
+            else {
+                let doc = nlp(postText);
+                let preps = doc.match('#Preposition+ .+').json();
+                let objText = postText;
+                
+                preps.forEach(p => {
+                    chunks.push({text: p.text, type:'M', label:'수식어', detail:'전치사구'});
+                    objText = objText.replace(p.text, '').trim();
+                });
+                
+                if(objText) {
+                    chunks.push({text: objText, type:'O', label:'목적어', detail:'명사구'});
+                    pattern = "3형식 (주어 S + 동사 V + 목적어 O)";
+                }
+            }
+        }
+        
+        return {chunks, pattern};
+    }
+
+    // that절 분석
+    function analyzeThatClause(clauseText) {
+        let chunks = [];
+        
+        let match = clauseText.match(/^(that|if|whether)\s+(.+)/i);
+        if(match) {
+            let conjunction = match[1];
+            let innerText = match[2];
+            
+            chunks.push({text: conjunction, type:'O', label:'직접목적어(D.O)', detail:'명사절 시작'});
+            
+            // and that으로 연결된 경우
+            if(innerText.includes(', and that ')) {
+                let parts = innerText.split(', and that ');
+                
+                // 첫 번째 절
+                let innerVerb = findMainVerb(parts[0]);
+                if(innerVerb) {
+                    let innerSubj = parts[0].substring(0, innerVerb.index).trim();
+                    if(innerSubj) {
+                        chunks.push({text: innerSubj, type:'S', label:'→ 주어', detail:'(절 내부)'});
+                    }
+                    chunks.push({text: innerVerb.verb, type:'V', label:'→ 동사', detail:'(절 내부)'});
+                    
+                    let innerPost = parts[0].substring(innerVerb.index + innerVerb.verb.length).trim();
+                    if(innerPost) {
+                        chunks.push({text: innerPost, type:'C', label:'→ 보어', detail:'(절 내부)'});
+                    }
+                }
+                
+                // 두 번째 절
+                chunks.push({text: ', and that', type:'M', label:'수식어', detail:'연결어'});
+                
+                let secondClause = parts[1];
+                let secondVerb = findMainVerb(secondClause);
+                if(secondVerb) {
+                    let secondSubj = secondClause.substring(0, secondVerb.index).trim();
+                    if(secondSubj) {
+                        chunks.push({text: secondSubj, type:'S', label:'→ 주어', detail:'(절 내부)'});
+                    }
+                    chunks.push({text: secondVerb.verb, type:'V', label:'→ 동사', detail:'(절 내부)'});
+                    
+                    let secondPost = secondClause.substring(secondVerb.index + secondVerb.verb.length).trim();
+                    if(secondPost) {
+                        // to부정사 체크
+                        let toInfMatch = secondPost.match(/^(.+?)\s+(to\s+.+)$/);
+                        if(toInfMatch) {
+                            chunks.push({text: toInfMatch[1].trim(), type:'O', label:'→ 목적어', detail:'(절 내부)'});
+                            chunks.push({text: toInfMatch[2].trim(), type:'C', label:'→ 목적격보어', detail:'to부정사'});
+                        } else {
+                            chunks.push({text: secondPost, type:'O', label:'→ 목적어/보어', detail:'(절 내부)'});
+                        }
+                    }
+                }
+            } else {
+                // 단일 절
+                let innerVerb = findMainVerb(innerText);
+                if(innerVerb) {
+                    let innerSubj = innerText.substring(0, innerVerb.index).trim();
+                    if(innerSubj) {
+                        chunks.push({text: innerSubj, type:'S', label:'→ 주어', detail:'(절 내부)'});
+                    }
+                    chunks.push({text: innerVerb.verb, type:'V', label:'→ 동사', detail:'(절 내부)'});
+                    
+                    let innerPost = innerText.substring(innerVerb.index + innerVerb.verb.length).trim();
+                    if(innerPost) {
+                        chunks.push({text: innerPost, type:'C', label:'→ 보어/목적어', detail:'(절 내부)'});
+                    }
+                }
+            }
+        }
+        
+        return chunks;
+    }
+
+    // to부정사 분석
+    function analyzeToInfinitive(infText) {
+        let chunks = [];
+        
+        // to all be people (he knows) 형태
+        let match = infText.match(/^to\s+(.+?)\s+be\s+(.+?)(\s+\(.+\))?$/i);
+        if(match) {
+            let modifier = match[1]; // "all"
+            let complement = match[2]; // "people"
+            let relClause = match[3] ? match[3].trim() : ''; // "(he knows)"
+            
+            chunks.push({text: `to ${modifier} be ${complement}`, type:'C', label:'목적격보어(O.C)', detail:'to부정사'});
+            
+            if(relClause) {
+                chunks.push({text: relClause, type:'M', label:'수식어', detail:'관계사절(생략)'});
+            }
+        } else {
+            chunks.push({text: infText, type:'C', label:'목적격보어(O.C)', detail:'to부정사'});
+        }
+        
+        return chunks;
+    }
+
+    // 부사절 분석
+    function analyzeAdverbClause(clauseText) {
+        let chunks = [];
+        
+        let innerVerb = findMainVerb(clauseText);
+        if(innerVerb) {
+            let innerSubj = clauseText.substring(0, innerVerb.index).trim();
+            if(innerSubj) {
+                chunks.push({text: innerSubj, type:'S', label:'→ 주어', detail:'(부사절)'});
+            }
+            chunks.push({text: innerVerb.verb, type:'V', label:'→ 동사', detail:'(부사절)'});
+            
+            let innerPost = clauseText.substring(innerVerb.index + innerVerb.verb.length).trim();
+            if(innerPost) {
+                chunks.push({text: innerPost, type:'M', label:'→ 수식어', detail:'(부사절)'});
+            }
+        } else {
+            chunks.push({text: clauseText, type:'M', label:'수식어', detail:'부사절'});
+        }
+        
+        return chunks;
+    }
+
+    // HTML 생성
+    function generateHTML(sentText, chunks, patternText, index) {
+        let highlightedSent = "";
+        let listHtml = "";
+        
+        chunks.forEach(c => {
+            let cls = `hl-${c.type.toLowerCase()}`;
+            let lblCls = `label-${c.type.toLowerCase()}`;
+            
+            highlightedSent += `<span class="hl-word ${cls}">${c.text}</span> `;
+            
+            listHtml += `
+                <li class="struct-item">
+                    <span class="struct-label ${lblCls}">${c.label}</span>
+                    <div class="struct-content-box">
+                        <span class="struct-content">${c.text}</span>
+                        <span class="struct-detail">${c.detail}</span>
+                    </div>
+                </li>`;
+        });
+
+        return `
+            <div class="analysis-card">
+                <div class="analysis-header">
+                    <span class="sent-num">Sentence ${index}</span>
+                    <div class="sent-text">${highlightedSent}</div>
+                    <span class="sent-pattern">${patternText}</span>
+                </div>
+                <ul class="struct-list">${listHtml}</ul>
+            </div>`;
     }
 
     // ============================================
